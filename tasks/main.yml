@@ -12,6 +12,9 @@
   register: mysql_exists
   changed_when: false
 
+- name: INCLUDE | Install
+  include: install.yml
+
 - name: TEMPLATE | Deploy daemon configuration
   template: src=etc/mysql/conf.d/98-config.cnf.j2 dest=/etc/mysql/conf.d/98-config.cnf
   notify: restart mysql

@@ -2,7 +2,7 @@
 
 - name: INCLUDE | Install MySQL from default repo 
   include: 'install_default_mysql.yml'
-  when: mysql_origin == 'default' mysql_vendor == 'mysql'
+  when: mysql_origin == 'default' and mysql_vendor == 'mysql'
 
 - name: INCLUDE | Install MariaDB from Debian repo
   include: 'install_default_mariadb.yml'

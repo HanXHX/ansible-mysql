@@ -3,8 +3,8 @@
 # -------------------------------------
 # Setup
 # -------------------------------------
-mysql_origin: 'mariadb'
-mysql_vendor: 'mariadb'
+mysql_origin: 'default'
+mysql_vendor: 'mysql'
 mysql_root_password: 'change_me_NOW'
 
 # -------------------------------------
