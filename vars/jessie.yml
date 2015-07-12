@@ -1,0 +1,8 @@
+# origin_package
+default_mariadb: true
+
+# origin_available_version
+mariadb_available_version:
+  - '10.0'
+
+

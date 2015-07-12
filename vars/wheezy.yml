@@ -1,0 +1,9 @@
+# origin_package
+default_mariadb: false
+ 
+# origin_available_version
+mariadb_available_version:
+  - '5.5'
+  - '10.0'
+
+

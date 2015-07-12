@@ -1,0 +1,9 @@
+---
+
+default_mysql: true
+mariadb_mariadb: true
+percona_percona: true
+
+percona_available_versions:
+  - '5.5'
+  - '5.6'

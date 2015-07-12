@@ -1,0 +1,39 @@
+---
+
+# -------------------------------------
+# Setup
+# -------------------------------------
+mysql_origin: 'mariadb'
+mysql_vendor: "mariadb"
+mysql_root_password: 'change_me_NOW'
+
+# -------------------------------------
+# Configuration
+# -------------------------------------
+mysql_cnf:
+  - group_name: 'mysqld'
+    conf:
+      - key: 'innodb_file_per_table'
+        value: 1
+      - key: 'innodb_buffer_pool_size' # 60% available RAM :)
+        value: '{{ (ansible_memtotal_mb * 0.6) | round | int }}M'
+
+# -------------------------------------
+# Database / Users
+# -------------------------------------
+mysql_databases: []
+mysql_users: []
+
+# -------------------------------------
+# MariaDB
+# -------------------------------------
+mariadb_version: '10.1' # (5.5, 10.0, 10.1)
+# See: http://mariadb.org/mariadb/repositories/
+mariadb_repository: "http://ftp.igh.cnrs.fr/pub/mariadb/repo/{{ mariadb_version }}/debian"
+
+# -------------------------------------
+# Percona
+# -------------------------------------
+percona_version: '5.6'
+percona_repository: 'http://repo.percona.com/apt'
+
