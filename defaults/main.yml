@@ -4,7 +4,7 @@
 # Setup
 # -------------------------------------
 mysql_origin: 'mariadb'
-mysql_vendor: "mariadb"
+mysql_vendor: 'mariadb'
 mysql_root_password: 'change_me_NOW'
 
 # -------------------------------------
@@ -27,9 +27,9 @@ mysql_users: []
 # -------------------------------------
 # MariaDB
 # -------------------------------------
-mariadb_version: '10.1' # (5.5, 10.0, 10.1)
+mariadb_version: '10.0' # (5.5, 10.0)
 # See: http://mariadb.org/mariadb/repositories/
-mariadb_repository: "http://ftp.igh.cnrs.fr/pub/mariadb/repo/{{ mariadb_version }}/debian"
+mariadb_repository: 'http://ftp.igh.cnrs.fr/pub/mariadb/repo/{{ mariadb_version }}/debian'
 
 # -------------------------------------
 # Percona
