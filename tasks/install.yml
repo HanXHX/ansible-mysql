@@ -1,12 +1,25 @@
 ---
 
-- name: INCLUDE | Install MySQL from default repo 
+- name: FAIL | If config asked is impossible
+  fail: msg=config asked is impossible
+  when: >
+    not (
+    (mysql_origin == 'default' and mysql_vendor == 'mysql') or
+    (mysql_origin == 'default' and mysql_vendor == 'mariadb' and ansible_distribution_major_version > 7) or
+    (mysql_origin == 'mariadb' and mysql_vendor == 'mariadb') or
+    (mysql_origin ==  'percona' and mysql_vendor == 'percona')
+    )
+
+- name: APT | Update cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: INCLUDE | Install MySQL from default repo
   include: 'install_default_mysql.yml'
   when: mysql_origin == 'default' and mysql_vendor == 'mysql'
 
 - name: INCLUDE | Install MariaDB from Debian repo
   include: 'install_default_mariadb.yml'
-  when: mysql_origin == 'default' and mysql_vendor == 'mariadb'
+  when: mysql_origin == 'default' and mysql_vendor == 'mariadb' and ansible_distribution_major_version > 7
 
 - name: INCLUDE | Install MariaDB from MariaDB repo
   include: 'install_mariadb_mariadb.yml'
@@ -21,7 +34,5 @@
   with_items:
     - mytop
     - percona-toolkit
-    - python-configparser
     - python-mysqldb
-
 

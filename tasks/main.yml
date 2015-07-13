@@ -3,10 +3,6 @@
 - name: INCLUDE_VARS | Related to Debian version
   include_vars: "{{ ansible_distribution_release }}.yml"
 
-- name: FAIL | Check if packet is available
-  fail: msg='IMPOSSIBLE'
-  when: not "{{ mysql_origin }}_{{ mysql_vendor }}"
-
 - name: STAT | Check if mysql exists
   stat: path=/etc/init.d/mysql
   register: mysql_exists

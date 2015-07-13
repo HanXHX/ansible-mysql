@@ -1,8 +1,8 @@
 ---
 
 - name: APT_KEY | Install Percona key
-#apt_key: keyserver="keys.gnupg.net" id="1C4CBDCDCD2EFD2A" state=present
   apt_key: keyserver="keyserver.ubuntu.com" id="1C4CBDCDCD2EFD2A" state=present
+#apt_key: keyserver="keys.gnupg.net" id="1C4CBDCDCD2EFD2A" state=present
 
 - name: TEMPLATE | Deploy APT pinning (prevent upgrades from Debian)
   template: src=etc/apt/preferences.d/95-percona.j2 dest=/etc/apt/preferences.d/95-percona
@@ -13,14 +13,12 @@
 - name: APT_RESPOSITORY | Add Percona (src) repository
   apt_repository: repo='deb-src {{ percona_repository }} {{ ansible_distribution_release }} main' state=present
 
-  # TODO: https://gist.github.com/mbbx6spp/3866962
-
-- name: SHELL | Prepare Percona silent installation (root password)
-  shell: echo 'percona-server-server-{{ percona_version }} percona-server-server/root_password password {{ mysql_root_password }}' | debconf-set-selections
+- name: DEBCONF | Prepare MySQL silent installation (root password)
+  debconf: name='percona-server-server-{{ percona_version }}' question='percona-server-server/root_password' vtype='password' value='{{ mysql_root_password }}'
   when: not mysql_exists.stat.exists
 
-- name: SHELL | Prepare Percona silent installation (root password again)
-  shell: echo 'percona-server-server-{{ percona_version }} percona-server-server/root_password_again password {{ mysql_root_password }}' | debconf-set-selections
+- name: DEBCONF | Prepare MySQL silent installation (root password)
+  debconf: name='percona-server-server-{{ percona_version }}' question='percona-server-server/root_password_again' vtype='password' value='{{ mysql_root_password }}'
   when: not mysql_exists.stat.exists
 
 - name: APT | Install Percona

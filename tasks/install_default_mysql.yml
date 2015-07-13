@@ -2,18 +2,17 @@
 
 - name: SHELL | Get MySQL target version
   shell: LANG=C apt-cache depends mysql-server | awk -F '-' '/Depends/ { print $NF }'
-  register: mysql_version
-  when: not mysql_exists.stat.exists
+  register: apt_mysql_version
   changed_when: false
 
-- name: SHELL | Prepare MySQL silent installation (root password)
-  shell: echo 'mysql-server-{{ mysql_version.stdout }} mysql-server/root_password password {{ mysql_root_password }}' | debconf-set-selections
+- name: DEBCONF | Prepare MySQL silent installation (root password)
+  debconf: name='mysql-server-{{ apt_mysql_version.stdout }}' question='mysql-server/root_password' vtype='password' value='{{ mysql_root_password }}'
   when: not mysql_exists.stat.exists
 
 - name: SHELL | Prepare MySQL silent installation (root password again)
-  shell: echo 'mysql-server-{{ mysql_version.stdout }} mysql-server/root_password_again password {{ mysql_root_password }}' | debconf-set-selections
+  debconf: name='mysql-server-{{ apt_mysql_version.stdout }}' question='mysql-server/root_password_again' vtype='password' value='{{ mysql_root_password }}'
   when: not mysql_exists.stat.exists
 
 - name: APT | Install MySQL server
-  apt: update_cache=yes cache_valid_time=3600 pkg=mysql-server state=latest
+  apt: pkg=mysql-server state=latest
 

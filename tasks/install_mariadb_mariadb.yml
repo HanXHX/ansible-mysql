@@ -1,13 +1,5 @@
 ---
 
-- name: SHELL | Prepare MariaDB silent installation (root password)
-  shell: echo 'mariadb-server-{{ mariadb_version }} mysql-server/root_password password {{ mysql_root_password }}' | debconf-set-selections
-  when: not mysql_exists.stat.exists
-
-- name: SHELL | Prepare MariaDB silent installation (root password again)
-  shell: echo 'mariadb-server-{{ mariadb_version }} mysql-server/root_password_again password {{ mysql_root_password }}' | debconf-set-selections
-  when: not mysql_exists.stat.exists
-
 - name: APT | Install MariaDB key
   apt_key: keyserver="keyserver.ubuntu.com" id="0xcbcb082a1bb943db" state=present
 
@@ -17,6 +9,6 @@
 - name: APT | Add MariaDB (src) repository
   apt_repository: repo='deb-src {{ mariadb_repository }} {{ ansible_distribution_release }} main' state=present
 
-- name: APT | Install MariaDB
-  apt: update_cache=yes cache_valid_time=3600 pkg=mariadb-server state=latest
+- name: INCLUDE | Normal Install
+  include: install_default_mariadb.yml
 
