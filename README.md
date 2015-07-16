@@ -13,12 +13,12 @@ None.
 Role Variables
 --------------
 
-- `mysql_origin`: origin of the package ("default", "mariadb", "percona")
+- `mysql_origin`: origin of the package ("default" or "upstream")
 - `mysql_vendor`: "mysql", "mariadb" or "percona"
 
 ### Configuration
 
-- mysql\_cnf: key/value hash see [defaults/main.yml](default vars file)
+- `mysql_cnf`: key/value hash see [defaults/main.yml](default vars file)
 - `mysql_root_password`: root password (should be protected with [vault](http://docs.ansible.com/playbooks_vault.html))
 
 ### Databases
@@ -31,7 +31,7 @@ Role Variables
 Example:
 
 ```
-mysql\_users:
+mysql_users:
   - name: 'kiki'
     password: '123'
     priv: hihi.*:ALL
