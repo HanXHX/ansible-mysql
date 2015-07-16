@@ -56,7 +56,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-         - { role: HanXHX.mysql, mysql_origin: 'mariadb', mysql_vendor: 'mariadb' }
+         - { role: HanXHX.mysql, mysql_origin: 'upstream', mysql_vendor: 'mariadb' }
 
 License
 -------
