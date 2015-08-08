@@ -35,6 +35,7 @@ mysql_users:
   - name: 'kiki'
     password: '123'
     priv: hihi.*:ALL
+    host: '%'
 ```
 
 Check "priv" syntax in [http://docs.ansible.com/mysql_user_module.html](mysql_user module documentation)
