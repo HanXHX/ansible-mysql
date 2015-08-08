@@ -9,7 +9,7 @@
   debconf: name='mysql-server-{{ apt_mysql_version.stdout }}' question='mysql-server/root_password' vtype='password' value='{{ mysql_root_password }}'
   when: not mysql_exists.stat.exists
 
-- name: SHELL | Prepare MySQL silent installation (root password again)
+- name: DEBCONF | Prepare MySQL silent installation (root password again)
   debconf: name='mysql-server-{{ apt_mysql_version.stdout }}' question='mysql-server/root_password_again' vtype='password' value='{{ mysql_root_password }}'
   when: not mysql_exists.stat.exists
 

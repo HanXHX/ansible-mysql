@@ -9,12 +9,8 @@
   debconf: name='mariadb-server-{{ apt_mariadb_version.stdout }}' question='mysql-server/root_password' vtype='password' value='{{ mysql_root_password }}'
   when: not mysql_exists.stat.exists
 
-- name: SHELL | Prepare MariaDB silent installation (root password again)
+- name: DEBCONF | Prepare MariaDB silent installation (root password again)
   debconf: name='mariadb-server-{{ apt_mariadb_version.stdout }}' question='mysql-server/root_password_again' vtype='password' value='{{ mysql_root_password }}'
-  when: not mysql_exists.stat.exists
-
-- name: SHELL | Prepare MariaDB silent installation (root password again) // BUGGY?
-  debconf: name='mysql-server-' question='mysql-server/root_password_again' vtype='password' value='{{ mysql_root_password }}'
   when: not mysql_exists.stat.exists
 
 - name: APT | Install MariaDB server
