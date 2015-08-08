@@ -1,5 +1,29 @@
 ---
 
-- hosts: all
+- hosts: upstream_mariadb
+  vars:
+    mysql_origin: 'upstream'
+    mysql_vendor: 'mariadb'
   roles:
-    - ../../ 
+    - ../../
+
+- hosts: debian_mariadb
+  vars:
+    mysql_origin: 'default'
+    mysql_vendor: 'mariadb'
+  roles:
+    - ../../
+
+- hosts: debian_mysql
+  vars:
+    mysql_origin: 'default'
+    mysql_vendor: 'mysql'
+  roles:
+    - ../../
+
+- hosts: upstream_percona
+  vars:
+    mysql_origin: 'upstream'
+    mysql_vendor: 'percona'
+  roles:
+    - ../../
