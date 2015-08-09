@@ -12,7 +12,7 @@
   include: install.yml
 
 - name: TEMPLATE | Deploy daemon configuration
-  template: src=etc/mysql/conf.d/98-config.cnf.j2 dest=/etc/mysql/conf.d/98-config.cnf
+  template: src=etc/mysql/conf.d/90-config.cnf.j2 dest=/etc/mysql/conf.d/90-config.cnf
   notify: restart mysql
 
 - name: TEMPLATE Create .my.cnf for root
