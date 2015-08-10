@@ -2,7 +2,7 @@
 # {{ ansible_managed }}
 # -------------------------------------------
 
-{% for i in mysql_cnf %}
+{% for i in mysql_extra_configuration %}
 [{{ i.group_name }}]
 {% for c in i.conf %}
 {% if c.value is defined %}
