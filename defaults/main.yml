@@ -114,6 +114,8 @@ mysql_master_log_pos: null
 # If true, reconfigure slave
 mysql_slave_force_setup: false
 
+# Only MariaDB 10.0+
+mysql_gtid_domain_id: 1
 
 # -------------------------------------
 # Database / Users

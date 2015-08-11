@@ -1,0 +1,12 @@
+---
+
+- name: MYSQL_VARIABLES | Get MySQL vendor
+  mysql_variables: variable=version_comment
+  register: vc
+
+- name: SET_FACT | Server can use GTID
+  set_fact: mysql_gtid=true
+  when: >
+    ( mysql_vendor == 'mariadb' and vc.msg[0][1] | version_compare('10.0.2', 'ge') ) or
+    ( vc.msg[0][1] | version_compare('5.6.5', 'ge') )
+

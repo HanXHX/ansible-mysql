@@ -35,4 +35,4 @@
   when: >
     mysql_vendor == 'mariadb' and
     slave_status.Using_Gtid == 'No' and
-    mysql_mysql_gtid
+    mysql_gtid
