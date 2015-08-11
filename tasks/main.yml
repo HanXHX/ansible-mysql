@@ -11,9 +11,16 @@
 - name: INCLUDE | Install
   include: install.yml
 
+- name: SERVICE | Ensure daemon is started
+  service: name=mysql state=started
+
 - name: TEMPLATE | Deploy configuration
   template: src=etc/mysql/my.cnf.j2 dest=/etc/mysql/my.cnf
-  notify: restart mysql
+  register: config
+
+- name: SERVICE | Restart now (prevent bugs) 
+  service: name=mysql state=restarted
+  when: config.changed
 
 - name: TEMPLATE | Deploy extra configuration
   template: src=etc/mysql/conf.d/10-extra.cnf.j2 dest=/etc/mysql/conf.d/10-extra.cnf
@@ -22,8 +29,13 @@
 - name: TEMPLATE Create .my.cnf for root
   template: src=root/my.cnf dest=/root/.my.cnf owner=root group=root mode=0600 backup=yes
 
-- name: SERVICE | Ensure daemon is started
-  service: name=mysql state=started
+- name: INCLUDE | Replication Master
+  include: replication_master.yml
+  when: mysql_replication_master
+
+- name: INCLUDE | Replication slave
+  include: replication_slave.yml
+  when: mysql_replication_slave
 
 - name: INCLUDE | Secure install
   include: 'secure.yml'

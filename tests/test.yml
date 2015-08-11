@@ -1,29 +1,39 @@
 ---
 
-- hosts: upstream_mariadb
-  vars:
-    mysql_origin: 'upstream'
-    mysql_vendor: 'mariadb'
-  roles:
-    - ../../
+- hosts: all
+  pre_tasks:
+    - local_action: shell ssh-add $HOME/.vagrant.d/insecure_private_key
+      become: no
+      changed_when: false
+  tasks:
+    - apt: pkg={{ item }} state=present update_cache=yes cache_valid_time=3600
+      with_items:
+        - strace
+        - vim
+    - get_url: >
+        url=https://raw.githubusercontent.com/HanXHX/ansible-debian-bootstrap/master/files/bashrc
+        dest=/root/.bashrc
+        force=yes
 
-- hosts: debian_mariadb
-  vars:
-    mysql_origin: 'default'
-    mysql_vendor: 'mariadb'
+- hosts: master
   roles:
     - ../../
+  tasks:
+    - copy: src=import1.sql dest=/tmp/import1.sql
+      register: c
+    - mysql_db: name={{ item }} state=import target=/tmp/import1.sql
+      with_items: ['testrepl', 'norepl']
+      when: c.changed
 
-- hosts: debian_mysql
-  vars:
-    mysql_origin: 'default'
-    mysql_vendor: 'mysql'
+- hosts: slave
   roles:
     - ../../
+  tasks:
+    - copy: src=import2.sql dest=/tmp/import2.sql
+      delegate_to: "{{ his_master }}"
+      register: c
+    - mysql_db: name={{ item }} state=import target=/tmp/import2.sql
+      with_items: ['testrepl', 'norepl']
+      delegate_to: "{{ his_master }}"
+      when: c.changed
 
-- hosts: upstream_percona
-  vars:
-    mysql_origin: 'upstream'
-    mysql_vendor: 'percona'
-  roles:
-    - ../../

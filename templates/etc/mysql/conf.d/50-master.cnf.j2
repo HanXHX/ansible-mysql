@@ -1,0 +1,15 @@
+#
+# {{ ansible_managed }}
+#
+
+#
+# Replication master
+
+[mysqld]
+server_id={{ mysql_server_id }}
+log-bin
+
+# MariaDB only?
+#gtid_domain_id=1
+
+; vim: set ft=dosini :

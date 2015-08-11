@@ -70,6 +70,51 @@ mysql_extra_configuration: []
 #     - key: 'innodb_awsome_feature'
 #       value: 1
 
+
+# -------------------------------------
+# Replication
+# -------------------------------------
+mysql_replication_master: false
+mysql_replication_slave: false
+# This formula don't work with vagrant! All boxes have same default ip!
+mysql_server_id: "{{ ansible_default_ipv4.address | ipaddr('int') }}"
+
+mysql_replication_user: []
+mysql_replication_user: 'repl'
+mysql_replication_password: 'change_me_NOW'
+mysql_replication_host: '192.168.0.1'
+mysql_replication_port: '3306'
+
+mysql_backup_dir: '/var/backups/tmp-mysql'
+
+# Master
+mysql_max_binlog_size: "100M"
+mysql_expire_logs_days: "10"
+
+#
+# Slave
+#
+mysql_slave_readonly: true
+# Import data from
+mysql_slave_import_data: true
+# host used to create a backup (can be the master or another slave) - default: use the master
+mysql_slave_import_from: "{{ mysql_replication_host }}"
+# Delete dump after slave configuration (set false if you have many slaves to install, it avoids to create many dumps)
+mysql_slave_import_flush_dump: true
+# Slave uses mysql database from master?
+mysql_slave_replicate_mysqldb: true
+# Don't replicate these DBs/tables
+mysql_slave_ignore_db: []
+mysql_slave_ignore_table: []
+# SSH user used to copy data
+mysql_backup_user: "{{ ansible_user_id }}" # TODO: change var name
+## If data is already imported, you can specify position
+mysql_master_log_file: null
+mysql_master_log_pos: null
+# If true, reconfigure slave
+mysql_slave_force_setup: false
+
+
 # -------------------------------------
 # Database / Users
 # -------------------------------------
