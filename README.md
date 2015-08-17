@@ -3,8 +3,6 @@ MySQL vendors for Debian Ansible role
 
 Install and configure MySQL or MariaDB or Percona Server. Create users and databases.
 
-IMPORTANT: due to this [bug](https://mariadb.atlassian.net/browse/MDEV-8457), MariaDB don't work on Debian Jessie.
-
 Requirements
 ------------
 

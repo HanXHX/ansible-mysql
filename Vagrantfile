@@ -12,14 +12,14 @@ Vagrant.configure("2") do |config|
 		["wheezy-upstream-mariadb-slave", "deb/wheezy-amd64", "192.168.200.13", ["wheezy","upstream","mariadb","slave"]],
 		["wheezy-upstream-percona-master", "deb/wheezy-amd64", "192.168.200.14", ["wheezy","upstream","percona","master"]],
 		["wheezy-upstream-percona-slave", "deb/wheezy-amd64", "192.168.200.15", ["wheezy","upstream","percona","slave"]],
-		["jessie-default-mysql-master", "deb/jessie-amd64", "192.168.200.16", ["jessie","default","mysql","master"]],
-		["jessie-default-mysql-slave", "deb/jessie-amd64", "192.168.200.17", ["jessie","default","mysql","slave"]],
-		["jessie-upstream-mariadb-master", "deb/jessie-amd64", "192.168.200.18", ["jessie","upstream","mariadb","master"]],
-		["jessie-upstream-mariadb-slave", "deb/jessie-amd64", "192.168.200.19", ["jessie","upstream","mariadb","slave"]],
-		["jessie-upstream-percona-master", "deb/jessie-amd64", "192.168.200.20", ["jessie","upstream","percona","master"]],
-		["jessie-upstream-percona-slave", "deb/jessie-amd64", "192.168.200.21", ["jessie","upstream","percona","slave"]],
-		["jessie-default-mariadb-master", "deb/jessie-amd64", "192.168.200.22", ["jessie","default","mariadb","master"]],
-		["jessie-default-mariadb-slave", "deb/jessie-amd64", "192.168.200.23", ["jessie","default","mariadb","slave"]]
+		["jessie-default-mysql-master", "debian/jessie64", "192.168.200.16", ["jessie","default","mysql","master"]],
+		["jessie-default-mysql-slave", "debian/jessie64", "192.168.200.17", ["jessie","default","mysql","slave"]],
+		["jessie-upstream-mariadb-master", "debian/jessie64", "192.168.200.18", ["jessie","upstream","mariadb","master"]],
+		["jessie-upstream-mariadb-slave", "debian/jessie64", "192.168.200.19", ["jessie","upstream","mariadb","slave"]],
+		["jessie-upstream-percona-master", "debian/jessie64", "192.168.200.20", ["jessie","upstream","percona","master"]],
+		["jessie-upstream-percona-slave", "debian/jessie64", "192.168.200.21", ["jessie","upstream","percona","slave"]],
+		["jessie-default-mariadb-master", "debian/jessie64", "192.168.200.22", ["jessie","default","mariadb","master"]],
+		["jessie-default-mariadb-slave", "debian/jessie64", "192.168.200.23", ["jessie","default","mariadb","slave"]]
 	]
 
 	config.vm.provider "virtualbox" do |v|
