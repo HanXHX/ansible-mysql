@@ -46,4 +46,5 @@
     - percona-toolkit
     - python-mysqldb
     - percona-xtrabackup
+    - mysqltuner
 
