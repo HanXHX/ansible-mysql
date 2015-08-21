@@ -9,7 +9,7 @@
   changed_when: false
 
 - name: INCLUDE | Install
-  include: install.yml
+  include: install/main.yml
 
 - name: SERVICE | Ensure daemon is started
   service: name=mysql state=started
@@ -17,6 +17,7 @@
 - name: TEMPLATE | Deploy configuration
   template: src=etc/mysql/my.cnf.j2 dest=/etc/mysql/my.cnf
   register: config
+  notify: restart mysql
 
 - name: SERVICE | Restart now (prevent bugs) 
   service: name=mysql state=restarted

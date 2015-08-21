@@ -24,19 +24,19 @@
   apt_repository: repo='deb-src {{ percona_repository }} {{ ansible_distribution_release }} main' state=present
 
 - name: INCLUDE | Install MySQL from default repo
-  include: 'install_default_mysql.yml'
+  include: 'default_mysql.yml'
   when: mysql_origin == 'default' and mysql_vendor == 'mysql'
 
 - name: INCLUDE | Install MariaDB from Debian repo
-  include: 'install_default_mariadb.yml'
+  include: 'default_mariadb.yml'
   when: mysql_origin == 'default' and mysql_vendor == 'mariadb' and ansible_distribution_major_version > 7
 
 - name: INCLUDE | Install MariaDB from MariaDB repo
-  include: 'install_upstream_mariadb.yml'
+  include: 'upstream_mariadb.yml'
   when: mysql_origin == 'upstream' and mysql_vendor == 'mariadb'
 
 - name: INCLUDE | Install Percona Server from Percona repo
-  include: 'install_upstream_percona.yml'
+  include: 'upstream_percona.yml'
   when: mysql_origin ==  'upstream' and mysql_vendor == 'percona'
 
 - name: APT | Install few MySQL related tools

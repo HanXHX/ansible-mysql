@@ -10,5 +10,5 @@
   apt_repository: repo='deb-src {{ mariadb_repository }} {{ ansible_distribution_release }} main' state=present
 
 - name: INCLUDE | Normal Install
-  include: install_default_mariadb.yml
+  include: default_mariadb.yml
 
