@@ -17,15 +17,14 @@
 - name: TEMPLATE | Deploy configuration
   template: src=etc/mysql/my.cnf.j2 dest=/etc/mysql/my.cnf
   register: config
-  notify: restart mysql
-
-- name: SERVICE | Restart now (prevent bugs) 
-  service: name=mysql state=restarted
-  when: config.changed
 
 - name: TEMPLATE | Deploy extra configuration
   template: src=etc/mysql/conf.d/10-extra.cnf.j2 dest=/etc/mysql/conf.d/10-extra.cnf
-  notify: restart mysql
+  register: extraconfig
+
+- name: SERVICE | Restart now (prevent bugs)
+  service: name=mysql state=restarted
+  when: config.changed or extraconfig.changed
 
 - name: TEMPLATE Create .my.cnf for root
   template: src=root/my.cnf dest=/root/.my.cnf owner=root group=root mode=0600 backup=yes
