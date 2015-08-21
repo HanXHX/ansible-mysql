@@ -10,3 +10,11 @@
     ( mysql_vendor == 'mariadb' and vc.msg[0][1] | version_compare('10.0.2', 'ge') ) or
     ( vc.msg[0][1] | version_compare('5.6.5', 'ge') )
 
+- name: INCLUDE | Replication Master
+  include: master.yml
+  when: mysql_replication_master
+
+- name: INCLUDE | Replication slave
+  include: slave.yml
+  when: mysql_replication_slave
+

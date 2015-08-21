@@ -30,16 +30,9 @@
 - name: TEMPLATE Create .my.cnf for root
   template: src=root/my.cnf dest=/root/.my.cnf owner=root group=root mode=0600 backup=yes
 
-- name: INCLUDE | Detect if server supports GTID
-  include: detect_gtid.yml
-
-- name: INCLUDE | Replication Master
-  include: replication_master.yml
-  when: mysql_replication_master
-
-- name: INCLUDE | Replication slave
-  include: replication_slave.yml
-  when: mysql_replication_slave
+- name: INCLUDE | Replication
+  include: replication/main.yml
+  when: mysql_replication_master or mysql_replication_slave
 
 - name: INCLUDE | Secure install
   include: 'secure.yml'

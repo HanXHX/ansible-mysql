@@ -1,0 +1,5 @@
+---
+
+- name: TEMPLATE | Deploy master configuration
+  template: src=../templates/etc/mysql/conf.d/50-master.cnf.j2 dest=/etc/mysql/conf.d/50-master.cnf
+  notify: restart mysql
