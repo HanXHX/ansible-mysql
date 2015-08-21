@@ -17,5 +17,5 @@
   when: not mysql_exists.stat.exists
 
 - name: APT | Install Percona
-  apt: update_cache=yes cache_valid_time=3600 pkg='percona-server-server-{{ percona_version }}' state=latest
+  apt: update_cache=yes cache_valid_time=3600 pkg='percona-server-server-{{ percona_version }}' state=present
 

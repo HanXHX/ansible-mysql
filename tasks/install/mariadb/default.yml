@@ -14,5 +14,5 @@
   when: not mysql_exists.stat.exists
 
 - name: APT | Install MariaDB server
-  apt: pkg=mariadb-server state=latest
+  apt: pkg=mariadb-server state=present
 

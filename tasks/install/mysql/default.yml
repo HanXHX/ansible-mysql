@@ -14,5 +14,5 @@
   when: not mysql_exists.stat.exists
 
 - name: APT | Install MySQL server
-  apt: pkg=mysql-server state=latest
+  apt: pkg=mysql-server state=present
 
