@@ -6,6 +6,7 @@
 mysql_origin: 'upstream'
 mysql_vendor: 'mariadb'
 mysql_root_password: 'change_me_NOW'
+mysql_use_percona_repository: false
 
 # -------------------------------------
 # Configuration

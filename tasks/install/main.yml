@@ -1,7 +1,7 @@
 ---
 
 - name: FAIL | If config asked is impossible
-  fail: msg="config asked is impossible origin -> {{ mysql_origin }} vendor -> {{ mysql_vendor }}"
+  fail: msg="config asked is impossible"
   when: >
     not (
     (mysql_origin == 'default' and mysql_vendor == 'mysql') or
@@ -10,33 +10,24 @@
     (mysql_origin ==  'upstream' and mysql_vendor == 'percona')
     )
 
-- name: APT_KEY | Install Percona key
-  apt_key: keyserver="keyserver.ubuntu.com" id="1C4CBDCDCD2EFD2A" state=present
-#apt_key: keyserver="keys.gnupg.net" id="1C4CBDCDCD2EFD2A" state=present
-
-#- name: TEMPLATE | Deploy APT pinning (prevent upgrades from Debian)
-#  template: src=etc/apt/preferences.d/95-percona.j2 dest=/etc/apt/preferences.d/95-percona
-
-- name: APT_REPOSITORY | Add Percona repository
-  apt_repository: repo='deb {{ percona_repository }} {{ ansible_distribution_release }} main' state=present
-
-- name: APT_RESPOSITORY | Add Percona (src) repository
-  apt_repository: repo='deb-src {{ percona_repository }} {{ ansible_distribution_release }} main' state=present
+- name: APT | Install Percona Xtrabackup
+  include: percona/apt.yml
+  when: mysql_use_percona_repository
 
 - name: INCLUDE | Install MySQL from default repo
-  include: 'default_mysql.yml'
+  include: 'mysql/default.yml'
   when: mysql_origin == 'default' and mysql_vendor == 'mysql'
 
 - name: INCLUDE | Install MariaDB from Debian repo
-  include: 'default_mariadb.yml'
+  include: 'mariadb/default.yml'
   when: mysql_origin == 'default' and mysql_vendor == 'mariadb' and ansible_distribution_major_version > 7
 
 - name: INCLUDE | Install MariaDB from MariaDB repo
-  include: 'upstream_mariadb.yml'
+  include: 'mariadb/upstream.yml'
   when: mysql_origin == 'upstream' and mysql_vendor == 'mariadb'
 
 - name: INCLUDE | Install Percona Server from Percona repo
-  include: 'upstream_percona.yml'
+  include: 'percona/upstream.yml'
   when: mysql_origin ==  'upstream' and mysql_vendor == 'percona'
 
 - name: APT | Install few MySQL related tools
@@ -45,6 +36,9 @@
     - mytop
     - percona-toolkit
     - python-mysqldb
-    - percona-xtrabackup
     - mysqltuner
+
+- name: APT | Install Percona Xtrabackup
+  apt: pkg=percona-xtrabackup state=present
+  when: ansible_distribution_major_version > 7 or mysql_use_percona_repository
 

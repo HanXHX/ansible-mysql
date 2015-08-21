@@ -1,7 +1,7 @@
 MySQL vendors for Debian Ansible role
 ======================================
 
-Install and configure MySQL or MariaDB or Percona Server. Create users and databases.
+Install and configure MySQL or MariaDB or Percona Server. Manage replication (master/slave). Create users and databases.
 
 Requirements
 ------------
@@ -13,6 +13,7 @@ Role Variables
 
 - `mysql_origin`: origin of the package ("default" or "upstream")
 - `mysql_vendor`: "mysql", "mariadb" or "percona"
+- `mysql_use_percona_repository`: use percona APT repository (automatic setted to true if you use "percona" as `mysql_vendor`). You need to set "true" on Wheezy if you want to install percona-xtrabackup.
 
 ### Configuration
 

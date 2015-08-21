@@ -1,5 +1,13 @@
 ---
 
+# We prevent double include
+- name: INCLUDE | Add percona APT repository
+  include: apt.yml
+  when: not mysql_use_percona_repository
+
+- name: SET_FACT | We use percona repository
+  set_fact: mysql_use_percona_repository=true
+
 - name: DEBCONF | Prepare MySQL silent installation (root password)
   debconf: name='percona-server-server-{{ percona_version }}' question='percona-server-server/root_password' vtype='password' value='{{ mysql_root_password }}'
   when: not mysql_exists.stat.exists
