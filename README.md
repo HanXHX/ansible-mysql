@@ -23,7 +23,7 @@ Role Variables
 
 If you need a feature you can't configure, you can use this list. These config will go to `/etc/mysql/conf.d/01-extra`.
 
-- `mysql_extra_config`: key/value hash see [defaults/main.yml](default vars file)
+- `mysql_extra_config`: key/value hash see [default vars file](defaults/main.yml)
 
 ### Databases
 
@@ -42,14 +42,14 @@ mysql_users:
     host: '%'
 ```
 
-Check "priv" syntax in [http://docs.ansible.com/mysql_user_module.html](mysql_user module documentation)
+Check "priv" syntax in [mysql_user module documentation](http://docs.ansible.com/mysql_user_module.html)
 
 ### Packaging
 
 - `mariadb_version`: 5.5 (Debian Wheezy only) or 10.0
-- `mariadb_repository`: MariaDB upstream APT repository (see: [http://mariadb.org/mariadb/repositories/](MariaDB repositories tool))
+- `mariadb_repository`: MariaDB upstream APT repository (see: [MariaDB repositories tool](http://mariadb.org/mariadb/repositories/))
 - `percona_version`: Percona version 5.5 or 5.6
-- `percona_repository`: Percona upstream APT repository (see: [http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html](Percona APT doc))
+- `percona_repository`: Percona upstream APT repository (see: [Percona APT doc](http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html))
 
 Dependencies
 ------------
