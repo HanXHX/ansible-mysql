@@ -44,7 +44,7 @@ mysql_thread_concurrency: 2
 # InnoDB settings.
 mysql_innodb_file_per_table: '1'
 mysql_innodb_buffer_pool_size: "{{ (ansible_memtotal_mb * 0.6) | round | int }}M"
-mysql_innodb_additional_mem_pool_size: '20M'
+mysql_innodb_additional_mem_pool_size: '20M' # See: http://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_additional_mem_pool_size
 mysql_innodb_log_file_size: '64M'
 mysql_innodb_log_buffer_size: '8M'
 mysql_innodb_flush_log_at_trx_commit: '1'
