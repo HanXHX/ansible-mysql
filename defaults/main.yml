@@ -80,7 +80,6 @@ mysql_replication_slave: false
 # This formula don't work with vagrant! All boxes have same default ip!
 mysql_server_id: "{{ ansible_default_ipv4.address | ipaddr('int') }}"
 
-mysql_replication_user: []
 mysql_replication_user: 'repl'
 mysql_replication_password: 'change_me_NOW'
 mysql_replication_host: '192.168.0.1'
