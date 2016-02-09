@@ -12,7 +12,7 @@ mysql_databases:
 mysql_users:
   - name: 'replication'
     password: '1a2b3c'
-    priv: '*.*:"REPLICATION SLAVE"'
+    priv: '*.*:REPLICATION SLAVE'
     host: '%'
 mysql_replication_master: true
 mysql_replication_slave: false
