@@ -1,14 +1,14 @@
 ---
 
 - name: MYSQL_VARIABLES | Get MySQL vendor
-  mysql_variables: variable=version_comment
+  mysql_variables: variable=version
   register: vc
 
 - name: SET_FACT | Server can use GTID
   set_fact: mysql_gtid=true
   when: >
-    ( mysql_vendor == 'mariadb' and vc.msg[0][1] | version_compare('10.0.2', 'ge') ) or
-    ( vc.msg[0][1] | version_compare('5.6.5', 'ge') )
+    ( mysql_vendor == 'mariadb' and vc.msg | version_compare('10.0.2', 'ge') ) or
+    ( mysql_vendor in ['mysql', 'percona'] and vc.msg | version_compare('5.6.5', 'ge') )
 
 - name: INCLUDE | Replication Master
   include: master.yml
