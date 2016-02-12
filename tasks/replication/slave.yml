@@ -5,7 +5,9 @@
   when: mysql_slave_readonly
 
 - name: TEMPLATE | Deploy slave configuration
-  template: src=../templates/etc/mysql/conf.d/51-slave.cnf.j2 dest=/etc/mysql/conf.d/51-slave.cnf
+  template: >
+    src=etc/mysql/conf.d/51-slave.cnf.j2
+    dest=/etc/mysql/conf.d/51-slave.cnf
   notify: restart mysql
 
 - name: MYSQL_REPLICATION | Get slave status
