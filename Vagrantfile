@@ -29,6 +29,7 @@ Vagrant.configure("2") do |config|
 
 	vms.each do |vm|
 		config.vm.define vm[0] do |m|
+			m.vm.hostname = vm[0]
 			m.vm.box = vm[1]
 			m.vm.network "private_network", ip: vm[2]
 
