@@ -1,7 +1,7 @@
 MySQL vendors for Debian Ansible role
 ======================================
 
-[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-HanXHX.mysql-blue.svg)](https://galaxy.ansible.com/list#/roles/4398)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-HanXHX.mysql-blue.svg)](https://galaxy.ansible.com/HanXHX/mysql)
 
 Install and configure MySQL or MariaDB or Percona Server. Manage replication (master/slave). Create users and databases.
 
