@@ -32,7 +32,7 @@
 
 - name: MYSQL_DB | Create databases
   mysql_db: name={{ item }} state=present
-  with_items: mysql_databases
+  with_items: "{{ mysql_databases }}"
 
 - name: MYSQL_USER | Manages users...
   mysql_user: >
@@ -41,5 +41,5 @@
     priv="{{ item.priv }}"
     host="{{ item.host | default('localhost') }}"
     state=present
-  with_items: mysql_users
+  with_items: "{{ mysql_users }}"
 
