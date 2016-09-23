@@ -17,9 +17,9 @@ my @a = (
     "jessie-upstream-percona-slave",
     "jessie-default-mariadb-master",
     "jessie-default-mariadb-slave",
-    "jessie-default-mariadb_galera-1",
-    "jessie-default-mariadb_galera-2",
-    "jessie-default-mariadb_galera-3"
+    "jessie-upstream-mariadbgalera-1",
+    "jessie-upstream-mariadbgalera-2",
+    "jessie-upstream-mariadbgalera-3"
 );
 
 my $start_ip = '192.168.200.10';
@@ -44,7 +44,7 @@ foreach my $n (@a)
 		close(FILE);
 	}
 
-	if($data[-1] =~ /^\d$/ && $data[-2] eq 'mariadb_galera')
+	if($data[-1] =~ /^\d$/ && $data[-2] eq 'mariadbgalera')
 	{
 		open(FILE, '>', "host_vars/$n");
 		printf FILE (qq/galera_id: '%s'\n/, $data[-1]);
@@ -52,7 +52,9 @@ foreach my $n (@a)
 	}
 
 	open(FILE, '>', "group_vars/" . $data[2]);
-	printf FILE (qq/mysql_vendor: '%s'\n/, $data[2]);
+	my $mv = $data[-2];
+	$mv = 'mariadb_galera' if($mv eq 'mariadbgalera');
+	printf FILE (qq/mysql_vendor: '%s'\n/, $mv);
 	close(FILE);
 
 	$tmp_ip = long2ip($iip);

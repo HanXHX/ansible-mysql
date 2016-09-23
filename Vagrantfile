@@ -14,9 +14,9 @@ Vagrant.configure("2") do |config|
 		["jessie-upstream-percona-slave", "debian/jessie64", "192.168.200.15", ["jessie","upstream","percona","slave"]],
 		["jessie-default-mariadb-master", "debian/jessie64", "192.168.200.16", ["jessie","default","mariadb","master"]],
 		["jessie-default-mariadb-slave", "debian/jessie64", "192.168.200.17", ["jessie","default","mariadb","slave"]],
-		["jessie-default-mariadb_galera-1", "debian/jessie64", "192.168.200.18", ["jessie","default","mariadb_galera","1"]],
-		["jessie-default-mariadb_galera-2", "debian/jessie64", "192.168.200.19", ["jessie","default","mariadb_galera","2"]],
-		["jessie-default-mariadb_galera-3", "debian/jessie64", "192.168.200.20", ["jessie","default","mariadb_galera","3"]]
+		["jessie-upstream-mariadbgalera-1", "debian/jessie64", "192.168.200.18", ["jessie","upstream","mariadbgalera","1"]],
+		["jessie-upstream-mariadbgalera-2", "debian/jessie64", "192.168.200.19", ["jessie","upstream","mariadbgalera","2"]],
+		["jessie-upstream-mariadbgalera-3", "debian/jessie64", "192.168.200.20", ["jessie","upstream","mariadbgalera","3"]]
 	]
 
 	config.vm.provider "virtualbox" do |v|
