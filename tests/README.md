@@ -41,7 +41,3 @@ About MySQL 5.6
 
 You can get MySQL 5.6 for Debian with [Dotdeb](https://www.dotdeb.org) with my [Dotdeb role](https://github.com/HanXHX/ansible-debian-dotdeb). I give no support with this version (pull-request accepted). It can work but without GTID.
 
-About MariaDB 10.1
-------------------
-
-When the application is considered stable, I'll support this version.
