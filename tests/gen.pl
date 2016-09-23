@@ -27,7 +27,7 @@ foreach my $n (@a)
 {
 	my @data = split(/-/, $n);
 	printf(
-		'["%s", "deb/%s-amd64", "%s", [%s]],' . "\n",
+		'["%s", "debian/%s64", "%s", [%s]],' . "\n",
 		$n,
 		$data[0],
 		long2ip($iip),
