@@ -1,6 +1,3 @@
-# Master must listen for replication
-mysql_bind_address: '0.0.0.0'
-
 # Master durability
 mysql_sync_binlog: '1'
 mysql_innodb_flush_log_at_trx_commit: '1'
