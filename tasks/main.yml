@@ -16,9 +16,16 @@
   template: src=etc/mysql/conf.d/10-extra.cnf.j2 dest=/etc/mysql/conf.d/10-extra.cnf
   register: extraconfig
 
+- name: TEMPLATE | Deploy Galera configuration
+  template: src=etc/mysql/conf.d/09-galera.cnf.j2 dest=/etc/mysql/conf.d/09-galera.cnf
+  register: galeraconfig
+
 - name: SERVICE | Restart now (prevent bugs)
   service: name=mysql state=restarted
-  when: config.changed or extraconfig.changed
+  when: >
+    config.changed or
+    extraconfig.changed or
+    (galeraconfig is defined and galeraconfig.changed)
 
 - name: TEMPLATE Create .my.cnf for root
   template: src=root/my.cnf dest=/root/.my.cnf owner=root group=root mode=0600 backup=yes

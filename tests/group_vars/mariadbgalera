@@ -1,1 +1,3 @@
 mysql_vendor: 'mariadb_galera'
+mysql_use_percona_repository: false
+mariadb_version: '10.1'

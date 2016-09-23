@@ -16,3 +16,7 @@
 - name: APT | Install MariaDB server
   apt: pkg=mariadb-server state=present
 
+- name: APT | Install Galera
+  apt: pkg=galera-3 state=present
+  when: mysql_vendor == 'mariadb_galera'
+

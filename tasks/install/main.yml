@@ -7,6 +7,7 @@
     (mysql_origin == 'default' and mysql_vendor == 'mysql') or
     (mysql_origin == 'default' and mysql_vendor == 'mariadb') or
     (mysql_origin == 'upstream' and mysql_vendor == 'mariadb') or
+    (mysql_origin == 'upstream' and mysql_vendor == 'mariadb_galera') or
     (mysql_origin ==  'upstream' and mysql_vendor == 'percona')
     )
 
@@ -24,7 +25,7 @@
 
 - name: INCLUDE | Install MariaDB from MariaDB repo
   include: 'mariadb/upstream.yml'
-  when: mysql_origin == 'upstream' and mysql_vendor == 'mariadb'
+  when: mysql_origin == 'upstream' and (mysql_vendor == 'mariadb' or mysql_vendor == 'mariadb_galera')
 
 - name: INCLUDE | Install Percona Server from Percona repo
   include: 'percona/upstream.yml'

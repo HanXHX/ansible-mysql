@@ -1,0 +1,21 @@
+#
+# {{ ansible_managed }}
+#
+
+[mysqld]
+
+# Galera config
+
+wsrep_on=ON
+# TODO: wsrep_cluster_address=gcomm://cluster01,cluster02,cluster03
+wsrep_cluster_address=gcomm://127.0.0.1
+# TODO: https://mariadb.com/kb/en/mariadb/galera-cluster-system-variables/#wsrep_sst_method
+wsrep_sst_method=rsync
+# TODO: wsrep_cluster_name="my_wsrep_cluster"
+
+# Deps
+binlog_format=ROW
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+innodb_doublewrite=1
+query_cache_size=0

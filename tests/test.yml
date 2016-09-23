@@ -37,3 +37,7 @@
       delegate_to: "{{ his_master }}"
       when: c.changed
 
+- hosts: mariadbgalera
+  roles:
+    - ../../
+
