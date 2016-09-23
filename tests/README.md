@@ -5,9 +5,8 @@ IMPORTANT
 ---------
 
 - DO NOT `vagrant up`! My Vagrantfile provides 14 VMs (256MB each)...
-- Each slave communicate to his master. You can't mix jessie and wheezy or mysql and mariadb.
+- Each slave communicate to his master. You can't mix  mysql and mariadb.
 - This tests uses my [MySQL role](https://github.com/HanXHX/ansible-mysql).
-
 
 Tests
 -----
@@ -28,7 +27,6 @@ vagrant up jessie-upstream-mariadb-slave
 Supported platforms
 -------------------
 
-- Debian Wheezy
 - Debian Jessie
 
 Supported MySQL vendors

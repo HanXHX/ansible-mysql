@@ -9,12 +9,6 @@ use warnings;
 use Socket;
 
 my @a = (
-    "wheezy-default-mysql-master",
-    "wheezy-default-mysql-slave",
-    "wheezy-upstream-mariadb-master",
-    "wheezy-upstream-mariadb-slave",
-    "wheezy-upstream-percona-master",
-    "wheezy-upstream-percona-slave",
     "jessie-default-mysql-master",
     "jessie-default-mysql-slave",
     "jessie-upstream-mariadb-master",

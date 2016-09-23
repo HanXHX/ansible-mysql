@@ -15,7 +15,7 @@ Role Variables
 
 - `mysql_origin`: origin of the package ("default" or "upstream")
 - `mysql_vendor`: "mysql", "mariadb" or "percona"
-- `mysql_use_percona_repository`: use percona APT repository (automatic setted to true if you use "percona" as `mysql_vendor`). You need to set "true" on Wheezy if you want to install percona-xtrabackup.
+- `mysql_use_percona_repository`: use percona APT repository (automatic setted to true if you use "percona" as `mysql_vendor`).
 
 ### Configuration
 
@@ -46,7 +46,7 @@ Check "priv" syntax in [mysql_user module documentation](http://docs.ansible.com
 
 ### Packaging
 
-- `mariadb_version`: 5.5 (Debian Wheezy only) or 10.0
+- `mariadb_version`: 10.0/10.1
 - `mariadb_repository`: MariaDB upstream APT repository (see: [MariaDB repositories tool](http://mariadb.org/mariadb/repositories/))
 - `percona_version`: Percona version 5.5 or 5.6
 - `percona_repository`: Percona upstream APT repository (see: [Percona APT doc](http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html))

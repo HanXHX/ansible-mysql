@@ -5,7 +5,7 @@
   when: >
     not (
     (mysql_origin == 'default' and mysql_vendor == 'mysql') or
-    (mysql_origin == 'default' and mysql_vendor == 'mariadb' and ansible_distribution_major_version > 7) or
+    (mysql_origin == 'default' and mysql_vendor == 'mariadb') or
     (mysql_origin == 'upstream' and mysql_vendor == 'mariadb') or
     (mysql_origin ==  'upstream' and mysql_vendor == 'percona')
     )
@@ -20,7 +20,7 @@
 
 - name: INCLUDE | Install MariaDB from Debian repo
   include: 'mariadb/default.yml'
-  when: mysql_origin == 'default' and mysql_vendor == 'mariadb' and ansible_distribution_major_version > 7
+  when: mysql_origin == 'default' and mysql_vendor == 'mariadb'
 
 - name: INCLUDE | Install MariaDB from MariaDB repo
   include: 'mariadb/upstream.yml'
@@ -40,5 +40,3 @@
 
 - name: APT | Install Percona Xtrabackup
   apt: pkg=percona-xtrabackup state=present
-  when: ansible_distribution_major_version > 7 or mysql_use_percona_repository
-

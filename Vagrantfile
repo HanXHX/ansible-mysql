@@ -6,12 +6,6 @@
 Vagrant.configure("2") do |config|
 
 	vms = [
-		["wheezy-default-mysql-master", "deb/wheezy-amd64", "192.168.200.10", ["wheezy","default","mysql","master"]],
-		["wheezy-default-mysql-slave", "deb/wheezy-amd64", "192.168.200.11", ["wheezy","default","mysql","slave"]],
-		["wheezy-upstream-mariadb-master", "deb/wheezy-amd64", "192.168.200.12", ["wheezy","upstream","mariadb","master"]],
-		["wheezy-upstream-mariadb-slave", "deb/wheezy-amd64", "192.168.200.13", ["wheezy","upstream","mariadb","slave"]],
-		["wheezy-upstream-percona-master", "deb/wheezy-amd64", "192.168.200.14", ["wheezy","upstream","percona","master"]],
-		["wheezy-upstream-percona-slave", "deb/wheezy-amd64", "192.168.200.15", ["wheezy","upstream","percona","slave"]],
 		["jessie-default-mysql-master", "debian/jessie64", "192.168.200.16", ["jessie","default","mysql","master"]],
 		["jessie-default-mysql-slave", "debian/jessie64", "192.168.200.17", ["jessie","default","mysql","slave"]],
 		["jessie-upstream-mariadb-master", "debian/jessie64", "192.168.200.18", ["jessie","upstream","mariadb","master"]],
