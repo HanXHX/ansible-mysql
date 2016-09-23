@@ -32,16 +32,12 @@ Supported platforms
 Supported MySQL vendors
 -----------------------
 
-- MariaDB 10.0 (from Debian Jessie or MariaDB repository)
+- MariaDB 10.0 / 10.1 / 10.2 (from Debian Jessie or MariaDB repository)
 - MySQL 5.5 (from Debian repositories)
-- Percona Server 5.6 (from Percona Repository)
+- Percona Server 5.5 / 5.6 / 5.7 (from Percona Repository)
 
 About MySQL 5.6
 ---------------
 
 You can get MySQL 5.6 for Debian with [Dotdeb](https://www.dotdeb.org) with my [Dotdeb role](https://github.com/HanXHX/ansible-debian-dotdeb). I give no support with this version (pull-request accepted). It can work but without GTID.
 
-About MariaDB 10.1
-------------------
-
-When the application is considered stable, I'll support this version.

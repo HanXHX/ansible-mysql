@@ -1,7 +1,7 @@
 MySQL vendors for Debian Ansible role
 ======================================
 
-[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-HanXHX.mysql-blue.svg)](https://galaxy.ansible.com/HanXHX/mysql)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-HanXHX.mysql-blue.svg)](https://galaxy.ansible.com/HanXHX/mysql) [![Build Status](https://travis-ci.org/HanXHX/ansible-mysql.svg?branch=master)](https://travis-ci.org/HanXHX/ansible-mysql)
 
 Install and configure MySQL or MariaDB or Percona Server. Manage replication (master/slave). Create users and databases.
 
@@ -46,9 +46,9 @@ Check "priv" syntax in [mysql_user module documentation](http://docs.ansible.com
 
 ### Packaging
 
-- `mariadb_version`: 10.0/10.1
+- `mariadb_version`: 10.0 / 10.1 / 10.2
 - `mariadb_repository`: MariaDB upstream APT repository (see: [MariaDB repositories tool](http://mariadb.org/mariadb/repositories/))
-- `percona_version`: Percona version 5.5 or 5.6
+- `percona_version`: 5.5 / 5.6 / 5.7
 - `percona_repository`: Percona upstream APT repository (see: [Percona APT doc](http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html))
 
 Dependencies
