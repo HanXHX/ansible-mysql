@@ -1,0 +1,23 @@
+---
+- set_fact:
+    booboo: /var/lib/mysql/.ansible_galera_boostrap
+
+- name: STAT | Bootstrap mark
+  stat: path={{ booboo }}
+  register: s
+
+- block:
+
+    - name: COMMAND | Stop MariaDB
+      service: name=mysql state=stopped
+
+    - name: COMMAND | Bootstrap first node
+      command: galera_new_cluster
+      register: bootstrap_run
+
+  when: not s.stat.exists
+
+- name: COMMAND | Create Bootstrap mark
+  command: "touch {{ booboo }}"
+  args:
+    creates: "{{ booboo }}"

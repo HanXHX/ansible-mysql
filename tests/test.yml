@@ -38,6 +38,11 @@
       when: c.changed
 
 - hosts: mariadbgalera
+  vars:
+    mysql_galera_primary_node: 'jessie-upstream-mariadbgalera-1'
+    mysql_wsrep_node_address: "{{ ansible_eth1.ipv4.address }}"
+    mysql_use_percona_repository: false
+    mariadb_version: '10.1'
   roles:
     - ../../
 

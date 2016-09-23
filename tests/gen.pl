@@ -24,7 +24,8 @@ my @a = (
 
 my $start_ip = '192.168.200.10';
 my $iip = ip2long($start_ip);
-my $tmp_ip = 0;
+
+my @galera = ();
 
 foreach my $n (@a)
 {
@@ -40,26 +41,39 @@ foreach my $n (@a)
 	if($data[-1] eq 'slave')
 	{
 		open(FILE, '>', "host_vars/$n");
-		printf FILE (qq/his_master: '%s'\n/, $tmp_ip);
+		printf FILE (qq/his_master: '%s'\n/, long2ip($iip));
 		close(FILE);
 	}
 
-	if($data[-1] =~ /^\d$/ && $data[-2] eq 'mariadbgalera')
+#	if($data[-1] =~ /^\d$/ && $data[-2] eq 'mariadbgalera')
+#	{
+#		open(FILE, '>', "host_vars/$n");
+#		printf FILE (qq/galera_id: '%s'\n/, $data[-1]);
+#		close(FILE);
+#	}
+
+	if($data[-2] eq 'mariadbgalera')
 	{
-		open(FILE, '>', "host_vars/$n");
-		printf FILE (qq/galera_id: '%s'\n/, $data[-1]);
-		close(FILE);
+		push(@galera, long2ip($iip));
+		goto SKIP;
 	}
 
 	open(FILE, '>', "group_vars/" . $data[2]);
-	my $mv = $data[-2];
-	$mv = 'mariadb_galera' if($mv eq 'mariadbgalera');
-	printf FILE (qq/mysql_vendor: '%s'\n/, $mv);
+	printf FILE (qq/mysql_vendor: '%s'\n/, $data[2]);
 	close(FILE);
 
-	$tmp_ip = long2ip($iip);
+	SKIP:
 	$iip++;
 }
+
+open(FILE, '>', 'group_vars/mariadbgalera');
+say FILE qq/mysql_vendor: 'mariadb_galera'/;
+say FILE qq/mariadb_galera_members:/;
+foreach(@galera)
+{
+	say FILE qq/  - '$_'/;
+}
+close(FILE);
 
 sub ip2long {
 	return unpack("l*", pack("l*", unpack("N*", inet_aton(shift))));

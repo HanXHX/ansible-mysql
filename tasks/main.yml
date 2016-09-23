@@ -16,19 +16,18 @@
   template: src=etc/mysql/conf.d/10-extra.cnf.j2 dest=/etc/mysql/conf.d/10-extra.cnf
   register: extraconfig
 
-- name: TEMPLATE | Deploy Galera configuration
-  template: src=etc/mysql/conf.d/09-galera.cnf.j2 dest=/etc/mysql/conf.d/09-galera.cnf
-  register: galeraconfig
-
 - name: SERVICE | Restart now (prevent bugs)
   service: name=mysql state=restarted
   when: >
     config.changed or
-    extraconfig.changed or
-    (galeraconfig is defined and galeraconfig.changed)
+    extraconfig.changed
 
 - name: TEMPLATE Create .my.cnf for root
   template: src=root/my.cnf dest=/root/.my.cnf owner=root group=root mode=0600 backup=yes
+
+- name: INCLUDE | Galera
+  include: galera/main.yml
+  when: mysql_vendor == 'mariadb_galera'
 
 - name: INCLUDE | Replication
   include: replication/main.yml
@@ -49,4 +48,3 @@
     host="{{ item.host | default('localhost') }}"
     state=present
   with_items: "{{ mysql_users }}"
-

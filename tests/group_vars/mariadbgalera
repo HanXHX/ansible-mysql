@@ -1,3 +1,5 @@
 mysql_vendor: 'mariadb_galera'
-mysql_use_percona_repository: false
-mariadb_version: '10.1'
+mariadb_galera_members:
+  - '192.168.200.18'
+  - '192.168.200.19'
+  - '192.168.200.20'
