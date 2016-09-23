@@ -46,9 +46,9 @@ Check "priv" syntax in [mysql_user module documentation](http://docs.ansible.com
 
 ### Packaging
 
-- `mariadb_version`: 10.0/10.1
+- `mariadb_version`: 10.0 / 10.1 / 10.2
 - `mariadb_repository`: MariaDB upstream APT repository (see: [MariaDB repositories tool](http://mariadb.org/mariadb/repositories/))
-- `percona_version`: Percona version 5.5 or 5.6
+- `percona_version`: 5.5 / 5.6 / 5.7
 - `percona_repository`: Percona upstream APT repository (see: [Percona APT doc](http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html))
 
 Dependencies
