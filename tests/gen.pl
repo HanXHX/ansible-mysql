@@ -17,6 +17,9 @@ my @a = (
     "jessie-upstream-percona-slave",
     "jessie-default-mariadb-master",
     "jessie-default-mariadb-slave",
+    "jessie-default-mariadb_galera-1",
+    "jessie-default-mariadb_galera-2",
+    "jessie-default-mariadb_galera-3"
 );
 
 my $start_ip = '192.168.200.10';
@@ -34,10 +37,17 @@ foreach my $n (@a)
 		join(',', map { sprintf('"%s"', $_) } @data)
 	);
 
-	if($data[-1]  eq 'slave')
+	if($data[-1] eq 'slave')
 	{
 		open(FILE, '>', "host_vars/$n");
 		printf FILE (qq/his_master: '%s'\n/, $tmp_ip);
+		close(FILE);
+	}
+
+	if($data[-1] =~ /^\d$/ && $data[-2] eq 'mariadb_galera')
+	{
+		open(FILE, '>', "host_vars/$n");
+		printf FILE (qq/galera_id: '%s'\n/, $data[-1]);
 		close(FILE);
 	}
 
