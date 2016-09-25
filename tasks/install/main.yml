@@ -11,10 +11,6 @@
     (mysql_origin ==  'upstream' and mysql_vendor == 'percona')
     )
 
-- name: APT | Install Percona Xtrabackup
-  include: percona/apt.yml
-  when: mysql_use_percona_repository
-
 - name: INCLUDE | Install MySQL from default repo
   include: 'mysql/default.yml'
   when: mysql_origin == 'default' and mysql_vendor == 'mysql'
