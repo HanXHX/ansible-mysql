@@ -129,7 +129,7 @@ mariadb_repository: "http://ftp.igh.cnrs.fr/pub/mariadb/repo/{{ mariadb_version 
 # -------------------------------------
 # Percona
 # -------------------------------------
-percona_version: '5.7'
+percona_version: '5.6'
 percona_repository: 'http://repo.percona.com/apt'
 
 
