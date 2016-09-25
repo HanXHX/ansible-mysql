@@ -1,20 +1,17 @@
 matrix:
   include:
-    - env: OS=debian-jessie ORIGIN=default VENDOR=mysql
-    - env: OS=debian-jessie ORIGIN=default VENDOR=mariadb
-    - env: OS=debian-jessie ORIGIN=uptream VENDOR=mariadb
-    - env: OS=debian-jessie ORIGIN=uptream VENDOR=mariadb_galera
-    - env: OS=debian-jessie ORIGIN=uptream VENDOR=percona
+    - env: PLATFORM=debian-jessie ORIGIN=default VENDOR=mysql
+    - env: PLATFORM=debian-jessie ORIGIN=default VENDOR=mariadb
+    - env: PLATFORM=debian-jessie ORIGIN=uptream VENDOR=mariadb
+    - env: PLATFORM=debian-jessie ORIGIN=uptream VENDOR=mariadb_galera
+    - env: PLATFORM=debian-jessie ORIGIN=uptream VENDOR=percona
 
 sudo: required
 
 language: python
 
-services:
-  - docker
-
 script:
-  - docker build -f tests/$OS.Dockerfile -t test-$OS . && docker run -e "ORIGIN=$ORIGIN" -e "VENDOR=$VENDOR" --name $OS test-$OS
+  - docker build -f tests/$PLATFORM.Dockerfile -t test-$PLATFORM . && docker run -e "ORIGIN=$ORIGIN" -e "VENDOR=$VENDOR" --name $PLATFORM test-$PLATFORM
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
