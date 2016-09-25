@@ -2,9 +2,9 @@ matrix:
   include:
     - env: PLATFORM=debian-jessie ORIGIN=default VENDOR=mysql
     - env: PLATFORM=debian-jessie ORIGIN=default VENDOR=mariadb
-    - env: PLATFORM=debian-jessie ORIGIN=uptream VENDOR=mariadb
-    - env: PLATFORM=debian-jessie ORIGIN=uptream VENDOR=mariadb_galera
-    - env: PLATFORM=debian-jessie ORIGIN=uptream VENDOR=percona
+    - env: PLATFORM=debian-jessie ORIGIN=upstream VENDOR=mariadb
+    - env: PLATFORM=debian-jessie ORIGIN=upstream VENDOR=mariadb_galera
+    - env: PLATFORM=debian-jessie ORIGIN=upstream VENDOR=percona
 
 sudo: required
 
