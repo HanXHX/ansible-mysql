@@ -12,3 +12,4 @@
   post_tasks:
     - name: TEST | SHELL | Test mysql
       shell: mysql -e "SHOW DATABASES;"
+      changed_when: false
