@@ -136,4 +136,4 @@ percona_repository: 'http://repo.percona.com/apt'
 # Galera
 mysql_galera_bootstrap: false
 mariadb_galera_members: []
-mysql_galera_primary_node: null
+mysql_galera_primary_node: 'change_me' # See: https://github.com/ansible/ansible/issues/17453

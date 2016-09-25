@@ -32,8 +32,6 @@
   with_items:
     - mytop
     - percona-toolkit
+    - percona-xtrabackup
     - python-mysqldb
     - mysqltuner
-
-- name: APT | Install Percona Xtrabackup
-  apt: pkg=percona-xtrabackup state=present
