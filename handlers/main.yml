@@ -2,3 +2,4 @@
 
 - name: restart mysql
   action: service name=mysql state=restarted enabled=yes
+  when: mysql_notify_restart

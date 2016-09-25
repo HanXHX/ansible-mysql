@@ -7,6 +7,9 @@
   register: s
 
 - block:
+    - name: SET_FACT | We must NOT restart after bootstrap!
+      set_fact:
+        mysql_notify_restart: false
 
     - name: SERVICE | Stop MariaDB
       service: name=mysql state=stopped
