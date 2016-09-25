@@ -1,6 +1,6 @@
 ---
 - set_fact:
-    booboo: /var/lib/mysql/.ansible_galera_boostrap
+    booboo: "{{ mysql_datadir }}/.ansible_galera_boostrap"
 
 - name: STAT | Bootstrap mark
   stat: path={{ booboo }}
@@ -8,12 +8,17 @@
 
 - block:
 
-    - name: COMMAND | Stop MariaDB
+    - name: SERVICE | Stop MariaDB
       service: name=mysql state=stopped
 
-    - name: COMMAND | Bootstrap first node
+    - name: COMMAND | Bootstrap first node (systemd)
       command: galera_new_cluster
+      when: ansible_service_mgr == 'systemd'
+
+    - name: COMMAND | Bootstrap first node (clean init)
+      command: '/etc/init.d/mysql bootstrap'
       register: bootstrap_run
+      when: ansible_service_mgr != 'systemd'
 
   when: not s.stat.exists
 
