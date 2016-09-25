@@ -1,2 +1,4 @@
 mysql_use_percona_repository: true
 mysql_bind_address: '{{ ansible_eth1.ipv4.address }}'
+mysql_extra_configuration:
+  innodb_commit_concurrency: 0

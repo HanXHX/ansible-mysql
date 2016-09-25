@@ -66,10 +66,7 @@ mysql_extra_configuration: []
 
 # Example:
 #mysql_extra_configuration:
-# - group_name: 'mysqld'
-#   conf:
-#     - key: 'innodb_awsome_feature'
-#       value: 1
+#  'innodb_awsome_feature': 1
 
 
 # -------------------------------------
