@@ -3,12 +3,20 @@ MySQL vendors for Debian Ansible role
 
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-HanXHX.mysql-blue.svg)](https://galaxy.ansible.com/HanXHX/mysql) [![Build Status](https://travis-ci.org/HanXHX/ansible-mysql.svg?branch=master)](https://travis-ci.org/HanXHX/ansible-mysql)
 
-Install and configure MySQL or MariaDB or Percona Server. Manage replication (master/slave). Create users and databases.
+Install and configure MySQL or MariaDB (Galera Cluster) or Percona Server. Manage replication (master/slave). Create users and databases.
+
+| OS              | Vendor                  | Origin    | Managed versions     |
+| --------------- | ----------------------- | --------- | -------------------  |
+| Debian Jessie   | MySQL                   | Debian    | 5.5 / 5.6            |
+| Debian Jessie   | MariaDB                 | Debian    | 10.0                 |
+| Debian Jessie   | MariaDB                 | Upstream  | 10.0 / 10.1 / 10.2   |
+| Debian Jessie   | MariaDB Galera Cluster  | Upstream  | 10.1 / 10.2          |
+| Debian Jessie   | Percona server          | Upstream  | 5.5 / 5.6 / 5.7      |
 
 Requirements
 ------------
 
-None.
+None. But if you need MySQL 5.6 (from Debian respository), you must install backports.
 
 Role Variables
 --------------
@@ -28,7 +36,6 @@ If you need a feature you can't configure, you can use this list. These config w
 
 - `mysql_databases`: list...
 
-
 ### Users
 
 Example:
@@ -41,7 +48,7 @@ mysql_users:
     host: '%'
 ```
 
-Check "priv" syntax in [mysql_user module documentation](http://docs.ansible.com/mysql_user_module.html)
+Check "priv" syntax in [mysql\_user module documentation](http://docs.ansible.com/mysql_user_module.html)
 
 ### Packaging
 
@@ -70,7 +77,4 @@ GPLv2
 Author Information
 ------------------
 
-- You can find many other roles in my GitHub "lab": https://github.com/HanXHX/my-ansible-playbooks
-- All issues, pull-request are welcome :)
-- Few code come from [geerlingguy](https://github.com/geerlingguy)
-
+- Twitter: [@hanxhx_](https://twitter.com/hanxhx_)
