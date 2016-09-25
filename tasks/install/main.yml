@@ -1,7 +1,7 @@
 ---
 
 - name: FAIL | If config asked is impossible
-  fail: msg="config asked is impossible"
+  fail: msg="config asked is impossible ({{ mysql_origin }} / {{ mysql_vendor }})"
   when: >
     not (
     (mysql_origin == 'default' and mysql_vendor == 'mysql') or

@@ -1,29 +1,20 @@
----
+matrix:
+  include:
+    - env: OS=debian-jessie ORIGIN=default VENDOR=mysql
+    - env: OS=debian-jessie ORIGIN=default VENDOR=mariadb
+    - env: OS=debian-jessie ORIGIN=uptream VENDOR=mariadb
+    - env: OS=debian-jessie ORIGIN=uptream VENDOR=mariadb_galera
+    - env: OS=debian-jessie ORIGIN=uptream VENDOR=percona
+
+sudo: required
+
 language: python
-python: "2.7"
 
-# Use the new container infrastructure
-sudo: false
-
-# Install ansible
-addons:
-  apt:
-    packages:
-    - python-pip
-
-install:
-  # Install ansible
-  - pip install ansible
-
-  # Check ansible version
-  - ansible --version
-
-  # Create ansible.cfg with correct roles_path
-  - printf '[defaults]\nroles_path=../' >ansible.cfg
+services:
+  - docker
 
 script:
-  # Basic role syntax check
-  - ansible-playbook tests/test.yml -i localhost, --syntax-check
+  - docker build -f tests/$OS.Dockerfile -t test-$OS . && docker run -e "ORIGIN=$ORIGIN" -e "VENDOR=$VENDOR" --name $OS test-$OS
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
