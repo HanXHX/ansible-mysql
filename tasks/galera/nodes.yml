@@ -4,10 +4,12 @@
   command: cat /etc/mysql/debian.cnf
   register: debiancnf
   delegate_to: '{{ mysql_galera_primary_node }}'
+  changed_when: false
 
 - name: COMMAND | Get current debian.cnf
   command: cat /etc/mysql/debian.cnf
   register: ondc
+  changed_when: false
 
 - block:
 
