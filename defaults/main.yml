@@ -62,7 +62,7 @@ mysql_syslog_tag: 'mysql'
 # Extra configuration
 # -------------------------------------
 #
-mysql_extra_configuration: []
+mysql_extra_configuration: {}
 
 # Example:
 #mysql_extra_configuration:
