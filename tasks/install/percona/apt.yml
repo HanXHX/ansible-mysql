@@ -11,4 +11,5 @@
 
 - name: APT_RESPOSITORY | Add Percona (src) repository
   apt_repository: repo='deb-src {{ percona_repository }} {{ ansible_distribution_release }} main' state=present
+  when: mysql_upstream_apt_src
 
