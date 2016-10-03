@@ -23,7 +23,7 @@
       register: bootstrap_run
       when: ansible_service_mgr != 'systemd'
 
-  when: not s.stat.exists
+  when: not s.stat.exists or mysql_galera_resetup
 
 - name: COMMAND | Create Bootstrap mark
   command: "touch {{ booboo }}"

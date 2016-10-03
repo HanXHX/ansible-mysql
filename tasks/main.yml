@@ -19,8 +19,8 @@
 - name: SERVICE | Restart now (prevent bugs)
   service: name=mysql state=restarted
   when: >
-    config.changed or
-    extraconfig.changed
+    (config.changed or extraconfig.changed) and
+    not mysql_galera_resetup
 
 - name: TEMPLATE Create .my.cnf for root
   template: src=root/my.cnf dest=/root/.my.cnf owner=root group=root mode=0600 backup=yes
