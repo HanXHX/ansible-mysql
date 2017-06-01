@@ -133,7 +133,7 @@ mysql_mariadb_repository: "http://ftp.igh.cnrs.fr/pub/mariadb/repo/{{ mysql_mari
 # -------------------------------------
 mysql_percona_version: '5.6'
 mysql_percona_repository: 'http://repo.percona.com/apt'
-
+mysql_use_percona_apt: false
 
 # Galera
 mysql_galera_resetup: false
