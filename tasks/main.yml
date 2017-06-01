@@ -36,6 +36,9 @@
 - name: INCLUDE | Secure install
   include: 'secure.yml'
 
+- name: SERVICE | Ensure service is started
+  service: name=mysql state=started
+
 - name: MYSQL_DB | Create databases
   mysql_db: name={{ item }} state=present
   with_items: "{{ mysql_databases }}"
