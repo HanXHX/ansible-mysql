@@ -4,7 +4,7 @@
   vars:
     mysql_replication_master: true
     mysql_bind_address: '{{ ansible_eth0.ipv4.address }}'
-    mariadb_galera_members:
+    mysql_galera_members:
       - '{{ ansible_eth0.ipv4.address }}'
     mysql_galera_primary_node: 'localhost'
   roles:

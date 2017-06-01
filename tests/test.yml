@@ -41,7 +41,7 @@
   vars:
     mysql_galera_primary_node: 'jessie-upstream-mariadbgalera-1'
     mysql_wsrep_node_address: "{{ ansible_eth1.ipv4.address }}"
-    mariadb_version: '10.1'
+    mysql_mariadb_version: '10.1'
   roles:
     - ../../
 

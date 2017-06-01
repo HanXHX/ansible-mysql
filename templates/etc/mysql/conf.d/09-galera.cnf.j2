@@ -11,7 +11,7 @@
 # Global
 wsrep_on=ON
 wsrep_provider=/usr/lib/galera/libgalera_smm.so
-wsrep_cluster_address=gcomm://{{ mariadb_galera_members | join(",") }}
+wsrep_cluster_address=gcomm://{{ mysql_galera_members | join(",") }}
 # TODO: https://mariadb.com/kb/en/mariadb/galera-cluster-system-variables/#wsrep_sst_method
 wsrep_sst_method=rsync
 # TODO: wsrep_cluster_name="my_wsrep_cluster"

@@ -7,9 +7,9 @@
   template: src=etc/apt/preferences.d/95-percona.j2 dest=/etc/apt/preferences.d/95-percona
 
 - name: APT_REPOSITORY | Add Percona repository
-  apt_repository: repo='deb {{ percona_repository }} {{ ansible_distribution_release }} main' state=present
+  apt_repository: repo='deb {{ mysql_percona_repository }} {{ ansible_distribution_release }} main' state=present
 
 - name: APT_RESPOSITORY | Add Percona (src) repository
-  apt_repository: repo='deb-src {{ percona_repository }} {{ ansible_distribution_release }} main' state=present
+  apt_repository: repo='deb-src {{ mysql_percona_repository }} {{ ansible_distribution_release }} main' state=present
   when: mysql_upstream_apt_src
 

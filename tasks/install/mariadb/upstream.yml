@@ -4,10 +4,10 @@
   apt_key: keyserver="keyserver.ubuntu.com" id="0xcbcb082a1bb943db" state=present
 
 - name: APT | Add MariaDB repository
-  apt_repository: repo='deb {{ mariadb_repository }} {{ ansible_distribution_release }} main' state=present
+  apt_repository: repo='deb {{ mysql_mariadb_repository }} {{ ansible_distribution_release }} main' state=present
 
 - name: APT | Add MariaDB (src) repository
-  apt_repository: repo='deb-src {{ mariadb_repository }} {{ ansible_distribution_release }} main' state=present
+  apt_repository: repo='deb-src {{ mysql_mariadb_repository }} {{ ansible_distribution_release }} main' state=present
   when: mysql_upstream_apt_src
 
 - name: INCLUDE | Normal Install
