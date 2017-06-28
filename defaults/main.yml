@@ -40,7 +40,7 @@ mysql_query_cache_size: '16M'
 mysql_wait_timeout: 28800
 
 # Try number of CPU's * 2 for thread_concurrency.
-mysql_thread_concurrency: 2
+mysql_thread_concurrency: "{{ ansible_processor_cores * 2 }}"
 
 # InnoDB settings.
 mysql_innodb_file_per_table: '1'
