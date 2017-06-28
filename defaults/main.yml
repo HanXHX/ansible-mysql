@@ -137,7 +137,9 @@ mysql_percona_version: '5.6'
 mysql_percona_repository: 'http://repo.percona.com/apt'
 mysql_use_percona_apt: false
 
+# -------------------------------------
 # Galera
+# -------------------------------------
 mysql_galera_resetup: false
 mysql_galera_members: []
 mysql_galera_primary_node: 'change_me' # See: https://github.com/ansible/ansible/issues/17453
