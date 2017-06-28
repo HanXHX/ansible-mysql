@@ -125,7 +125,7 @@ mysql_users: []
 # MariaDB
 # -------------------------------------
 mysql_mariadb_version: '10.1'
-# See: http://mariadb.org/mariadb/repositories/
+# See: https://downloads.mariadb.org/mariadb/repositories
 mysql_mariadb_repository: "http://ftp.igh.cnrs.fr/pub/mariadb/repo/{{ mysql_mariadb_version }}/debian"
 
 # -------------------------------------
