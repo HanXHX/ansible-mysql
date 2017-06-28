@@ -126,6 +126,8 @@ mysql_users: []
 mysql_mariadb_version: '10.1'
 # See: https://downloads.mariadb.org/mariadb/repositories
 mysql_mariadb_repository: "http://ftp.igh.cnrs.fr/pub/mariadb/repo/{{ mysql_mariadb_version }}/debian"
+mysql_mariadb_key_server: "keyserver.ubuntu.com"
+mysql_mariadb_key_ids: ['0xcbcb082a1bb943db', '0xf1656f24c74cd1d8']
 
 # -------------------------------------
 # Percona
