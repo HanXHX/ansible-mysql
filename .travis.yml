@@ -21,6 +21,7 @@ services:
 before_install:
   - wget https://releases.hashicorp.com/vagrant/1.9.5/vagrant_1.9.5_x86_64.deb
   - sudo dpkg -i vagrant_1.9.5_x86_64.deb
+  - vagrant plugin install vagrant-hostmanager 
 
 install:
   - pip install "$ANSIBLE_VERSION"
