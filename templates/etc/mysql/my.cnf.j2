@@ -66,12 +66,14 @@ innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
 {% if mysql_vendor != 'mariadb' or mysql_mariadb_version | version_compare('10.0', '<') %}
 innodb_additional_mem_pool_size = {{ mysql_innodb_additional_mem_pool_size }}
 {% endif %}
-#innodb_log_file_size = {{ mysql_innodb_log_file_size }}
-#innodb_log_buffer_size = {{ mysql_innodb_log_buffer_size }}
-
-{# It craches after install (mysql 5.5)... TODO FIX -> http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html #}
+innodb_log_buffer_size = {{ mysql_innodb_log_buffer_size }}
 innodb_flush_log_at_trx_commit = {{ mysql_innodb_flush_log_at_trx_commit }}
 innodb_lock_wait_timeout = {{ mysql_innodb_lock_wait_timeout }}
+
+{# If this setting changes on a running system, you will break it! #}
+{# See how tho change it here: http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html #}
+{# TODO FIX -> Maybe detect a change and fail, just to be safe? #}
+innodb_log_file_size = {{ mysql_innodb_log_file_size }}
 
 [mysqldump]
 quick
