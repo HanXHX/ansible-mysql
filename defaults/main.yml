@@ -13,6 +13,9 @@ mysql_upstream_apt_src: false
 # Configuration
 # -------------------------------------
 
+# MySQL configuration template
+mysql_config_template: 'etc/mysql/my.cnf.j2'
+
 # MySQL connection settings.
 mysql_port: "3306"
 mysql_bind_address: '127.0.0.1'
