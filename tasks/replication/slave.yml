@@ -15,13 +15,17 @@
   ignore_errors: yes
   register: slave_status
 
+- name: INCLUDE | Transfert /etc/mysql/debian.cnf from master
+  include: slave/ssh.yml
+  when: mysql_slave_replicate_mysqldb or ((slave_status.failed is defined or not slave_status.Is_Slave) and mysql_slave_import_data)
+
 - name: INCLUDE | Import data
   include: slave/import_data.yml
-  when: slave_status.failed is defined and mysql_slave_import_data
+  when: (slave_status.failed is defined or not slave_status.Is_Slave) and mysql_slave_import_data
 
 - name: INCLUDE | Configure replication
   include: slave/replication.yml
-  when: slave_status.failed is defined or mysql_slave_force_setup
+  when: (slave_status.failed is defined or not slave_status.Is_Slave) or mysql_slave_force_setup
 
 - name: INCLUDE | Transfert /etc/mysql/debian.cnf from master
   include: slave/debiancnf.yml

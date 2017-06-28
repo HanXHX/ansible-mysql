@@ -1,7 +1,6 @@
 ---
 
 # Doc: https://www.percona.com/doc/percona-xtrabackup/2.1/howtos/recipes_ibkx_gtid.html
-
 - name: WAIT_FOR | source data (prevent rsync bug) - TODO find another hack
   wait_for: host={{ mysql_slave_import_from }} port=22
 
@@ -26,14 +25,15 @@
 
 - name: SET_FACT | related to mysql datadir
   set_fact:
-    mysql_mysql_datadir: "{{ datadir.msg[0][1] }}"
-    mysql_binlog_info: "{{ datadir.msg[0][1] }}/xtrabackup_binlog_info"
+    mysql_mysql_datadir: "{{ datadir.msg }}"
+    mysql_binlog_info: "{{ datadir.msg }}/xtrabackup_binlog_info"
 
 - name: SERVICE | Stop MySQL before importing data
   service: name=mysql state=stopped
 
+# TODO: add an "ignore warning"
 - name: COMMAND | Sync backup to slave - TODO remove vagrant as static user (see why mysql_backup_user is not working)
-  shell: "sudo -E rsync --rsync-path='sudo rsync' -a -e 'ssh -o StrictHostKeyChecking=no' vagrant@{{ mysql_slave_import_from }}:{{ mysql_backup_dir }}/ {{ mysql_mysql_datadir }}/"
+  shell: "sudo -E rsync --rsync-path='sudo rsync' -a -e 'ssh -o StrictHostKeyChecking=no' {{ mysql_backup_user }}@{{ mysql_slave_import_from }}:{{ mysql_backup_dir }}/ {{ mysql_mysql_datadir }}/"
   become: no
 
 - name: FILE | Re-apply owner

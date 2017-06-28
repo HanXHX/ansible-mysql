@@ -1,22 +1,38 @@
-matrix:
-  include:
-    - env: PLATFORM=debian-jessie ORIGIN=default VENDOR=mysql
-    - env: PLATFORM=debian-jessie ORIGIN=default VENDOR=mariadb
-    - env: PLATFORM=debian-jessie ORIGIN=upstream VENDOR=mariadb
-    - env: PLATFORM=debian-jessie ORIGIN=upstream VENDOR=mariadb_galera
-    - env: PLATFORM=debian-jessie ORIGIN=upstream VENDOR=percona
+env:
+  - PLATFORM='docker-jessie-default-mysql-master'      ANSIBLE_VERSION='ansible>=2.3,<2.4'
+  - PLATFORM='docker-jessie-upstream-mariadb-master'   ANSIBLE_VERSION='ansible>=2.3,<2.4'
+  - PLATFORM='docker-jessie-upstream-mariadb-master'   ANSIBLE_VERSION='ansible>=2.3,<2.4'
+  - PLATFORM='docker-jessie-upstream-percona-master'   ANSIBLE_VERSION='ansible>=2.3,<2.4'
+  - PLATFORM='docker-jessie-upstream-mariadbgalera-1'  ANSIBLE_VERSION='ansible>=2.3,<2.4'
+  - PLATFORM='docker-stretch-default-mysql-master'     ANSIBLE_VERSION='ansible>=2.3,<2.4'
+  - PLATFORM='docker-stretch-upstream-mariadb-master'  ANSIBLE_VERSION='ansible>=2.3,<2.4'
+  - PLATFORM='docker-stretch-upstream-mariadb-master'  ANSIBLE_VERSION='ansible>=2.3,<2.4'
+  - PLATFORM='docker-stretch-upstream-mariadbgalera-1' ANSIBLE_VERSION='ansible>=2.3,<2.4'
 
 sudo: required
 
 dist: trusty
 
+language: python
+
 services:
   - docker
 
-language: python
+before_install:
+  - wget https://releases.hashicorp.com/vagrant/1.9.5/vagrant_1.9.5_x86_64.deb
+  - sudo dpkg -i vagrant_1.9.5_x86_64.deb
+
+install:
+  - pip install "$ANSIBLE_VERSION"
 
 script:
-  - docker build -f tests/$PLATFORM.Dockerfile -t test-$PLATFORM . && docker run -e "ORIGIN=$ORIGIN" -e "VENDOR=$VENDOR" --name $PLATFORM test-$PLATFORM
+  - VAGRANT_DEFAULT_PROVIDER=docker vagrant up $PLATFORM
+  - >
+    VAGRANT_DEFAULT_PROVIDER=docker vagrant provision $PLATFORM
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+  - VAGRANT_DEFAULT_PROVIDER=docker vagrant status
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

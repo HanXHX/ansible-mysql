@@ -1,5 +1,8 @@
 ---
 
+- name: INCLUDE_VARS | Related to OS version
+  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml"
+
 - name: STAT | Check if mysql exists
   stat: path=/etc/init.d/mysql
   register: mysql_exists

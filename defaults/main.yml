@@ -45,7 +45,6 @@ mysql_thread_concurrency: 2
 # InnoDB settings.
 mysql_innodb_file_per_table: '1'
 mysql_innodb_buffer_pool_size: "{{ (ansible_memtotal_mb * 0.2) | round | int }}M"
-mysql_innodb_additional_mem_pool_size: '20M' # See: http://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_additional_mem_pool_size
 mysql_innodb_log_file_size: '64M'
 mysql_innodb_log_buffer_size: '8M'
 mysql_innodb_flush_log_at_trx_commit: '1'
@@ -134,6 +133,8 @@ mysql_mariadb_repository: "http://ftp.igh.cnrs.fr/pub/mariadb/repo/{{ mysql_mari
 mysql_percona_version: '5.6'
 mysql_percona_repository: 'http://repo.percona.com/apt'
 mysql_use_percona_apt: false
+mysql_install_xtrabackup_package: false
+mysql_xtrabackup_package: "{{ mysql_default_xtrabackup_package }}"
 
 # Galera
 mysql_galera_resetup: false

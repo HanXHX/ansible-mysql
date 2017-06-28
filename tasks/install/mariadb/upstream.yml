@@ -1,7 +1,8 @@
 ---
 
 - name: APT | Install MariaDB key
-  apt_key: keyserver="keyserver.ubuntu.com" id="0xcbcb082a1bb943db" state=present
+  apt_key: keyserver="keyserver.ubuntu.com" id={{ item }} state=present
+  with_items: ['0xcbcb082a1bb943db', '0xf1656f24c74cd1d8']
 
 - name: APT | Add MariaDB repository
   apt_repository: repo='deb {{ mysql_mariadb_repository }} {{ ansible_distribution_release }} main' state=present
@@ -12,4 +13,3 @@
 
 - name: INCLUDE | Normal Install
   include: default.yml
-

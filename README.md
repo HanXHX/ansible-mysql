@@ -5,18 +5,31 @@ MySQL vendors for Debian Ansible role
 
 Install and configure MySQL or MariaDB (Galera Cluster) or Percona Server. Manage replication (master/slave). Create users and databases.
 
-| OS              | Vendor                  | Origin    | Managed versions     |
-| --------------- | ----------------------- | --------- | -------------------  |
-| Debian Jessie   | MySQL                   | Debian    | 5.5 / 5.6            |
-| Debian Jessie   | MariaDB                 | Debian    | 10.0                 |
-| Debian Jessie   | MariaDB                 | Upstream  | 10.0 / 10.1 / 10.2   |
-| Debian Jessie   | MariaDB Galera Cluster  | Upstream  | 10.1 / 10.2          |
-| Debian Jessie   | Percona server          | Upstream  | 5.5 / 5.6 / 5.7      |
+| OS              | Vendor                  | Origin    | Managed versions          |
+| --------------- | ----------------------- | --------- | ------------------------- |
+| Debian Jessie   | MySQL                   | Debian    | 5.5 / 5.6                 |
+| Debian Jessie   | MariaDB                 | Debian    | 10.0                      |
+| Debian Jessie   | MariaDB                 | Upstream  | 10.0 / 10.1 / 10.2 / 10.3 |
+| Debian Jessie   | MariaDB Galera Cluster  | Upstream  | 10.1 / 10.2               |
+| Debian Jessie   | Percona server          | Upstream  | 5.5 / 5.6 / 5.7           |
+| Debian Stretch  | MariaDB                 | Debian    | 10.1                      |
+| Debian Stretch  | MariaDB                 | Upstream  | 10.1 / 10.2 / 10.3        |
+| Debian Stretch  | MariaDB Galera Cluster  | Upstream  | 10.1 / 10.2               |
+
+Notes
+-----
+
+* MySQL 5.6 on Jessie needs backports repository
+* MySQL server no longer exists on Debian Stretch
+* Percona Server is not available (soon?) on Debian Stretch
+* Galera Cluster is experimental
+* Due to Vagrant + Docker limitation (private network), replication/galera can't be checked with Travis
+* If you need to test this role with Vagrant, you must install hostmanager plugin: `vagrant plugin install vagrant-hostmanager`
 
 Requirements
 ------------
 
-None. But if you need MySQL 5.6 (from Debian respository), you must install backports.
+None.
 
 Role Variables
 --------------
