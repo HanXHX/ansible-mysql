@@ -18,8 +18,11 @@
       command: galera_new_cluster
       when: ansible_service_mgr == 'systemd'
 
-    - name: COMMAND | Bootstrap first node (clean init)
-      command: '/etc/init.d/mysql bootstrap'
+    - name: SERVICE | Bootstrap first node (clean init)
+      service:
+        name: mysql
+        state: started
+        arguments: --wsrep-new-cluster
       register: bootstrap_run
       when: ansible_service_mgr != 'systemd'
 
