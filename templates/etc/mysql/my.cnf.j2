@@ -26,7 +26,9 @@ log-error = {{ mysql_log_error }}
 
 {% if mysql_slow_query_log_enabled %}
 # Slow query log configuration.
+{% if mysql_vendor not in ['mariadb', 'mariadbgalera'] or mysql_mariadb_version | version_compare('10.0', '<') %}
 log_slow_queries = 1
+{% endif %}
 slow_query_log = 1
 slow_query_log_file = {{ mysql_slow_query_log_file }}
 long_query_time = {{ mysql_slow_query_time }}
