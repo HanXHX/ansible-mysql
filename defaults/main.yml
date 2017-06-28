@@ -143,3 +143,13 @@ mysql_use_percona_apt: false
 mysql_galera_resetup: false
 mysql_galera_members: []
 mysql_galera_primary_node: 'change_me' # See: https://github.com/ansible/ansible/issues/17453
+
+# -------------------------------------
+# Tools
+# -------------------------------------
+mysql_tools:
+  - mytop              # Not available on Debian Stretch (included in mariadb-client instead)
+  - percona-toolkit
+  - percona-xtrabackup # Not available on Debian Stretch (without using the Percona repository)
+  - python-mysqldb
+  - mysqltuner
