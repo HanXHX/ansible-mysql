@@ -13,6 +13,9 @@ mysql_upstream_apt_src: false
 # Configuration
 # -------------------------------------
 
+# MySQL configuration template
+mysql_config_template: 'etc/mysql/my.cnf.j2'
+
 # MySQL connection settings.
 mysql_port: "3306"
 mysql_bind_address: '127.0.0.1'
@@ -40,12 +43,12 @@ mysql_query_cache_size: '16M'
 mysql_wait_timeout: 28800
 
 # Try number of CPU's * 2 for thread_concurrency.
-mysql_thread_concurrency: 2
+mysql_thread_concurrency: "{{ ansible_processor_cores * 2 }}"
 
 # InnoDB settings.
 mysql_innodb_file_per_table: '1'
 mysql_innodb_buffer_pool_size: "{{ (ansible_memtotal_mb * 0.2) | round | int }}M"
-mysql_innodb_log_file_size: '64M'
+mysql_innodb_log_file_size: "{% if ansible_distribution_release == 'jessie' and mysql_vendor == 'mysql' %}5M{% else %}64M{% endif %}" # If this setting changes on a running system, you will break it! http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html
 mysql_innodb_log_buffer_size: '8M'
 mysql_innodb_flush_log_at_trx_commit: '1'
 mysql_innodb_lock_wait_timeout: 50
@@ -124,8 +127,11 @@ mysql_users: []
 # MariaDB
 # -------------------------------------
 mysql_mariadb_version: '10.1'
-# See: http://mariadb.org/mariadb/repositories/
-mysql_mariadb_repository: "http://ftp.igh.cnrs.fr/pub/mariadb/repo/{{ mysql_mariadb_version }}/debian"
+mysql_mariadb_mirror_domain: "ftp.igh.cnrs.fr"
+# See: https://downloads.mariadb.org/mariadb/repositories
+mysql_mariadb_repository: "http://{{ mysql_mariadb_mirror_domain }}/pub/mariadb/repo/{{ mysql_mariadb_version }}/debian"
+mysql_mariadb_key_server: "keyserver.ubuntu.com"
+mysql_mariadb_key_ids: ['0xcbcb082a1bb943db', '0xf1656f24c74cd1d8']
 
 # -------------------------------------
 # Percona

@@ -12,7 +12,7 @@
   include: install/main.yml
 
 - name: TEMPLATE | Deploy configuration
-  template: src=etc/mysql/my.cnf.j2 dest=/etc/mysql/my.cnf
+  template: "src={{ mysql_config_template }} dest=/etc/mysql/my.cnf"
   register: config
 
 - name: TEMPLATE | Deploy extra configuration

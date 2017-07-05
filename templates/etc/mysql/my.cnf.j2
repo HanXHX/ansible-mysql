@@ -12,27 +12,27 @@ bind-address = {{ mysql_bind_address }}
 datadir = {{ mysql_datadir }}
 socket = {{ mysql_socket }}
 
-# TODO: FIX later
+{# TODO: FIX later #}
 # Logging configuration.
-#{% if mysql_log_error == 'syslog' or mysql_log == 'syslog' %}
-#syslog
-#syslog-tag = {{ mysql_syslog_tag }}
-#{% else %}
-#{% if mysql_log %}
-#log = {{ mysql_log }}
-#{% endif %}
-#log-error = {{ mysql_log_error }}
-#{% endif %}
+{% if mysql_log_error == 'syslog' or mysql_log == 'syslog' %}
+syslog
+syslog-tag = {{ mysql_syslog_tag }}
+{% else %}
+{% if mysql_log %}
+log = {{ mysql_log }}
+{% endif %}
+log-error = {{ mysql_log_error }}
+{% endif %}
 
 {% if mysql_slow_query_log_enabled %}
 # Slow query log configuration.
+{% if mysql_vendor not in ['mariadb', 'mariadbgalera'] or mysql_mariadb_version | version_compare('10.0', '<') %}
 log_slow_queries = 1
+{% endif %}
 slow_query_log = 1
 slow_query_log_file = {{ mysql_slow_query_log_file }}
 long_query_time = {{ mysql_slow_query_time }}
 {% endif %}
-
-
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links = 0
@@ -63,11 +63,13 @@ thread_concurrency = {{ mysql_thread_concurrency }}
 # InnoDB settings.
 innodb_file_per_table = {{ mysql_innodb_file_per_table }}
 innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
-# It craches after install (mysql 5.5)... TODO FIX -> http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html
-#innodb_log_file_size = {{ mysql_innodb_log_file_size }}
-#innodb_log_buffer_size = {{ mysql_innodb_log_buffer_size }}
+innodb_log_buffer_size = {{ mysql_innodb_log_buffer_size }}
 innodb_flush_log_at_trx_commit = {{ mysql_innodb_flush_log_at_trx_commit }}
 innodb_lock_wait_timeout = {{ mysql_innodb_lock_wait_timeout }}
+{# If this setting changes on a running system, you will break it! #}
+{# See how tho change it here: http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html #}
+{# TODO FIX -> Maybe detect a change and fail, just to be safe? #}
+innodb_log_file_size = {{ mysql_innodb_log_file_size }}
 
 [mysqldump]
 quick
