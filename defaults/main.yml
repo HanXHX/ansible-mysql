@@ -48,7 +48,7 @@ mysql_thread_concurrency: "{{ ansible_processor_cores * 2 }}"
 # InnoDB settings.
 mysql_innodb_file_per_table: '1'
 mysql_innodb_buffer_pool_size: "{{ (ansible_memtotal_mb * 0.2) | round | int }}M"
-mysql_innodb_log_file_size: '64M' # If this setting changes on a running system, you will break it! http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html
+mysql_innodb_log_file_size: "{% if ansible_distribution_release == 'jessie' and mysql_vendor == 'mysql' %}5M{% else %}64M{% endif %}" # If this setting changes on a running system, you will break it! http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html
 mysql_innodb_log_buffer_size: '8M'
 mysql_innodb_flush_log_at_trx_commit: '1'
 mysql_innodb_lock_wait_timeout: 50
