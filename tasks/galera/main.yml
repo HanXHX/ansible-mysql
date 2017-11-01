@@ -4,12 +4,12 @@
   template: src=etc/mysql/conf.d/09-galera.cnf.j2 dest=/etc/mysql/conf.d/09-galera.cnf
   register: galeraconfig
 
-- name: INCLUDE | Bootstrap first node
-  include: 'bootstrap.yml'
+- name: INCLUDE_TASKS | Bootstrap first node
+  include_tasks: bootstrap.yml
   when: inventory_hostname == mysql_galera_primary_node
 
-- name: INCLUDE | Configure other nodes
-  include: 'nodes.yml'
+- name: INCLUDE_TASKS | Configure other nodes
+  include_tasks: nodes.yml
   when: inventory_hostname != mysql_galera_primary_node
 
 - name: SERVICE | Restart MariaDB if needed

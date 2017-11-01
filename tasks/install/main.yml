@@ -11,26 +11,26 @@
     (mysql_origin ==  'upstream' and mysql_vendor == 'percona')
     )
 
-- name: INCLUDE | Use Percona repository
-  include: 'percona/apt.yml'
+- name: INCLUDE_TASKS | Use Percona repository
+  include_tasks: percona/apt.yml
   when: >
     mysql_use_percona_apt and
     not (mysql_origin ==  'upstream' and mysql_vendor == 'percona')
 
-- name: INCLUDE | Install MySQL from default repo
-  include: 'mysql/default.yml'
+- name: INCLUDE_TASKS | Install MySQL from default repo
+  include_tasks: mysql/default.yml
   when: mysql_origin == 'default' and mysql_vendor == 'mysql'
 
-- name: INCLUDE | Install MariaDB from Debian repo
-  include: 'mariadb/default.yml'
+- name: INCLUDE_TASKS | Install MariaDB from Debian repo
+  include_tasks: mariadb/default.yml
   when: mysql_origin == 'default' and mysql_vendor == 'mariadb'
 
-- name: INCLUDE | Install MariaDB from MariaDB repo
-  include: 'mariadb/upstream.yml'
+- name: INCLUDE_TASKS | Install MariaDB from MariaDB repo
+  include_tasks: mariadb/upstream.yml
   when: mysql_origin == 'upstream' and (mysql_vendor == 'mariadb' or mysql_vendor == 'mariadb_galera')
 
-- name: INCLUDE | Install Percona Server from Percona repo
-  include: 'percona/upstream.yml'
+- name: INCLUDE_TASKS | Install Percona Server from Percona repo
+  include_tasks: percona/upstream.yml
   when: mysql_origin ==  'upstream' and mysql_vendor == 'percona'
 
 - name: APT | Install few MySQL related tools

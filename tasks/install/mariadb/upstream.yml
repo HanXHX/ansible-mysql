@@ -14,5 +14,5 @@
   apt_repository: repo='deb-src {{ mysql_mariadb_repository }} {{ ansible_distribution_release }} main' state=present
   when: mysql_upstream_apt_src
 
-- name: INCLUDE | Normal Install
-  include: default.yml
+- name: INCLUDE_TASKS | Normal Install
+  include_tasks: default.yml

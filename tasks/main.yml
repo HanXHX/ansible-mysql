@@ -8,8 +8,8 @@
   register: mysql_exists
   changed_when: false
 
-- name: INCLUDE | Install
-  include: install/main.yml
+- name: INCLUDE_TASKS | Install
+  include_tasks: install/main.yml
 
 - name: TEMPLATE | Deploy configuration
   template: "src={{ mysql_config_template }} dest=/etc/mysql/my.cnf"
@@ -28,16 +28,16 @@
 - name: TEMPLATE Create .my.cnf for root
   template: src=root/my.cnf dest=/root/.my.cnf owner=root group=root mode=0600 backup=yes
 
-- name: INCLUDE | Galera
-  include: galera/main.yml
+- name: INCLUDE_TASKS | Galera
+  include_tasks: galera/main.yml
   when: mysql_vendor == 'mariadb_galera'
 
-- name: INCLUDE | Replication
-  include: replication/main.yml
+- name: INCLUDE_TASKS | Replication
+  include_tasks: replication/main.yml
   when: mysql_replication_master or mysql_replication_slave
 
-- name: INCLUDE | Secure install
-  include: 'secure.yml'
+- name: INCLUDE_TASKS | Secure install
+  include_tasks: secure.yml
 
 - name: SERVICE | Ensure service is started
   service: name=mysql state=started

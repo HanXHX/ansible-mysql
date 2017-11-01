@@ -15,20 +15,20 @@
   ignore_errors: yes
   register: slave_status
 
-- name: INCLUDE | Transfert /etc/mysql/debian.cnf from master
-  include: slave/ssh.yml
+- name: INCLUDE_TASKS | Transfert /etc/mysql/debian.cnf from master
+  include_tasks: slave/ssh.yml
   when: mysql_slave_replicate_mysqldb or ((slave_status.failed is defined or not slave_status.Is_Slave) and mysql_slave_import_data)
 
-- name: INCLUDE | Import data
-  include: slave/import_data.yml
+- name: INCLUDE_TASKS | Import data
+  include_tasks: slave/import_data.yml
   when: (slave_status.failed is defined or not slave_status.Is_Slave) and mysql_slave_import_data
 
-- name: INCLUDE | Configure replication
-  include: slave/replication.yml
+- name: INCLUDE_TASKS | Configure replication
+  include_tasks: slave/replication.yml
   when: (slave_status.failed is defined or not slave_status.Is_Slave) or mysql_slave_force_setup
 
-- name: INCLUDE | Transfert /etc/mysql/debian.cnf from master
-  include: slave/debiancnf.yml
+- name: INCLUDE_TASKS | Transfert /etc/mysql/debian.cnf from master
+  include_tasks: slave/debiancnf.yml
   when: mysql_slave_replicate_mysqldb
 
 - name: MYSQL_REPLICATION | Get slave status
@@ -36,8 +36,8 @@
   ignore_errors: yes
   register: slave_status
 
-- name: Configure MariaDB GTID
-  include: slave/mariadb_gtid.yml
+- name: INCLUDE_TASKS | Configure MariaDB GTID
+  include_tasks: slave/mariadb_gtid.yml
   when: >
     mysql_vendor == 'mariadb' and
     slave_status.Using_Gtid == 'No' and

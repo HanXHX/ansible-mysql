@@ -10,11 +10,11 @@
     ( mysql_vendor == 'mariadb' and vc.msg | version_compare('10.0.2', 'ge') ) or
     ( mysql_vendor in ['mysql', 'percona'] and vc.msg | version_compare('5.6.5', 'ge') )
 
-- name: INCLUDE | Replication Master
-  include: master.yml
+- name: INCLUDE_TASKS | Replication Master
+  include_tasks: master.yml
   when: mysql_replication_master
 
-- name: INCLUDE | Replication slave
-  include: slave.yml
+- name: INCLUDE_TASKS | Replication slave
+  include_tasks: slave.yml
   when: mysql_replication_slave
 
