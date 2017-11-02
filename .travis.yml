@@ -11,7 +11,7 @@ env:
 
 matrix:
   allow_failures:
-    - env: PLATFORM='docker-stretch-upstream-mariadb-master'  ANSIBLE_VERSION='ansible>=2.3,<2.4'
+    - env: PLATFORM='docker-jessie-upstream-mariadbgalera-1' ANSIBLE_VERSION='ansible>=2.3,<2.4'
     - env: PLATFORM='docker-stretch-upstream-mariadbgalera-1' ANSIBLE_VERSION='ansible>=2.3,<2.4'
   fast_finish: true
 
