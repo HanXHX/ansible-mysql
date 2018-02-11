@@ -1,18 +1,18 @@
 env:
-  - PLATFORM='docker-jessie-default-mysql-master'      ANSIBLE_VERSION='ansible>=2.3,<2.4'
-  - PLATFORM='docker-jessie-default-mariadb-master'    ANSIBLE_VERSION='ansible>=2.3,<2.4'
-  - PLATFORM='docker-jessie-upstream-mariadb-master'   ANSIBLE_VERSION='ansible>=2.3,<2.4'
-  - PLATFORM='docker-jessie-upstream-percona-master'   ANSIBLE_VERSION='ansible>=2.3,<2.4'
-  - PLATFORM='docker-jessie-upstream-mariadbgalera-1'  ANSIBLE_VERSION='ansible>=2.3,<2.4'
-  - PLATFORM='docker-stretch-default-mysql-master'     ANSIBLE_VERSION='ansible>=2.3,<2.4'
-  - PLATFORM='docker-stretch-default-mariadb-master'   ANSIBLE_VERSION='ansible>=2.3,<2.4'
-  - PLATFORM='docker-stretch-upstream-mariadb-master'  ANSIBLE_VERSION='ansible>=2.3,<2.4'
-  - PLATFORM='docker-stretch-upstream-mariadbgalera-1' ANSIBLE_VERSION='ansible>=2.3,<2.4'
+  - PLATFORM='docker-jessie-default-mysql-master'      ANSIBLE_VERSION='ansible>=2.4'
+  - PLATFORM='docker-jessie-default-mariadb-master'    ANSIBLE_VERSION='ansible>=2.4'
+  - PLATFORM='docker-jessie-upstream-mariadb-master'   ANSIBLE_VERSION='ansible>=2.4'
+  - PLATFORM='docker-jessie-upstream-percona-master'   ANSIBLE_VERSION='ansible>=2.4'
+  - PLATFORM='docker-jessie-upstream-mariadbgalera-1'  ANSIBLE_VERSION='ansible>=2.4'
+  - PLATFORM='docker-stretch-default-mysql-master'     ANSIBLE_VERSION='ansible>=2.4'
+  - PLATFORM='docker-stretch-default-mariadb-master'   ANSIBLE_VERSION='ansible>=2.4'
+  - PLATFORM='docker-stretch-upstream-mariadb-master'  ANSIBLE_VERSION='ansible>=2.4'
+  - PLATFORM='docker-stretch-upstream-mariadbgalera-1' ANSIBLE_VERSION='ansible>=2.4'
 
 matrix:
   allow_failures:
-    - env: PLATFORM='docker-jessie-upstream-mariadbgalera-1'  ANSIBLE_VERSION='ansible>=2.3,<2.4'
-    - env: PLATFORM='docker-stretch-upstream-mariadbgalera-1' ANSIBLE_VERSION='ansible>=2.3,<2.4'
+    - env: PLATFORM='docker-jessie-upstream-mariadbgalera-1'  ANSIBLE_VERSION='ansible>=2.4'
+    - env: PLATFORM='docker-stretch-upstream-mariadbgalera-1' ANSIBLE_VERSION='ansible>=2.4'
   fast_finish: true
 
 sudo: required
