@@ -3,7 +3,7 @@
 # -------------------------------------------
 
 [mysqld]
-{% for key, value in mysql_extra_configuration.iteritems() %}
+{% for key, value in mysql_extra_configuration.items() %}
 {% if value is defined or value is not none %}
 {{ key }} = {{ value }}
 {% else %}
