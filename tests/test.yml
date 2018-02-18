@@ -1,19 +1,13 @@
 ---
 
 - hosts: all
-  pre_tasks:
-    - local_action: shell ssh-add $HOME/.vagrant.d/insecure_private_key
-      become: no
-      changed_when: false
   tasks:
     - apt: pkg={{ item }} state=present update_cache=yes cache_valid_time=3600
       with_items:
+        - ca-certificates
+        - curl
         - strace
         - vim
-    - get_url: >
-        url=https://raw.githubusercontent.com/HanXHX/ansible-debian-bootstrap/master/files/bashrc
-        dest=/root/.bashrc
-        force=yes
 
 - hosts: master
   roles:
@@ -26,14 +20,40 @@
       when: c.changed
 
 - hosts: slave
+  pre_tasks:
+    - name: SHELL | Get master IP
+      shell: getent hosts {{ ansible_hostname | replace ('slave', 'master') }} | cut -d ' ' -f 1
+      register: ip
+      changed_when: false
+    - set_fact:
+        # MySQL don't read /etc/hosts (from vagrant host plugin)
+        mysql_replication_host: "{{ ip.stdout }}"
+        # Need this to use vagrant 'delegate_to'
+        mysql_slave_import_from: "{{ ansible_hostname | replace ('slave', 'master') }}"
   roles:
     - ../../
   tasks:
     - copy: src=import2.sql dest=/tmp/import2.sql
-      delegate_to: "{{ his_master }}"
+      delegate_to: "{{ mysql_slave_import_from }}"
       register: c
     - mysql_db: name={{ item }} state=import target=/tmp/import2.sql
       with_items: ['testrepl', 'norepl']
-      delegate_to: "{{ his_master }}"
+      delegate_to: "{{ mysql_slave_import_from }}"
       when: c.changed
+    - mysql_replication: mode=getslave
+      register: slave
+    - fail: msg="Slave issue"
+      when: slave.Slave_IO_Running != 'Yes' or slave.Slave_SQL_Running != 'Yes'
+
+- hosts: mariadbgalera
+  vars:
+    mysql_galera_primary_node: '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-mariadbgalera-1'
+    mysql_wsrep_node_address: "{{ ansible_all_ipv4_addresses[0] }}"
+    mysql_mariadb_version: '10.1'
+  pre_tasks:
+    - set_fact:
+        mysql_wsrep_node_address: "{{ ansible_eth1.ipv4.address }}"
+      when: not is_docker
+  roles:
+    - ../../
 

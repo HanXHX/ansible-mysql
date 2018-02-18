@@ -1,0 +1,7 @@
+mysql_tools:
+  - mytop
+  - percona-toolkit
+  - python-mysqldb
+  - mysqltuner
+
+mysql_default_xtrabackup_package: 'percona-xtrabackup'

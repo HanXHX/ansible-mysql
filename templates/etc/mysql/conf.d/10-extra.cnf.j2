@@ -2,16 +2,13 @@
 # {{ ansible_managed }}
 # -------------------------------------------
 
-{% for i in mysql_extra_configuration %}
-[{{ i.group_name }}]
-{% for c in i.conf %}
-{% if c.value is defined %}
-{{ c.key }} = {{ c.value }}
+[mysqld]
+{% for key, value in mysql_extra_configuration.items() %}
+{% if value is defined or value is not none %}
+{{ key }} = {{ value }}
 {% else %}
-{{ c.key }}
+{{ key }}
 {% endif %}
-{% endfor %}
-
 {% endfor %}
 
 ; vim: set ft=dosini :

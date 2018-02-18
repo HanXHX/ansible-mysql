@@ -20,4 +20,3 @@
 
 - name: MYSQL_REPLICATION | Start slave
   mysql_replication: mode=startslave
-

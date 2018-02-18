@@ -5,44 +5,86 @@
 
 Vagrant.configure("2") do |config|
 
-	vms = [
-		["wheezy-default-mysql-master", "deb/wheezy-amd64", "192.168.200.10", ["wheezy","default","mysql","master"]],
-		["wheezy-default-mysql-slave", "deb/wheezy-amd64", "192.168.200.11", ["wheezy","default","mysql","slave"]],
-		["wheezy-upstream-mariadb-master", "deb/wheezy-amd64", "192.168.200.12", ["wheezy","upstream","mariadb","master"]],
-		["wheezy-upstream-mariadb-slave", "deb/wheezy-amd64", "192.168.200.13", ["wheezy","upstream","mariadb","slave"]],
-		["wheezy-upstream-percona-master", "deb/wheezy-amd64", "192.168.200.14", ["wheezy","upstream","percona","master"]],
-		["wheezy-upstream-percona-slave", "deb/wheezy-amd64", "192.168.200.15", ["wheezy","upstream","percona","slave"]],
-		["jessie-default-mysql-master", "debian/jessie64", "192.168.200.16", ["jessie","default","mysql","master"]],
-		["jessie-default-mysql-slave", "debian/jessie64", "192.168.200.17", ["jessie","default","mysql","slave"]],
-		["jessie-upstream-mariadb-master", "debian/jessie64", "192.168.200.18", ["jessie","upstream","mariadb","master"]],
-		["jessie-upstream-mariadb-slave", "debian/jessie64", "192.168.200.19", ["jessie","upstream","mariadb","slave"]],
-		["jessie-upstream-percona-master", "debian/jessie64", "192.168.200.20", ["jessie","upstream","percona","master"]],
-		["jessie-upstream-percona-slave", "debian/jessie64", "192.168.200.21", ["jessie","upstream","percona","slave"]],
-		["jessie-default-mariadb-master", "debian/jessie64", "192.168.200.22", ["jessie","default","mariadb","master"]],
-		["jessie-default-mariadb-slave", "debian/jessie64", "192.168.200.23", ["jessie","default","mariadb","slave"]]
-	]
+  vbox_deb_jessie = 'debian/jessie64'
+  vbox_deb_stretch = 'debian/stretch64'
+  dk_deb_jessie = 'hanxhx/vagrant-ansible:debian8'
+  dk_deb_stretch = 'hanxhx/vagrant-ansible:debian9'
 
-	config.vm.provider "virtualbox" do |v|
-		v.cpus = 1
-		v.memory = 256
-	end
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = false
+  config.hostmanager.manage_guest = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = false
 
-	vms.each do |vm|
-		config.vm.define vm[0] do |m|
-			m.vm.box = vm[1]
-			m.vm.network "private_network", ip: vm[2]
+  cases = [
+    # Debian Jessie
+    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: dk_deb_jessie,  vars: {mysql_origin: 'default',  mysql_vendor: 'mysql'   }, groups: ['master'] },
+    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'default',  mysql_vendor: 'mysql'   }, groups: ['slave'] },
+    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: dk_deb_jessie,  vars: {mysql_origin: 'default',  mysql_vendor: 'mariadb' }, groups: ['master'] },
+    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'default',  mysql_vendor: 'mariadb' }, groups: ['slave'] },
+    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: dk_deb_jessie,  vars: {mysql_origin: 'upstream', mysql_vendor: 'mariadb' }, groups: ['master'] },
+    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'upstream', mysql_vendor: 'mariadb' }, groups: ['slave'] },
+    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: dk_deb_jessie,  vars: {mysql_origin: 'upstream', mysql_vendor: 'percona' }, groups: ['master'] },
+    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'upstream', mysql_vendor: 'percona' }, groups: ['slave'] },
+    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: dk_deb_jessie,  vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '1'] },
+    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '2'] },
+    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '3'] },
+    # Debian Stretch
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'default',  mysql_vendor: 'mysql'   }, groups: ['master'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'default',  mysql_vendor: 'mysql'   }, groups: ['slave'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'default',  mysql_vendor: 'mariadb' }, groups: ['master'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'default',  mysql_vendor: 'mariadb' }, groups: ['slave'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'upstream', mysql_vendor: 'mariadb' }, groups: ['master'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'upstream', mysql_vendor: 'mariadb' }, groups: ['slave'] },
+#   { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'upstream', mysql_vendor: 'percona' }, groups: ['master'] },
+#   { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'upstream', mysql_vendor: 'percona' }, groups: ['slave'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '1'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '2'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '3'] },
+  ]
 
-			m.vm.provision "ansible" do |ansible|
-				ansible.playbook = "tests/test.yml"
-				ansible.groups = {
-					vm[3][0] => vm[0],
-					vm[3][1] => vm[0],
-					vm[3][2] => vm[0],
-					vm[3][3] => vm[0],
-				}
-				ansible.verbose = 'vv'
-				ansible.sudo = true
-			end
-		end
-	end
+  cases.each_with_index do |opts,index|
+    name = 'docker-' + opts[:os_name] + '-' + opts[:vars].map{|k,v| "#{v}"}.join('-') + '-' +  opts[:groups].join('-')
+    iplsb = 10 + index
+    ip = '192.168.201.' + iplsb.to_s
+    next if opts[:docker].nil?
+
+    config.vm.define name do |m|
+      m.vm.network "private_network", ip: ip
+      m.vm.provider "docker" do |d|
+        d.image = opts[:docker]
+        d.remains_running = true
+        d.has_ssh = true
+      end
+      m.vm.provision "ansible" do |ansible|
+        ansible.playbook = "tests/test.yml"
+        ansible.verbose = 'vv'
+        ansible.sudo = true
+        ansible.extra_vars = opts[:vars].merge({ is_docker: true })
+        ansible.groups = { opts[:groups][0] => name }
+      end
+    end
+  end
+
+  cases.each_with_index do |opts,index|
+    name = 'vbox-' + opts[:os_name] + '-' + opts[:vars].map{|k,v| "#{v}"}.join('-') + '-' +  opts[:groups].join('-')
+    iplsb = 10 + index
+    ip = '192.168.200.' + iplsb.to_s
+    config.vm.define name do |m|
+      m.vm.hostname = name
+      m.vm.box = opts[:vbox]
+      m.vm.network "private_network", ip: ip
+      m.vm.provider "virtualbox" do |v|
+        v.cpus = 1
+        v.memory = 256
+      end
+      m.vm.provision "ansible" do |ansible|
+        ansible.playbook = "tests/test.yml"
+        ansible.verbose = 'vv'
+        ansible.sudo = true
+        ansible.extra_vars = opts[:vars].merge({ is_docker: false })
+        ansible.groups = { opts[:groups][0] => name }
+      end
+    end
+  end
 end

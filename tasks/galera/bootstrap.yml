@@ -1,0 +1,34 @@
+---
+- set_fact:
+    booboo: "{{ mysql_datadir }}/.ansible_galera_boostrap"
+
+- name: STAT | Bootstrap mark
+  stat: path={{ booboo }}
+  register: s
+
+- block:
+    - name: SET_FACT | We must NOT restart after bootstrap!
+      set_fact:
+        mysql_notify_restart: false
+
+    - name: SERVICE | Stop MariaDB
+      service: name=mysql state=stopped
+
+    - name: COMMAND | Bootstrap first node (systemd)
+      command: galera_new_cluster
+      when: ansible_service_mgr == 'systemd'
+
+    - name: SERVICE | Bootstrap first node (clean init)
+      service:
+        name: mysql
+        state: started
+        arguments: --wsrep-new-cluster
+      register: bootstrap_run
+      when: ansible_service_mgr != 'systemd'
+
+  when: not s.stat.exists or mysql_galera_resetup
+
+- name: COMMAND | Create Bootstrap mark
+  command: "touch {{ booboo }}"
+  args:
+    creates: "{{ booboo }}"

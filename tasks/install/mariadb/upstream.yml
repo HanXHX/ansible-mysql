@@ -1,14 +1,18 @@
 ---
 
-- name: APT | Install MariaDB key
-  apt_key: keyserver="keyserver.ubuntu.com" id="0xcbcb082a1bb943db" state=present
+- name: APT_KEY | Install MariaDB key
+  apt_key: keyserver="{{ mysql_mariadb_key_server }}" id={{ item }} state=present
+  with_items: "{{ mysql_mariadb_key_ids }}"
 
-- name: APT | Add MariaDB repository
-  apt_repository: repo='deb {{ mariadb_repository }} {{ ansible_distribution_release }} main' state=present
+- name: TEMPLATE | Deploy APT pinning (prevent upgrades from Debian)
+  template: src=etc/apt/preferences.d/95-mariadb.j2 dest=/etc/apt/preferences.d/95-mariadb
 
-- name: APT | Add MariaDB (src) repository
-  apt_repository: repo='deb-src {{ mariadb_repository }} {{ ansible_distribution_release }} main' state=present
+- name: APT_REPOSITORY | Add MariaDB repository
+  apt_repository: repo='deb {{ mysql_mariadb_repository }} {{ ansible_distribution_release }} main' state=present
+
+- name: APT_REPOSITORY | Add MariaDB (src) repository
+  apt_repository: repo='deb-src {{ mysql_mariadb_repository }} {{ ansible_distribution_release }} main' state=present
+  when: mysql_upstream_apt_src
 
 - name: INCLUDE | Normal Install
   include: default.yml
-

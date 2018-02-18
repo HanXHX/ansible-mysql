@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+
+Explanation: Prevent Debian upgrades on mariadb packages
+Package: *
+Pin: origin {{ mysql_mariadb_mirror_domain }}
+Pin-Priority: 1000
