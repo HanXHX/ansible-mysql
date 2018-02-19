@@ -17,7 +17,7 @@ wsrep_sst_method=rsync
 # TODO: wsrep_cluster_name="my_wsrep_cluster"
 
 # Node Configuration
-wsrep_node_address="{{ mysql_wsrep_node_address | default(ansible_eth0.ipv4.address) }}"
+wsrep_node_address="{{ mysql_wsrep_node_address | default(ansible_default_ipv4.address) }}"
 wsrep_node_name="{{ mysql_wsrep_node_name | default(ansible_fqdn) }}"
 
 
