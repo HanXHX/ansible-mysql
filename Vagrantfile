@@ -59,7 +59,7 @@ Vagrant.configure("2") do |config|
       m.vm.provision "ansible" do |ansible|
         ansible.playbook = "tests/test.yml"
         ansible.verbose = 'vv'
-        ansible.sudo = true
+        ansible.become = true
         ansible.extra_vars = opts[:vars].merge({ is_docker: true })
         ansible.groups = { opts[:groups][0] => name }
       end
@@ -81,7 +81,7 @@ Vagrant.configure("2") do |config|
       m.vm.provision "ansible" do |ansible|
         ansible.playbook = "tests/test.yml"
         ansible.verbose = 'vv'
-        ansible.sudo = true
+        ansible.become = true
         ansible.extra_vars = opts[:vars].merge({ is_docker: false })
         ansible.groups = { opts[:groups][0] => name }
       end
