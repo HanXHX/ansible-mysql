@@ -3,3 +3,4 @@ mysql_extra_configuration:
   innodb_commit_concurrency: 0
 mysql_use_percona_apt: true
 mysql_install_xtrabackup_package: true
+mysql_slow_query_log_enabled: true

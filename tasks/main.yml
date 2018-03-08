@@ -54,3 +54,9 @@
     host="{{ item.host | default('localhost') }}"
     state=present
   with_items: "{{ mysql_users }}"
+
+- name: TEMPLATE | Deploy logrotate configuration
+  template:
+    src: "etc/logrotate.d/mysql-server.j2"
+    dest: "/etc/logrotate.d/mysql-server"
+  when: mysql_manage_logrotate
