@@ -1,7 +1,9 @@
 ---
 
 - name: TEMPLATE | Deploy Galera configuration
-  template: src=etc/mysql/conf.d/09-galera.cnf.j2 dest=/etc/mysql/conf.d/09-galera.cnf
+  template:
+    src: etc/mysql/conf.d/09-galera.cnf.j2
+    dest: /etc/mysql/conf.d/09-galera.cnf
   register: galeraconfig
 
 - name: INCLUDE | Bootstrap first node
@@ -13,7 +15,9 @@
   when: inventory_hostname != mariadb_galera_primary_node
 
 - name: SERVICE | Restart MariaDB if needed
-  service: name=mysql state=restarted
+  service:
+    name: mysql
+    state: restarted
   when: >
     ((galeraconfig or (p is defined and p.changed)) and
     (bootstrap_run is not defined)) or

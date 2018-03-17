@@ -1,17 +1,20 @@
 ---
 
 - name: MYSQL_VARIABLES | Set read only
-  mysql_variables: variable=read_only value=ON
+  mysql_variables:
+    variable: read_only
+    value: 'ON'
   when: mariadb_slave_readonly
 
 - name: TEMPLATE | Deploy slave configuration
-  template: >
-    src=etc/mysql/conf.d/51-slave.cnf.j2
-    dest=/etc/mysql/conf.d/51-slave.cnf
+  template:
+    src: etc/mysql/conf.d/51-slave.cnf.j2
+    dest: /etc/mysql/conf.d/51-slave.cnf
   notify: restart mariadb
 
 - name: MYSQL_REPLICATION | Get slave status
-  mysql_replication: mode=getslave
+  mysql_replication:
+    mode: getslave
   ignore_errors: yes
   register: slave_status
 
@@ -32,7 +35,8 @@
   when: mariadb_slave_replicate_mysqldb
 
 - name: MYSQL_REPLICATION | Get slave status
-  mysql_replication: mode=getslave
+  mysql_replication:
+    mode: getslave
   ignore_errors: yes
   register: slave_status
 

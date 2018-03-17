@@ -1,22 +1,24 @@
 ---
 
 - name: MYSQL_REPLICATION | Stop slave
-  mysql_replication: mode=stopslave
+  mysql_replication:
+    mode: stopslave
 
 - name: MYSQL_REPLICATION | Configure master host
-  mysql_replication: >
-    mode=changemaster
-    master_host={{ mariadb_replication_host }}
-    master_port={{ mariadb_replication_port }}
-    master_user={{ mariadb_replication_user }}
-    master_password={{ mariadb_replication_password }}
+  mysql_replication:
+    mode: changemaster
+    master_host: "{{ mariadb_replication_host }}"
+    master_port: "{{ mariadb_replication_port }}"
+    master_user: "{{ mariadb_replication_user }}"
+    master_password: "{{ mariadb_replication_password }}"
 
 - name: MYSQL_REPLICATION | Change master
-  mysql_replication: >
-    mode=changemaster
-    master_log_file={{ mariadb_master_log_file }}
-    master_log_pos={{ mariadb_master_log_pos }}
+  mysql_replication:
+    mode: changemaster
+    master_log_file: "{{ mariadb_master_log_file }}"
+    master_log_pos: "{{ mariadb_master_log_pos }}"
   when: mariadb_master_log_file is defined and mariadb_master_log_pos is defined
 
 - name: MYSQL_REPLICATION | Start slave
-  mysql_replication: mode=startslave
+  mysql_replication:
+    mode: startslave

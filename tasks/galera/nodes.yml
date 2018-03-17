@@ -14,18 +14,22 @@
 - block:
 
   - name: SERVICE | Stop MariaDB
-    service: name=mysql state=stopped
+    service:
+      name: mysql
+      state: stopped
 
   - name: COPY | Paste primary node's debian.cnf
-    copy: >
-      content={{ debiancnf.stdout }}
-      dest=/etc/mysql/debian.cnf
-      mode=0600
-      owner=root
-      group=root
+    copy:
+      content: "{{ debiancnf.stdout }}"
+      dest: /etc/mysql/debian.cnf
+      mode: 0600
+      owner: root
+      group: root
     register: paste
 
   - name: SERVICE | Start MariaDB
-    service: name=mysql state=started
+    service:
+      name: mysql
+      state: started
 
   when: debiancnf.stdout != ondc.stdout

@@ -2,7 +2,9 @@
 
 # Doc: https://www.percona.com/doc/percona-xtrabackup/2.1/howtos/recipes_ibkx_gtid.html
 - name: WAIT_FOR | source data (prevent rsync bug) - TODO find another hack
-  wait_for: host={{ mariadb_slave_import_from }} port=22
+  wait_for:
+    host: "{{ mariadb_slave_import_from }}"
+    port: 22
 
 - name: COMMAND | Prepare backup another server
   command: innobackupex --no-timestamp {{ mariadb_backup_dir }} creates={{ mariadb_backup_dir }}
@@ -10,12 +12,14 @@
   register: backup
 
 - name: SHELL | Dump
-  shell: innobackupex --apply-log {{ mariadb_backup_dir }}
+  shell: "innobackupex --apply-log {{ mariadb_backup_dir }}"
   delegate_to: "{{ mariadb_slave_import_from }}"
   when: backup.changed
 
 - name: FILE | Remove mysql db from backup
-  file: path={{ mariadb_backup_dir }}/mysql state=absent
+  file:
+    path: "{{ mariadb_backup_dir }}/mysql"
+    state: absent
   delegate_to: "{{ mariadb_slave_import_from }}"
   when: backup.changed and not mariadb_slave_replicate_mysqldb
 
@@ -25,38 +29,42 @@
 
 - name: SET_FACT | related to mysql datadir
   set_fact:
-    mariadb_mariadb_datadir: "{{ datadir.msg }}"
+    mariadb_datadir: "{{ datadir.msg }}"
     mariadb_binlog_info: "{{ datadir.msg }}/xtrabackup_binlog_info"
 
 - name: SERVICE | Stop MySQL before importing data
-  service: name=mysql state=stopped
+  service:
+    name: mysql
+    state: stopped
 
 # TODO: add an "ignore warning"
 - name: COMMAND | Sync backup to slave - TODO remove vagrant as static user (see why mariadb_backup_user is not working)
-  shell: "sudo -E rsync --rsync-path='sudo rsync' -a -e 'ssh -o StrictHostKeyChecking=no' {{ mariadb_backup_user }}@{{ mariadb_slave_import_from }}:{{ mariadb_backup_dir }}/ {{ mariadb_mariadb_datadir }}/"
+  shell: "sudo -E rsync --rsync-path='sudo rsync' -a -e 'ssh -o StrictHostKeyChecking=no' {{ mariadb_backup_user }}@{{ mariadb_slave_import_from }}:{{ mariadb_backup_dir }}/ {{ mariadb_datadir }}/"
   become: no
 
 - name: FILE | Re-apply owner
-  file: >
-    path={{ mariadb_mariadb_datadir }}
-    state=directory
-    owner=mysql
-    group=mysql
-    recurse=yes
+  file:
+    path: "{{ mariadb_datadir }}"
+    state: directory
+    owner: mysql
+    group: mysql
+    recurse: yes
 
-- name: SERVICE | Start MySQL
-  service: name=mysql state=started
+- name: SERVICE | Start MariaDB
+  service:
+    name: mysql
+    state: started
 
 - name: SHELL | Get master_log_file
-  command: awk '{ print $1 }' {{ mariadb_binlog_info }}
+  command: "awk '{ print $1 }' {{ mariadb_binlog_info }}"
   register: master_log_file
 
 - name: SHELL | Get master_log_pos
-  command: awk '{ print $2 }' {{ mariadb_binlog_info }}
+  command: "awk '{ print $2 }' {{ mariadb_binlog_info }}"
   register: master_log_pos
 
 - name: SHELL | Get master GTID
-  command: awk '{ print $3 }' {{ mariadb_binlog_info }}
+  command: "awk '{ print $3 }' {{ mariadb_binlog_info }}"
   register: master_gtid
 
 - name: SET_FACT | master_log_file
@@ -69,4 +77,3 @@
   file: path={{ mariadb_backup_dir }} state=absent
   delegate_to: "{{ mariadb_slave_import_from }}"
   when: mariadb_slave_import_flush_dump
-

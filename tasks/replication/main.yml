@@ -7,4 +7,3 @@
 - name: INCLUDE | Replication slave
   include: slave.yml
   when: mariadb_replication_slave
-

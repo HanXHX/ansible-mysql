@@ -49,7 +49,7 @@
   vars:
     mariadb_galera_primary_node: '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-mariadbgalera-1'
     mariadb_wsrep_node_address: "{{ ansible_all_ipv4_addresses[0] }}"
-    mariadb_mariadb_version: '10.1'
+    mariadb_version: '10.1'
   pre_tasks:
     - set_fact:
         mariadb_wsrep_node_address: "{{ ansible_eth1.ipv4.address }}"
