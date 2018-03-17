@@ -1,7 +1,7 @@
 ---
 
 # Need this hack before:
-# - https://github.com/ansible/ansible-modules-extras/issues/817
+# - https://github.com/ansible/ansible/issues/29214
 # - https://mariadb.com/kb/en/mariadb/global-transaction-id/#switching-an-existing-old-style-slave-to-use-gtid
 
 - name: MYSQL_REPLICATION | Stop slave

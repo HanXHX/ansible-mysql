@@ -40,5 +40,5 @@
   ignore_errors: yes
   register: slave_status
 
-- name: Configure MariaDB GTID
-  include: slave/mariadb_gtid.yml
+- name: Configure GTID
+  include: slave/gtid.yml
