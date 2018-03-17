@@ -5,7 +5,7 @@
 
 - name: STAT | Check if mysql exists
   stat:
-    path: /usr/bin/mariadb
+    path: /usr/sbin/mysqld
   register: mariadb_exists
   changed_when: false
 
