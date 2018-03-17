@@ -14,10 +14,10 @@ mariadb_manage_logrotate: true
 # Configuration
 # -------------------------------------
 
-# MySQL configuration template
+# MariaDB configuration template
 mariadb_config_template: 'etc/mysql/my.cnf.j2'
 
-# MySQL connection settings.
+# MariaDB connection settings.
 mariadb_port: "3306"
 mariadb_bind_address: '127.0.0.1'
 mariadb_datadir: '/var/lib/mysql'

@@ -9,7 +9,7 @@
     mode: stopslave
 
 - name: COMMAND | Migrate to MariaDB GTID
-  command: mysql -e "CHANGE MASTER TO master_use_gtid=current_pos";
+  command: mariadb -e "CHANGE MASTER TO master_use_gtid=current_pos";
 
 - name: MYSQL_REPLICATION | Start slave
   mysql_replication:

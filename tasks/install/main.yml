@@ -12,7 +12,7 @@
   include: 'mariadb/upstream.yml'
   when: mariadb_origin == 'upstream'
 
-- name: APT | Install few MySQL related tools
+- name: APT | Install few MariaDB related tools
   apt:
     pkg: "{{ item }}"
     install_recommends: no

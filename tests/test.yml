@@ -26,7 +26,7 @@
       register: ip
       changed_when: false
     - set_fact:
-        # MySQL don't read /etc/hosts (from vagrant host plugin)
+        # MariaDB don't read /etc/hosts (from vagrant host plugin)
         mariadb_replication_host: "{{ ip.stdout }}"
         # Need this to use vagrant 'delegate_to'
         mariadb_slave_import_from: "{{ ansible_hostname | replace ('slave', 'master') }}"

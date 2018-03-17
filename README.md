@@ -1,9 +1,9 @@
-MySQL vendors for Debian Ansible role
-======================================
+MariaDB (MySQL) Ansible role for Debian
+=======================================
 
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-HanXHX.mysql-blue.svg)](https://galaxy.ansible.com/HanXHX/mysql) [![Build Status](https://travis-ci.org/HanXHX/ansible-mysql.svg?branch=master)](https://travis-ci.org/HanXHX/ansible-mysql)
 
-Install and configure MySQL or MariaDB (Galera Cluster) or Percona Server. Manage replication (master/slave). Create users and databases.
+Install and configure MariaDB (Galera Cluster). Manage replication (master/slave). Create users and databases.
 
 | OS              | Vendor                  | Origin    | Managed versions          |
 | --------------- | ----------------------- | --------- | ------------------------- |
@@ -14,7 +14,6 @@ Install and configure MySQL or MariaDB (Galera Cluster) or Percona Server. Manag
 Notes
 -----
 
-* MySQL server no longer exists on Debian Stretch
 * Galera Cluster is experimental
 * Due to Vagrant + Docker limitation (private network), replication/galera can't be checked with Travis
 * If you need to test this role with Vagrant, you must install hostmanager plugin: `vagrant plugin install vagrant-hostmanager`

@@ -32,7 +32,7 @@
     mariadb_datadir: "{{ datadir.msg }}"
     mariadb_binlog_info: "{{ datadir.msg }}/xtrabackup_binlog_info"
 
-- name: SERVICE | Stop MySQL before importing data
+- name: SERVICE | Stop MariaDB before importing data
   service:
     name: mysql
     state: stopped
