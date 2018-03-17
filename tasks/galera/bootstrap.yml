@@ -1,6 +1,6 @@
 ---
 - set_fact:
-    booboo: "{{ mysql_datadir }}/.ansible_galera_boostrap"
+    booboo: "{{ mariadb_datadir }}/.ansible_galera_boostrap"
 
 - name: STAT | Bootstrap mark
   stat: path={{ booboo }}
@@ -9,7 +9,7 @@
 - block:
     - name: SET_FACT | We must NOT restart after bootstrap!
       set_fact:
-        mysql_notify_restart: false
+        mariadb_notify_restart: false
 
     - name: SERVICE | Stop MariaDB
       service: name=mysql state=stopped
@@ -26,7 +26,7 @@
       register: bootstrap_run
       when: ansible_service_mgr != 'systemd'
 
-  when: not s.stat.exists or mysql_galera_resetup
+  when: not s.stat.exists or mariadb_galera_resetup
 
 - name: COMMAND | Create Bootstrap mark
   command: "touch {{ booboo }}"

@@ -3,145 +3,145 @@
 # -------------------------------------
 # Setup
 # -------------------------------------
-mysql_origin: 'default'
-mysql_vendor: 'mariadb'
-mysql_root_password: 'change_me_NOW'
-mysql_notify_restart: true
-mysql_upstream_apt_src: false
-mysql_manage_logrotate: true
+mariadb_origin: 'default'
+mariadb_vendor: 'mariadb'
+mariadb_root_password: 'change_me_NOW'
+mariadb_notify_restart: true
+mariadb_upstream_apt_src: false
+mariadb_manage_logrotate: true
 
 # -------------------------------------
 # Configuration
 # -------------------------------------
 
 # MySQL configuration template
-mysql_config_template: 'etc/mysql/my.cnf.j2'
+mariadb_config_template: 'etc/mysql/my.cnf.j2'
 
 # MySQL connection settings.
-mysql_port: "3306"
-mysql_bind_address: '127.0.0.1'
-mysql_datadir: '/var/lib/mysql'
-mysql_pid_file: '/var/run/mysqld/mysqld.pid'
-mysql_socket: '/var/run/mysqld/mysqld.sock'
+mariadb_port: "3306"
+mariadb_bind_address: '127.0.0.1'
+mariadb_datadir: '/var/lib/mysql'
+mariadb_pid_file: '/var/run/mysqld/mysqld.pid'
+mariadb_socket: '/var/run/mysqld/mysqld.sock'
 
 # Slow query log settings.
-mysql_slow_query_log_enabled: false
-mysql_slow_query_log_file: '/var/log/mysql/mysql_slow.log'
-mysql_slow_query_time: 2
+mariadb_slow_query_log_enabled: false
+mariadb_slow_query_log_file: '/var/log/mysql/mysql_slow.log'
+mariadb_slow_query_time: 2
 
 # Memory settings (default values optimized ~512MB RAM).
-mysql_key_buffer_size: '256M'
-mysql_max_allowed_packet: '64M'
-mysql_table_open_cache: '256'
-mysql_sort_buffer_size: '1M'
-mysql_read_buffer_size: '1M'
-mysql_read_rnd_buffer_size: '4M'
-mysql_myisam_sort_buffer_size: '64M'
-mysql_thread_cache_size: '8'
-mysql_query_cache_size: '16M'
+mariadb_key_buffer_size: '256M'
+mariadb_max_allowed_packet: '64M'
+mariadb_table_open_cache: '256'
+mariadb_sort_buffer_size: '1M'
+mariadb_read_buffer_size: '1M'
+mariadb_read_rnd_buffer_size: '4M'
+mariadb_myisam_sort_buffer_size: '64M'
+mariadb_thread_cache_size: '8'
+mariadb_query_cache_size: '16M'
 
 # Other settings.
-mysql_wait_timeout: 28800
+mariadb_wait_timeout: 28800
 
 # Try number of CPU's * 2 for thread_concurrency.
-mysql_thread_concurrency: "{{ ansible_processor_cores * 2 }}"
+mariadb_thread_concurrency: "{{ ansible_processor_cores * 2 }}"
 
 # InnoDB settings.
-mysql_innodb_file_per_table: '1'
-mysql_innodb_buffer_pool_size: "{{ (ansible_memtotal_mb * 0.2) | round | int }}M"
-mysql_innodb_log_file_size: "64M" # If this setting changes on a running system, you will break it! http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html
-mysql_innodb_log_buffer_size: '8M'
-mysql_innodb_flush_log_at_trx_commit: '1'
-mysql_innodb_lock_wait_timeout: 50
+mariadb_innodb_file_per_table: '1'
+mariadb_innodb_buffer_pool_size: "{{ (ansible_memtotal_mb * 0.2) | round | int }}M"
+mariadb_innodb_log_file_size: "64M" # If this setting changes on a running system, you will break it! http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html
+mariadb_innodb_log_buffer_size: '8M'
+mariadb_innodb_flush_log_at_trx_commit: '1'
+mariadb_innodb_lock_wait_timeout: 50
 
 # mysqldump settings.
-mysql_mysqldump_max_allowed_packet: '64M'
+mariadb_mysqldump_max_allowed_packet: '64M'
 
 # Logging settings.
-mysql_log_error: '/var/log/mysql/mysql_error.log'
-mysql_syslog_tag: 'mysql'
+mariadb_log_error: '/var/log/mysql/mysql_error.log'
+mariadb_syslog_tag: 'mysql'
 
 # -------------------------------------
 # Extra configuration
 # -------------------------------------
 #
-mysql_extra_configuration: {}
+mariadb_extra_configuration: {}
 
 # Example:
-#mysql_extra_configuration:
+#mariadb_extra_configuration:
 #  'innodb_awsome_feature': 1
 
 
 # -------------------------------------
 # Replication
 # -------------------------------------
-mysql_replication_master: false
-mysql_replication_slave: false
+mariadb_replication_master: false
+mariadb_replication_slave: false
 # This formula don't work with vagrant! All boxes have same default ip!
-mysql_server_id: "{{ ansible_default_ipv4.address | ipaddr('int') }}"
+mariadb_server_id: "{{ ansible_default_ipv4.address | ipaddr('int') }}"
 
-mysql_replication_user: 'repl'
-mysql_replication_password: 'change_me_NOW'
-mysql_replication_host: '192.168.0.1'
-mysql_replication_port: '3306'
+mariadb_replication_user: 'repl'
+mariadb_replication_password: 'change_me_NOW'
+mariadb_replication_host: '192.168.0.1'
+mariadb_replication_port: '3306'
 
-mysql_backup_dir: '/var/backups/tmp-mysql'
+mariadb_backup_dir: '/var/backups/tmp-mysql'
 
 # Master
-mysql_max_binlog_size: "100M"
-mysql_expire_logs_days: "10"
+mariadb_max_binlog_size: "100M"
+mariadb_expire_logs_days: "10"
 
 #
 # Slave
 #
-mysql_slave_readonly: true
+mariadb_slave_readonly: true
 # Import data from
-mysql_slave_import_data: true
+mariadb_slave_import_data: true
 # host used to create a backup (can be the master or another slave) - default: use the master
-mysql_slave_import_from: "{{ mysql_replication_host }}"
+mariadb_slave_import_from: "{{ mariadb_replication_host }}"
 # Delete dump after slave configuration (set false if you have many slaves to install, it avoids to create many dumps)
-mysql_slave_import_flush_dump: true
+mariadb_slave_import_flush_dump: true
 # Slave uses mysql database from master?
-mysql_slave_replicate_mysqldb: true
+mariadb_slave_replicate_mysqldb: true
 # Don't replicate these DBs/tables
-mysql_slave_ignore_db: []
-mysql_slave_ignore_table: []
+mariadb_slave_ignore_db: []
+mariadb_slave_ignore_table: []
 # SSH user used to copy data
-mysql_backup_user: "{{ ansible_user_id }}" # TODO: change var name
+mariadb_backup_user: "{{ ansible_user_id }}" # TODO: change var name
 ## If data is already imported, you can specify position
-mysql_master_log_file: null
-mysql_master_log_pos: null
+mariadb_master_log_file: null
+mariadb_master_log_pos: null
 # If true, reconfigure slave
-mysql_slave_force_setup: false
-mysql_gtid_domain_id: 1
+mariadb_slave_force_setup: false
+mariadb_gtid_domain_id: 1
 
 # -------------------------------------
 # Database / Users
 # -------------------------------------
-mysql_databases: []
-mysql_users: []
+mariadb_databases: []
+mariadb_users: []
 
 # -------------------------------------
 # MariaDB
 # -------------------------------------
-mysql_mariadb_version: '10.1'
-mysql_mariadb_mirror_domain: "ftp.igh.cnrs.fr"
+mariadb_version: '10.1'
+mariadb_mirror_domain: "ftp.igh.cnrs.fr"
 # See: https://downloads.mariadb.org/mariadb/repositories
-mysql_mariadb_repository: "http://{{ mysql_mariadb_mirror_domain }}/pub/mariadb/repo/{{ mysql_mariadb_version }}/debian"
-mysql_mariadb_key_server: "keyserver.ubuntu.com"
-mysql_mariadb_key_ids: ['0xcbcb082a1bb943db', '0xf1656f24c74cd1d8']
+mariadb_repository: "http://{{ mariadb_mirror_domain }}/pub/mariadb/repo/{{ mariadb_version }}/debian"
+mariadb_key_server: "keyserver.ubuntu.com"
+mariadb_key_ids: ['0xcbcb082a1bb943db', '0xf1656f24c74cd1d8']
 
 # -------------------------------------
 # Galera
 # -------------------------------------
-mysql_galera_resetup: false
-mysql_galera_members: []
-mysql_galera_primary_node: 'change_me' # See: https://github.com/ansible/ansible/issues/17453
+mariadb_galera_resetup: false
+mariadb_galera_members: []
+mariadb_galera_primary_node: 'change_me' # See: https://github.com/ansible/ansible/issues/17453
 
 # -------------------------------------
 # Percona 
 # -------------------------------------
-mysql_percona_repository: 'http://repo.percona.com/apt'
-mysql_use_percona_apt: false
-mysql_install_xtrabackup_package: false
-mysql_xtrabackup_package: "{{ mysql_default_xtrabackup_package }}"
+mariadb_percona_repository: 'http://repo.percona.com/apt'
+mariadb_use_percona_apt: false
+mariadb_install_xtrabackup_package: false
+mariadb_xtrabackup_package: "{{ mariadb_default_xtrabackup_package }}"

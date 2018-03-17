@@ -1,8 +1,8 @@
-mysql_replication_master: false
-mysql_replication_slave: true
-mysql_replication_user: 'replication'
-mysql_replication_password: '1a2b3c'
-mysql_server_id: 2
-mysql_slave_ignore_db: ['norepl']
+mariadb_replication_master: false
+mariadb_replication_slave: true
+mariadb_replication_user: 'replication'
+mariadb_replication_password: '1a2b3c'
+mariadb_server_id: 2
+mariadb_slave_ignore_db: ['norepl']
 
 # vim: set ft=yaml :

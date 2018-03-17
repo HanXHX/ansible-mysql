@@ -1,18 +1,18 @@
 # Master durability
-mysql_sync_binlog: '1'
-mysql_innodb_flush_log_at_trx_commit: '1'
+mariadb_sync_binlog: '1'
+mariadb_innodb_flush_log_at_trx_commit: '1'
 
-mysql_databases:
+mariadb_databases:
   - 'testrepl'
   - 'norepl'
 
-mysql_users:
+mariadb_users:
   - name: 'replication'
     password: '1a2b3c'
     priv: '*.*:REPLICATION SLAVE'
     host: '%'
-mysql_replication_master: true
-mysql_replication_slave: false
-mysql_server_id: 1
+mariadb_replication_master: true
+mariadb_replication_slave: false
+mariadb_server_id: 1
 
 # vim: set ft=yaml :

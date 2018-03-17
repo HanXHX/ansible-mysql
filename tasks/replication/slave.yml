@@ -2,13 +2,13 @@
 
 - name: MYSQL_VARIABLES | Set read only
   mysql_variables: variable=read_only value=ON
-  when: mysql_slave_readonly
+  when: mariadb_slave_readonly
 
 - name: TEMPLATE | Deploy slave configuration
   template: >
     src=etc/mysql/conf.d/51-slave.cnf.j2
     dest=/etc/mysql/conf.d/51-slave.cnf
-  notify: restart mysql
+  notify: restart mariadb
 
 - name: MYSQL_REPLICATION | Get slave status
   mysql_replication: mode=getslave
@@ -17,19 +17,19 @@
 
 - name: INCLUDE | Transfert /etc/mysql/debian.cnf from master
   include: slave/ssh.yml
-  when: mysql_slave_replicate_mysqldb or ((slave_status.failed is defined or not slave_status.Is_Slave) and mysql_slave_import_data)
+  when: mariadb_slave_replicate_mysqldb or ((slave_status.failed is defined or not slave_status.Is_Slave) and mariadb_slave_import_data)
 
 - name: INCLUDE | Import data
   include: slave/import_data.yml
-  when: (slave_status.failed is defined or not slave_status.Is_Slave) and mysql_slave_import_data
+  when: (slave_status.failed is defined or not slave_status.Is_Slave) and mariadb_slave_import_data
 
 - name: INCLUDE | Configure replication
   include: slave/replication.yml
-  when: (slave_status.failed is defined or not slave_status.Is_Slave) or mysql_slave_force_setup
+  when: (slave_status.failed is defined or not slave_status.Is_Slave) or mariadb_slave_force_setup
 
 - name: INCLUDE | Transfert /etc/mysql/debian.cnf from master
   include: slave/debiancnf.yml
-  when: mysql_slave_replicate_mysqldb
+  when: mariadb_slave_replicate_mysqldb
 
 - name: MYSQL_REPLICATION | Get slave status
   mysql_replication: mode=getslave

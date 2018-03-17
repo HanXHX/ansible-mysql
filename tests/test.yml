@@ -27,18 +27,18 @@
       changed_when: false
     - set_fact:
         # MySQL don't read /etc/hosts (from vagrant host plugin)
-        mysql_replication_host: "{{ ip.stdout }}"
+        mariadb_replication_host: "{{ ip.stdout }}"
         # Need this to use vagrant 'delegate_to'
-        mysql_slave_import_from: "{{ ansible_hostname | replace ('slave', 'master') }}"
+        mariadb_slave_import_from: "{{ ansible_hostname | replace ('slave', 'master') }}"
   roles:
     - ../../
   tasks:
     - copy: src=import2.sql dest=/tmp/import2.sql
-      delegate_to: "{{ mysql_slave_import_from }}"
+      delegate_to: "{{ mariadb_slave_import_from }}"
       register: c
     - mysql_db: name={{ item }} state=import target=/tmp/import2.sql
       with_items: ['testrepl', 'norepl']
-      delegate_to: "{{ mysql_slave_import_from }}"
+      delegate_to: "{{ mariadb_slave_import_from }}"
       when: c.changed
     - mysql_replication: mode=getslave
       register: slave
@@ -47,12 +47,12 @@
 
 - hosts: mariadbgalera
   vars:
-    mysql_galera_primary_node: '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-mariadbgalera-1'
-    mysql_wsrep_node_address: "{{ ansible_all_ipv4_addresses[0] }}"
-    mysql_mariadb_version: '10.1'
+    mariadb_galera_primary_node: '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-mariadbgalera-1'
+    mariadb_wsrep_node_address: "{{ ansible_all_ipv4_addresses[0] }}"
+    mariadb_mariadb_version: '10.1'
   pre_tasks:
     - set_fact:
-        mysql_wsrep_node_address: "{{ ansible_eth1.ipv4.address }}"
+        mariadb_wsrep_node_address: "{{ ansible_eth1.ipv4.address }}"
       when: not is_docker
   roles:
     - ../../

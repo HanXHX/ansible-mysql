@@ -1,1 +1,1 @@
-mysql_vendor: 'mysql'
+mariadb_vendor: 'mysql'

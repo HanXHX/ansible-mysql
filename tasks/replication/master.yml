@@ -4,4 +4,4 @@
   template: >
     src=etc/mysql/conf.d/50-master.cnf.j2
     dest=/etc/mysql/conf.d/50-master.cnf
-  notify: restart mysql
+  notify: restart mariadb

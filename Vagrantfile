@@ -16,13 +16,13 @@ Vagrant.configure("2") do |config|
 
   cases = [
     # Debian Stretch
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'default',  mysql_vendor: 'mariadb' }, groups: ['master'] },
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'default',  mysql_vendor: 'mariadb' }, groups: ['slave'] },
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'upstream', mysql_vendor: 'mariadb' }, groups: ['master'] },
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'upstream', mysql_vendor: 'mariadb' }, groups: ['slave'] },
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '1'] },
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '2'] },
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '3'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mariadb_origin: 'default',  mariadb_vendor: 'mariadb' }, groups: ['master'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'default',  mariadb_vendor: 'mariadb' }, groups: ['slave'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mariadb_origin: 'upstream', mariadb_vendor: 'mariadb' }, groups: ['master'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'upstream', mariadb_vendor: 'mariadb' }, groups: ['slave'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mariadb_origin: 'upstream' },                          groups: ['mariadbgalera', '1'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'upstream' },                          groups: ['mariadbgalera', '2'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'upstream' },                          groups: ['mariadbgalera', '3'] },
   ]
 
   cases.each_with_index do |opts,index|

@@ -1,5 +1,7 @@
 ---
 
-- name: restart mysql
-  action: service name=mysql state=restarted enabled=yes
-  when: mysql_notify_restart
+- name: restart mariadb 
+  service:
+    name: mysql
+    state: restarted
+  when: mariadb_notify_restart

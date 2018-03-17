@@ -6,7 +6,7 @@
 #   flush-logs'd only once.
 #   Else the binary logs would automatically increase by n times every day.
 # - The error log is obsolete, messages go to syslog now.
-{{ mysql_log_error }} {% if mysql_slow_query_log_enabled %}{{ mysql_slow_query_log_file }}{% endif %} {
+{{ mariadb_log_error }} {% if mariadb_slow_query_log_enabled %}{{ mariadb_slow_query_log_file }}{% endif %} {
 	daily
 	rotate 7
 	missingok

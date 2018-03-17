@@ -2,9 +2,9 @@
 
 - name: INCLUDE | Replication Master
   include: master.yml
-  when: mysql_replication_master
+  when: mariadb_replication_master
 
 - name: INCLUDE | Replication slave
   include: slave.yml
-  when: mysql_replication_slave
+  when: mariadb_replication_slave
 

@@ -12,8 +12,8 @@
 
 - name: AUTHORIZED_KEY | Auth slave to backup host
   authorized_key:
-    user: "{{ mysql_backup_user }}"
+    user: "{{ mariadb_backup_user }}"
     state: present
     key: "{{ pub_key.stdout }}"
-  delegate_to: "{{ mysql_slave_import_from }}"
+  delegate_to: "{{ mariadb_slave_import_from }}"
   become: yes

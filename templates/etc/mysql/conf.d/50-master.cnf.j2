@@ -6,11 +6,11 @@
 # Replication master
 
 [mysqld]
-server_id={{ mysql_server_id }}
+server_id={{ mariadb_server_id }}
 log_bin = mysql-bin
 log-bin-index = mysql-bin.index
-expire_logs_days = {{ mysql_expire_logs_days }}
-max_binlog_size = {{ mysql_max_binlog_size }}
-gtid_domain_id={{ mysql_gtid_domain_id }}
+expire_logs_days = {{ mariadb_expire_logs_days }}
+max_binlog_size = {{ mariadb_max_binlog_size }}
+gtid_domain_id={{ mariadb_gtid_domain_id }}
 
 ; vim: set ft=dosini :

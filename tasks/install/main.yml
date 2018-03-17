@@ -2,23 +2,23 @@
 
 - name: INCLUDE | Use Percona repository
   include: 'percona/apt.yml'
-  when: mysql_use_percona_apt
+  when: mariadb_use_percona_apt
 
 - name: INCLUDE | Install MariaDB from Debian repo
   include: 'mariadb/default.yml'
-  when: mysql_origin == 'default' and mysql_vendor == 'mariadb'
+  when: mariadb_origin == 'default' and mariadb_vendor == 'mariadb'
 
 - name: INCLUDE | Install MariaDB from MariaDB repo
   include: 'mariadb/upstream.yml'
-  when: mysql_origin == 'upstream'
+  when: mariadb_origin == 'upstream'
 
 - name: APT | Install few MySQL related tools
   apt:
     pkg: "{{ item }}"
     install_recommends: no
-  with_items: "{{ mysql_tools }}"
+  with_items: "{{ mariadb_tools }}"
 
 - name: APT | Install percona-xtrabackup if needed
   apt:
-    pkg: "{{ mysql_xtrabackup_package }}"
-  when: mysql_install_xtrabackup_package
+    pkg: "{{ mariadb_xtrabackup_package }}"
+  when: mariadb_install_xtrabackup_package
