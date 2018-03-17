@@ -5,9 +5,7 @@
 
 Vagrant.configure("2") do |config|
 
-  vbox_deb_jessie = 'debian/jessie64'
   vbox_deb_stretch = 'debian/stretch64'
-  dk_deb_jessie = 'hanxhx/vagrant-ansible:debian8'
   dk_deb_stretch = 'hanxhx/vagrant-ansible:debian9'
 
   config.hostmanager.enabled = true
@@ -17,27 +15,11 @@ Vagrant.configure("2") do |config|
   config.hostmanager.include_offline = false
 
   cases = [
-    # Debian Jessie
-    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: dk_deb_jessie,  vars: {mysql_origin: 'default',  mysql_vendor: 'mysql'   }, groups: ['master'] },
-    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'default',  mysql_vendor: 'mysql'   }, groups: ['slave'] },
-    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: dk_deb_jessie,  vars: {mysql_origin: 'default',  mysql_vendor: 'mariadb' }, groups: ['master'] },
-    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'default',  mysql_vendor: 'mariadb' }, groups: ['slave'] },
-    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: dk_deb_jessie,  vars: {mysql_origin: 'upstream', mysql_vendor: 'mariadb' }, groups: ['master'] },
-    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'upstream', mysql_vendor: 'mariadb' }, groups: ['slave'] },
-    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: dk_deb_jessie,  vars: {mysql_origin: 'upstream', mysql_vendor: 'percona' }, groups: ['master'] },
-    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'upstream', mysql_vendor: 'percona' }, groups: ['slave'] },
-    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: dk_deb_jessie,  vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '1'] },
-    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '2'] },
-    { os_name: 'jessie',  vbox: vbox_deb_jessie,  docker: nil,            vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '3'] },
     # Debian Stretch
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'default',  mysql_vendor: 'mysql'   }, groups: ['master'] },
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'default',  mysql_vendor: 'mysql'   }, groups: ['slave'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'default',  mysql_vendor: 'mariadb' }, groups: ['master'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'default',  mysql_vendor: 'mariadb' }, groups: ['slave'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'upstream', mysql_vendor: 'mariadb' }, groups: ['master'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'upstream', mysql_vendor: 'mariadb' }, groups: ['slave'] },
-#   { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'upstream', mysql_vendor: 'percona' }, groups: ['master'] },
-#   { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'upstream', mysql_vendor: 'percona' }, groups: ['slave'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '1'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '2'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mysql_origin: 'upstream' },                          groups: ['mariadbgalera', '3'] },
@@ -49,6 +31,7 @@ Vagrant.configure("2") do |config|
     ip = '192.168.201.' + iplsb.to_s
     next if opts[:docker].nil?
 
+    config.vm.synced_folder ".", "/vagrant", disabled: true
     config.vm.define name do |m|
       m.vm.network "private_network", ip: ip
       m.vm.provider "docker" do |d|

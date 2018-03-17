@@ -49,7 +49,7 @@ mysql_thread_concurrency: "{{ ansible_processor_cores * 2 }}"
 # InnoDB settings.
 mysql_innodb_file_per_table: '1'
 mysql_innodb_buffer_pool_size: "{{ (ansible_memtotal_mb * 0.2) | round | int }}M"
-mysql_innodb_log_file_size: "{% if ansible_distribution_release == 'jessie' and mysql_vendor == 'mysql' %}5M{% else %}64M{% endif %}" # If this setting changes on a running system, you will break it! http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html
+mysql_innodb_log_file_size: "64M" # If this setting changes on a running system, you will break it! http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html
 mysql_innodb_log_buffer_size: '8M'
 mysql_innodb_flush_log_at_trx_commit: '1'
 mysql_innodb_lock_wait_timeout: 50
@@ -113,8 +113,6 @@ mysql_master_log_file: null
 mysql_master_log_pos: null
 # If true, reconfigure slave
 mysql_slave_force_setup: false
-
-# Only MariaDB 10.0+
 mysql_gtid_domain_id: 1
 
 # -------------------------------------
@@ -134,15 +132,16 @@ mysql_mariadb_key_server: "keyserver.ubuntu.com"
 mysql_mariadb_key_ids: ['0xcbcb082a1bb943db', '0xf1656f24c74cd1d8']
 
 # -------------------------------------
-# Percona
+# Galera
 # -------------------------------------
-mysql_percona_version: '5.6'
+mysql_galera_resetup: false
+mysql_galera_members: []
+mysql_galera_primary_node: 'change_me' # See: https://github.com/ansible/ansible/issues/17453
+
+# -------------------------------------
+# Percona 
+# -------------------------------------
 mysql_percona_repository: 'http://repo.percona.com/apt'
 mysql_use_percona_apt: false
 mysql_install_xtrabackup_package: false
 mysql_xtrabackup_package: "{{ mysql_default_xtrabackup_package }}"
-
-# Galera
-mysql_galera_resetup: false
-mysql_galera_members: []
-mysql_galera_primary_node: 'change_me' # See: https://github.com/ansible/ansible/issues/17453

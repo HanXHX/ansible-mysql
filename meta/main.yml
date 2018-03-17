@@ -1,14 +1,13 @@
 ---
 galaxy_info:
   author: Emilien Mantel
-  description: Install and configure MySQL or MariaDB (Galera Cluster) or Percona server on Debian 
+  description: Install and configure MariaDB (and Galera Cluster) on Debian 
   company: 
   license: GPLv2
   min_ansible_version: 2.3
   platforms:
   - name: Debian
     versions:
-    - jessie
     - stretch
   galaxy_tags:
   - database
@@ -16,12 +15,10 @@ galaxy_info:
   - packaging
   - mysql
   - mariadb
-  - percona
   - replication
   - debian
   - galera
   - cluster
-  - jessie
   - stretch
 dependencies: []
   

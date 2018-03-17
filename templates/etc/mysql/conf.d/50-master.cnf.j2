@@ -11,10 +11,6 @@ log_bin = mysql-bin
 log-bin-index = mysql-bin.index
 expire_logs_days = {{ mysql_expire_logs_days }}
 max_binlog_size = {{ mysql_max_binlog_size }}
-
-{% if mysql_vendor == 'mariadb' and mysql_gtid %}
-# MariaDB only
 gtid_domain_id={{ mysql_gtid_domain_id }}
-{% endif %}
 
 ; vim: set ft=dosini :

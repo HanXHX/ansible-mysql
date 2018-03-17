@@ -7,11 +7,6 @@ Install and configure MySQL or MariaDB (Galera Cluster) or Percona Server. Manag
 
 | OS              | Vendor                  | Origin    | Managed versions          |
 | --------------- | ----------------------- | --------- | ------------------------- |
-| Debian Jessie   | MySQL                   | Debian    | 5.5 / 5.6                 |
-| Debian Jessie   | MariaDB                 | Debian    | 10.0                      |
-| Debian Jessie   | MariaDB                 | Upstream  | 10.0 / 10.1 / 10.2 / 10.3 |
-| Debian Jessie   | MariaDB Galera Cluster  | Upstream  | 10.1 / 10.2               |
-| Debian Jessie   | Percona server          | Upstream  | 5.5 / 5.6 / 5.7           |
 | Debian Stretch  | MariaDB                 | Debian    | 10.1                      |
 | Debian Stretch  | MariaDB                 | Upstream  | 10.1 / 10.2 / 10.3        |
 | Debian Stretch  | MariaDB Galera Cluster  | Upstream  | 10.1 / 10.2               |
@@ -19,9 +14,7 @@ Install and configure MySQL or MariaDB (Galera Cluster) or Percona Server. Manag
 Notes
 -----
 
-* MySQL 5.6 on Jessie needs backports repository
 * MySQL server no longer exists on Debian Stretch
-* Percona Server is not available (soon?) on Debian Stretch
 * Galera Cluster is experimental
 * Due to Vagrant + Docker limitation (private network), replication/galera can't be checked with Travis
 * If you need to test this role with Vagrant, you must install hostmanager plugin: `vagrant plugin install vagrant-hostmanager`
@@ -35,7 +28,7 @@ Role Variables
 --------------
 
 - `mysql_origin`: origin of the package ("default" or "upstream")
-- `mysql_vendor`: "mysql", "mariadb", "mariadb\_galera" (only with MariaDB upstream 10.1) or "percona"
+- `mysql_vendor`: "mariadb", "mariadb\_galera"
 
 ### Configuration
 
@@ -67,7 +60,6 @@ Check "priv" syntax in [mysql\_user module documentation](http://docs.ansible.co
 
 - `mysql_mariadb_version`: 10.0 / 10.1 / 10.2
 - `mysql_mariadb_repository`: MariaDB upstream APT repository (see: [MariaDB repositories tool](https://downloads.mariadb.org/mariadb/repositories))
-- `mysql_percona_version`: 5.5 / 5.6 / 5.7
 - `mysql_percona_repository`: Percona upstream APT repository (see: [Percona APT doc](http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html))
 - `mysql_use_percona_apt`: Force using Percona APT repository (useful when you want to use latest version of percona toolkits, xtrabackup... etc)
 
@@ -94,7 +86,7 @@ Donation
 If this code helped you, or if you’ve used them for your projects, feel free to buy me some :beers:
 
 - Bitcoin: `1BQwhBeszzWbUTyK4aUyq3SRg7rBSHcEQn`
-- Ethereum: `63abe6b2648fd892816d87a31e3d9d4365a737b5`
+- Ethereum: `0x63abe6b2648fd892816d87a31e3d9d4365a737b5`
 - Litecoin: `LeNDw34zQLX84VvhCGADNvHMEgb5QyFXyD`
 - Monero: `45wbf7VdQAZS5EWUrPhen7Wo4hy7Pa7c7ZBdaWQSRowtd3CZ5vpVw5nTPphTuqVQrnYZC72FXDYyfP31uJmfSQ6qRXFy3bQ`
 
