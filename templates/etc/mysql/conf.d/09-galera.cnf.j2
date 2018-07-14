@@ -12,9 +12,10 @@
 wsrep_on=ON
 wsrep_provider=/usr/lib/galera/libgalera_smm.so
 wsrep_cluster_address=gcomm://{{ mariadb_galera_members | join(",") }}
-# TODO: https://mariadb.com/kb/en/mariadb/galera-cluster-system-variables/#wsrep_sst_method
-wsrep_sst_method=rsync
-# TODO: wsrep_cluster_name="my_wsrep_cluster"
+wsrep_sst_method="{{ mariadb_wsrep_stt_method }}"
+{% if mariadb_wsrep_cluster_name is defined %}
+wsrep_cluster_name="{{ mariadb_wsrep_cluster_name }}"
+{% endif %}
 
 # Node Configuration
 wsrep_node_address="{{ mariadb_wsrep_node_address | default(ansible_default_ipv4.address) }}"
@@ -28,4 +29,6 @@ binlog_format=ROW
 default_storage_engine=InnoDB
 innodb_autoinc_lock_mode=2
 innodb_doublewrite=1
+{% if mariadb_version == '10.0'%}
 query_cache_size=0
+{% endif %}
