@@ -59,8 +59,7 @@
 
 - name: MYSQL_DB | Create databases
   mysql_db:
-    name: "{{ item }}"
-    state: present
+    "{{item}}"
   with_items: "{{ mariadb_databases }}"
 
 - name: MYSQL_USER | Manages users...
