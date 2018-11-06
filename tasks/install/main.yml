@@ -14,9 +14,8 @@
 
 - name: APT | Install few MariaDB related tools
   apt:
-    pkg: "{{ item }}"
+    pkg: "{{ mariadb_tools }}"
     install_recommends: no
-  with_items: "{{ mariadb_tools }}"
 
 - name: APT | Install percona-xtrabackup if needed
   apt:
