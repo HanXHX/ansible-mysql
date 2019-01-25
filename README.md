@@ -47,10 +47,14 @@ Example:
 
 ```
 mariadb_users:
-  - name: 'kiki'
+  - name: 'lorem'
     password: '123'
-    priv: hihi.*:ALL
-    host: '%'
+    priv: lorem.*:ALL
+    host: 'localhost'
+  - name: 'ipsum'
+    password: '465'
+    priv: ipsum.*:ALL
+    host_all: yes
 ```
 
 Check "priv" syntax in [mysql\_user module documentation](http://docs.ansible.com/mysql_user_module.html)
