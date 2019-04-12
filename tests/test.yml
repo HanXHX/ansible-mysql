@@ -3,7 +3,7 @@
 - hosts: all
   tasks:
     - apt: pkg={{ item }} state=present update_cache=yes cache_valid_time=3600
-      with_items:
+      loop:
         - ca-certificates
         - curl
         - strace
@@ -16,7 +16,7 @@
     - copy: src=import1.sql dest=/tmp/import1.sql
       register: c
     - mysql_db: name={{ item }} state=import target=/tmp/import1.sql
-      with_items: ['testrepl', 'norepl']
+      loop: ['testrepl', 'norepl']
       when: c.changed
 
 - hosts: slave
@@ -37,7 +37,7 @@
       delegate_to: "{{ mariadb_slave_import_from }}"
       register: c
     - mysql_db: name={{ item }} state=import target=/tmp/import2.sql
-      with_items: ['testrepl', 'norepl']
+      loop: ['testrepl', 'norepl']
       delegate_to: "{{ mariadb_slave_import_from }}"
       when: c.changed
     - mysql_replication: mode=getslave

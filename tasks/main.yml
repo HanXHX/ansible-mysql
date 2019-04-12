@@ -61,7 +61,7 @@
   mysql_db:
     name: "{{ item }}"
     state: present
-  with_items: "{{ mariadb_databases }}"
+  loop: "{{ mariadb_databases }}"
 
 - name: MYSQL_USER | Manages users...
   mysql_user:
@@ -71,7 +71,7 @@
     host: "{{ item.host | default(omit) }}"
     host_all: "{{ item.host_all | default(omit) }}"
     state: present
-  with_items: "{{ mariadb_users }}"
+  loop: "{{ mariadb_users }}"
 
 - name: TEMPLATE | Deploy logrotate configuration
   template:

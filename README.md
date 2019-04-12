@@ -21,7 +21,7 @@ Notes
 Requirements
 ------------
 
-None.
+Ansible 2.5+
 
 Role Variables
 --------------
@@ -61,7 +61,7 @@ Check "priv" syntax in [mysql\_user module documentation](http://docs.ansible.co
 
 ### Packaging
 
-- `mariadb_version`: 10.0 / 10.1 / 10.2
+- `mariadb_version`: 10.0 / 10.1 / 10.2 / 10.3
 - `mariadb_repository`: MariaDB upstream APT repository (see: [MariaDB repositories tool](https://downloads.mariadb.org/mariadb/repositories))
 - `mariadb_percona_repository`: Percona upstream APT repository (see: [Percona APT doc](http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html))
 - `mariadb_use_percona_apt`: Force using Percona APT repository (useful when you want to use latest version of percona toolkits, xtrabackup... etc)

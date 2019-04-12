@@ -4,7 +4,7 @@
   apt_key:
     keyserver: "{{ mariadb_key_server }}"
     id: "{{ item }}"
-  with_items: "{{ mariadb_key_ids }}"
+  loop: "{{ mariadb_key_ids }}"
 
 - name: TEMPLATE | Deploy APT pinning (prevent upgrades from Debian)
   template:

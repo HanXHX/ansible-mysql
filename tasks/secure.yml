@@ -5,7 +5,7 @@
     name: root
     host: "{{ item }}"
     password: "{{ mariadb_root_password }}"
-  with_items:
+  loop:
     - "{{ ansible_hostname }}"
     - 127.0.0.1
     - ::1
@@ -16,7 +16,7 @@
     name: ''
     host: "{{ item }}"
     state: absent
-  with_items:
+  loop:
     - "{{ ansible_hostname }}"
     - 127.0.0.1
     - ::1
