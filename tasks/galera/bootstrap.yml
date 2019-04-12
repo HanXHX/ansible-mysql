@@ -1,9 +1,11 @@
 ---
-- set_fact:
-    booboo: "{{ mariadb_datadir }}/.ansible_galera_boostrap"
+- name: SET_FACT | Prepare mark var
+  set_fact:
+    __mark: "{{ mariadb_datadir }}/.ansible_galera_boostrap"
 
 - name: STAT | Bootstrap mark
-  stat: path={{ booboo }}
+  stat:
+    path: "{{ __mark }}"
   register: s
 
 - block:
@@ -12,7 +14,9 @@
         mariadb_notify_restart: false
 
     - name: SERVICE | Stop MariaDB
-      service: name=mysql state=stopped
+      service:
+        name: mysql
+        state: stopped
 
     - name: COMMAND | Bootstrap first node (systemd)
       command: galera_new_cluster
@@ -29,6 +33,6 @@
   when: not s.stat.exists or mariadb_galera_resetup
 
 - name: COMMAND | Create Bootstrap mark
-  command: "touch {{ booboo }}"
+  command: "touch {{ __mark }}"
   args:
-    creates: "{{ booboo }}"
+    creates: "{{ __mark }}"

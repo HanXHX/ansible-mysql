@@ -28,7 +28,7 @@
   service:
     name: mysql
     state: restarted
-  when: >
+  when:
     (config.changed or extraconfig.changed) and
     not mariadb_galera_resetup
 

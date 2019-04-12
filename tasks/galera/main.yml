@@ -18,7 +18,7 @@
   service:
     name: mysql
     state: restarted
-  when: >
+  when:
     ((galeraconfig or (p is defined and p.changed)) and
     (bootstrap_run is not defined)) or
     ((inventory_hostname != mariadb_galera_primary_node) and
