@@ -5,11 +5,10 @@ MariaDB (MySQL) Ansible role for Debian
 
 Install and configure MariaDB (Galera Cluster). Manage replication (master/slave). Create users and databases.
 
-| OS              | Vendor                  | Origin    | Managed versions          |
-| --------------- | ----------------------- | --------- | ------------------------- |
-| Debian Stretch  | MariaDB                 | Debian    | 10.1                      |
-| Debian Stretch  | MariaDB                 | Upstream  | 10.1 / 10.2 / 10.3        |
-| Debian Stretch  | MariaDB Galera Cluster  | Upstream  | 10.1 / 10.2               |
+| OS              | Origin    | MariaDB versions          |
+| --------------- | --------- | ------------------------- |
+| Debian Stretch  | Debian    | 10.1                      |
+| Debian Stretch  | Upstream  | 10.1 / 10.2 / 10.3 / 10.4 |
 
 Notes
 -----
