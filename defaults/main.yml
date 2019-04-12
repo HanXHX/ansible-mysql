@@ -135,6 +135,7 @@ mariadb_key_ids: ['0xcbcb082a1bb943db', '0xf1656f24c74cd1d8']
 # Galera
 # -------------------------------------
 mariadb_galera_resetup: false
+mariadb_wsrep_node_address: false # Set primary node IP 
 mariadb_galera_members: []
 mariadb_galera_primary_node: 'change_me' # See: https://github.com/ansible/ansible/issues/17453
 mariadb_wsrep_stt_method: 'rsync'
