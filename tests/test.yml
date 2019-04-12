@@ -65,9 +65,9 @@
         msg: "Slave issue"
       when: slave.Slave_IO_Running != 'Yes' or slave.Slave_SQL_Running != 'Yes'
 
-- hosts: mariadbgalera
+- hosts: galera
   vars:
-    mariadb_galera_primary_node: '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-mariadbgalera-1'
+    mariadb_galera_primary_node: '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-galera-1'
     mariadb_wsrep_node_address: "{{ ansible_all_ipv4_addresses[0] }}"
     mariadb_version: '10.1'
   pre_tasks:
