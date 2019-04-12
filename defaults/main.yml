@@ -4,7 +4,7 @@
 # Setup
 # -------------------------------------
 mariadb_origin: 'default'
-mariadb_vendor: 'mariadb'
+mariadb_use_galera: false
 mariadb_root_password: 'change_me_NOW'
 mariadb_notify_restart: true
 mariadb_upstream_apt_src: false

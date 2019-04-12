@@ -25,8 +25,7 @@ Ansible 2.5+
 Role Variables
 --------------
 
-- `mariadb_origin`: origin of the package ("default" or "upstream")
-- `mariadb_vendor`: "mariadb", "mariadb\_galera"
+- `mariadb_use_galera`: set true to configure and install Galera Cluster
 
 ### Configuration
 
@@ -75,7 +74,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-         - { role: HanXHX.mysql, mariadb_origin: 'upstream', mariadb_vendor: 'mariadb' }
+         - { role: HanXHX.mysql, mariadb_origin: 'upstream' }
 
 License
 -------

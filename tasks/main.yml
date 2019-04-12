@@ -43,7 +43,7 @@
 
 - name: INCLUDE | Galera
   include: galera/main.yml
-  when: mariadb_vendor == 'mariadb_galera'
+  when: mariadb_use_galera
 
 - name: INCLUDE | Replication
   include: replication/main.yml
