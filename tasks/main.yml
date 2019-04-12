@@ -10,7 +10,7 @@
   changed_when: false
 
 - name: INCLUDE | Install
-  include: install/main.yml
+  import_tasks: install/main.yml
 
 - name: TEMPLATE | Deploy configuration
   template:
@@ -42,15 +42,15 @@
     backup: yes
 
 - name: INCLUDE | Galera
-  include: galera/main.yml
+  import_tasks: galera/main.yml
   when: mariadb_use_galera
 
 - name: INCLUDE | Replication
-  include: replication/main.yml
+  import_tasks: replication/main.yml
   when: mariadb_replication_master or mariadb_replication_slave
 
 - name: INCLUDE | Secure install
-  include: 'secure.yml'
+  import_tasks: 'secure.yml'
 
 - name: SERVICE | Ensure service is started
   service:

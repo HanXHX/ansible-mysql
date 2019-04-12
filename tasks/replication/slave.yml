@@ -19,19 +19,19 @@
   register: slave_status
 
 - name: INCLUDE | Transfert /etc/mysql/debian.cnf from master
-  include: slave/ssh.yml
+  import_tasks: slave/ssh.yml
   when: mariadb_slave_replicate_mysqldb or ((slave_status.failed is defined or not slave_status.Is_Slave) and mariadb_slave_import_data)
 
 - name: INCLUDE | Import data
-  include: slave/import_data.yml
+  import_tasks: slave/import_data.yml
   when: (slave_status.failed is defined or not slave_status.Is_Slave) and mariadb_slave_import_data
 
 - name: INCLUDE | Configure replication
-  include: slave/replication.yml
+  import_tasks: slave/replication.yml
   when: (slave_status.failed is defined or not slave_status.Is_Slave) or mariadb_slave_force_setup
 
 - name: INCLUDE | Transfert /etc/mysql/debian.cnf from master
-  include: slave/debiancnf.yml
+  import_tasks: slave/debiancnf.yml
   when: mariadb_slave_replicate_mysqldb
 
 - name: MYSQL_REPLICATION | Get slave status
@@ -41,4 +41,4 @@
   register: slave_status
 
 - name: Configure GTID
-  include: slave/gtid.yml
+  import_tasks: slave/gtid.yml

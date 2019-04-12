@@ -1,15 +1,15 @@
 ---
 
 - name: INCLUDE | Setup Percona repository
-  include: 'percona/apt.yml'
+  import_tasks: 'percona/apt.yml'
   when: mariadb_use_percona_apt
 
 - name: INCLUDE | Setup MariaDB repository
-  include: 'mariadb/upstream.yml'
+  import_tasks: 'mariadb/upstream.yml'
   when: mariadb_origin == 'upstream'
 
 - name: INCLUDE | Install MariaDB
-  include: 'mariadb/default.yml'
+  import_tasks: 'mariadb/default.yml'
 
 - name: APT | Install few MariaDB related tools
   apt:
