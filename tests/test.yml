@@ -1,6 +1,14 @@
 ---
 
 - hosts: all
+  gather_facts: false
+  pre_tasks:
+    - name: SETUP | Get facts
+      setup:
+      register: s
+    - name: DEBUG | Show facts
+      debug:
+        var: s
   tasks:
     - name: APT | Install some packages
       apt:
