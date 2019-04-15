@@ -18,7 +18,7 @@ wsrep_cluster_name="{{ mariadb_wsrep_cluster_name }}"
 {% endif %}
 
 # Node Configuration
-wsrep_node_address="{{ mariadb_wsrep_node_address | default(ansible_default_ipv4.address) }}"
+wsrep_node_address="{{ mariadb_wsrep_node_address | default(ansible_default_ipv4.address) | default('127.0.0.1') }}"
 wsrep_node_name="{{ mariadb_wsrep_node_name | default(ansible_fqdn) }}"
 
 
