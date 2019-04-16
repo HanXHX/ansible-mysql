@@ -9,7 +9,10 @@
   delegate_to: "{{ mariadb_slave_import_from }}"
 
 - name: LOCAL_ACTION FILE | Secure fetched file
-  local_action: file path=/tmp/{{ mariadb_slave_import_from }}/debian.cnf mode=0600
+  local_action:
+    module: file
+    path: "/tmp/{{ mariadb_slave_import_from }}/debian.cnf"
+    mode: 0600
   become: no
 
 - name: COPY | Fetched file to /etc/mysql/debian.cnf

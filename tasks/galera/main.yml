@@ -7,18 +7,18 @@
   register: galeraconfig
 
 - name: INCLUDE | Bootstrap first node
-  include: 'bootstrap.yml'
+  import_tasks: 'bootstrap.yml'
   when: inventory_hostname == mariadb_galera_primary_node
 
 - name: INCLUDE | Configure other nodes
-  include: 'nodes.yml'
+  import_tasks: 'nodes.yml'
   when: inventory_hostname != mariadb_galera_primary_node
 
 - name: SERVICE | Restart MariaDB if needed
   service:
     name: mysql
     state: restarted
-  when: >
+  when:
     ((galeraconfig or (p is defined and p.changed)) and
     (bootstrap_run is not defined)) or
     ((inventory_hostname != mariadb_galera_primary_node) and

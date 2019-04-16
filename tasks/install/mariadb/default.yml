@@ -28,4 +28,4 @@
 - name: APT | Install Galera
   apt:
     pkg: galera-3
-  when: mariadb_vendor == 'mariadb_galera'
+  when: mariadb_use_galera

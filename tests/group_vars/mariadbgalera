@@ -1,5 +1,0 @@
-mariadb_vendor: 'mariadb_galera'
-mariadb_galera_members:
-  - '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-mariadbgalera-1'
-  - '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-mariadbgalera-2'
-  - '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-mariadbgalera-3'

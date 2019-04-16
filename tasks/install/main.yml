@@ -1,16 +1,15 @@
 ---
 
-- name: INCLUDE | Use Percona repository
-  include: 'percona/apt.yml'
+- name: INCLUDE | Setup Percona repository
+  import_tasks: 'percona/apt.yml'
   when: mariadb_use_percona_apt
 
-- name: INCLUDE | Install MariaDB from Debian repo
-  include: 'mariadb/default.yml'
-  when: mariadb_origin == 'default' and mariadb_vendor == 'mariadb'
-
-- name: INCLUDE | Install MariaDB from MariaDB repo
-  include: 'mariadb/upstream.yml'
+- name: INCLUDE | Setup MariaDB repository
+  import_tasks: 'mariadb/upstream.yml'
   when: mariadb_origin == 'upstream'
+
+- name: INCLUDE | Install MariaDB
+  import_tasks: 'mariadb/default.yml'
 
 - name: APT | Install few MariaDB related tools
   apt:

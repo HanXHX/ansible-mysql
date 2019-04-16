@@ -1,9 +1,9 @@
 ---
 
 - name: INCLUDE | Replication Master
-  include: master.yml
+  import_tasks: master.yml
   when: mariadb_replication_master
 
 - name: INCLUDE | Replication slave
-  include: slave.yml
+  import_tasks: slave.yml
   when: mariadb_replication_slave

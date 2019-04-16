@@ -5,11 +5,10 @@ MariaDB (MySQL) Ansible role for Debian
 
 Install and configure MariaDB (Galera Cluster). Manage replication (master/slave). Create users and databases.
 
-| OS              | Vendor                  | Origin    | Managed versions          |
-| --------------- | ----------------------- | --------- | ------------------------- |
-| Debian Stretch  | MariaDB                 | Debian    | 10.1                      |
-| Debian Stretch  | MariaDB                 | Upstream  | 10.1 / 10.2 / 10.3        |
-| Debian Stretch  | MariaDB Galera Cluster  | Upstream  | 10.1 / 10.2               |
+| OS              | Origin    | MariaDB versions          |
+| --------------- | --------- | ------------------------- |
+| Debian Stretch  | Debian    | 10.1                      |
+| Debian Stretch  | Upstream  | 10.1 / 10.2 / 10.3 / 10.4 |
 
 Notes
 -----
@@ -26,8 +25,7 @@ Ansible 2.5+
 Role Variables
 --------------
 
-- `mariadb_origin`: origin of the package ("default" or "upstream")
-- `mariadb_vendor`: "mariadb", "mariadb\_galera"
+- `mariadb_use_galera`: set true to configure and install Galera Cluster
 
 ### Configuration
 
@@ -76,7 +74,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-         - { role: HanXHX.mysql, mariadb_origin: 'upstream', mariadb_vendor: 'mariadb' }
+         - { role: HanXHX.mysql, mariadb_origin: 'upstream' }
 
 License
 -------
