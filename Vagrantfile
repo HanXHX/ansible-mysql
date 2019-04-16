@@ -23,6 +23,9 @@ Vagrant.configure("2") do |config|
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mariadb_origin: 'upstream' }, groups: ['galera', '1'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'upstream' }, groups: ['galera', '2'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'upstream' }, groups: ['galera', '3'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mariadb_origin: 'default'  }, groups: ['galera', '1'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'default'  }, groups: ['galera', '2'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'default'  }, groups: ['galera', '3'] },
   ]
 
   cases.each_with_index do |opts,index|
