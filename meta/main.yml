@@ -9,9 +9,9 @@ galaxy_info:
   - name: Debian
     versions:
     - stretch
+    - buster
   galaxy_tags:
   - database
-  - database:sql
   - packaging
   - mysql
   - mariadb

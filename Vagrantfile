@@ -7,6 +7,8 @@ Vagrant.configure("2") do |config|
 
   vbox_deb_stretch = 'debian/stretch64'
   dk_deb_stretch = 'hanxhx/vagrant-ansible:debian9'
+  vbox_deb_buster = 'debian/buster64'
+  dk_deb_buster = 'hanxhx/vagrant-ansible:debian10'
 
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = false
@@ -26,6 +28,8 @@ Vagrant.configure("2") do |config|
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mariadb_origin: 'default'  }, groups: ['galera', '1'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'default'  }, groups: ['galera', '2'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'default'  }, groups: ['galera', '3'] },
+    # Debian Buster
+    { os_name: 'buster', vbox: vbox_deb_buster, docker: dk_deb_buster, vars: {mariadb_origin: 'default'  }, groups: ['master'] },
   ]
 
   cases.each_with_index do |opts,index|
