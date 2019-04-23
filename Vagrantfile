@@ -17,19 +17,49 @@ Vagrant.configure("2") do |config|
   config.hostmanager.include_offline = false
 
   cases = [
+    # ========================
     # Debian Stretch
+    # ========================
+
+    # Default replication
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mariadb_origin: 'default'  }, groups: ['master'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'default'  }, groups: ['slave'] },
+
+    # Upstream replication
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mariadb_origin: 'upstream' }, groups: ['master'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'upstream' }, groups: ['slave'] },
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mariadb_origin: 'upstream' }, groups: ['galera', '1'] },
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'upstream' }, groups: ['galera', '2'] },
-    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'upstream' }, groups: ['galera', '3'] },
+
+    # Galera Debian
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mariadb_origin: 'default'  }, groups: ['galera', '1'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'default'  }, groups: ['galera', '2'] },
     { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'default'  }, groups: ['galera', '3'] },
+
+    # Galera Upstream
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: dk_deb_stretch, vars: {mariadb_origin: 'upstream' }, groups: ['galera', '1'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'upstream' }, groups: ['galera', '2'] },
+    { os_name: 'stretch', vbox: vbox_deb_stretch, docker: nil,            vars: {mariadb_origin: 'upstream' }, groups: ['galera', '3'] },
+
+    # ========================
     # Debian Buster
+    # ========================
+
+    # Default replication
     { os_name: 'buster', vbox: vbox_deb_buster, docker: dk_deb_buster, vars: {mariadb_origin: 'default'  }, groups: ['master'] },
+#   { os_name: 'buster', vbox: vbox_deb_buster, docker: nil,           vars: {mariadb_origin: 'default'  }, groups: ['slave'] },
+
+    # Upstream replication
+    { os_name: 'buster', vbox: vbox_deb_buster, docker: dk_deb_buster, vars: {mariadb_origin: 'upstream' }, groups: ['master'] },
+#   { os_name: 'buster', vbox: vbox_deb_buster, docker: nil,           vars: {mariadb_origin: 'upstream' }, groups: ['slave'] },
+
+    # Galera Debian
+    { os_name: 'buster', vbox: vbox_deb_buster, docker: dk_deb_buster, vars: {mariadb_origin: 'default'  }, groups: ['galera', '1'] },
+    { os_name: 'buster', vbox: vbox_deb_buster, docker: nil,           vars: {mariadb_origin: 'default'  }, groups: ['galera', '2'] },
+    { os_name: 'buster', vbox: vbox_deb_buster, docker: nil,           vars: {mariadb_origin: 'default'  }, groups: ['galera', '3'] },
+
+    # Galera Upstream
+    { os_name: 'buster', vbox: vbox_deb_buster, docker: dk_deb_buster, vars: {mariadb_origin: 'upstream' }, groups: ['galera', '1'] },
+    { os_name: 'buster', vbox: vbox_deb_buster, docker: nil,           vars: {mariadb_origin: 'upstream' }, groups: ['galera', '2'] },
+    { os_name: 'buster', vbox: vbox_deb_buster, docker: nil,           vars: {mariadb_origin: 'upstream' }, groups: ['galera', '3'] },
   ]
 
   cases.each_with_index do |opts,index|

@@ -1,8 +1,16 @@
 ---
 
-- name: SET_FACT | Bypass https://github.com/ansible/ansible/issues/19874
-  set_fact:
-    ansible_distribution_release: 'buster'
+- block:
+
+    - name: SET_FACT | Bypass https://github.com/ansible/ansible/issues/19874
+      set_fact:
+        ansible_distribution_release: 'buster'
+
+    - name: SET_FACT | Percona Toolkit is not present in upstream repo for Buster
+      set_fact:
+        mariadb_use_percona_apt: false
+        mariadb_install_xtrabackup_package: false
+
   when: ansible_facts.distribution_major_version == "buster/sid"
 
 - name: INCLUDE_VARS | Related to OS version
