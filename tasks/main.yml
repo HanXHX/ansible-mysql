@@ -77,4 +77,4 @@
   template:
     src: "etc/logrotate.d/mysql-server.j2"
     dest: "/etc/logrotate.d/mysql-server"
-  when: mariadb_manage_logrotate
+  when: mariadb_manage_logrotate | bool
