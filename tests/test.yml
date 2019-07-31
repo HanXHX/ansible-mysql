@@ -75,6 +75,10 @@
 
 - hosts: galera
   pre_tasks:
+    - name: SET_FACT | Bypass https://github.com/ansible/ansible/issues/19874
+      set_fact:
+        ansible_distribution_release: 'buster'
+      when: ansible_facts.distribution_major_version == "buster/sid"
     - name: SET_FACT | Apply some configuration
       set_fact:
         mariadb_galera_primary_node: '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-{{ mariadb_origin }}-galera-1'
