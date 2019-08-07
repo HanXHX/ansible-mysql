@@ -1,20 +1,16 @@
 ---
 
-- name: APT_KEY | Install Percona key
-  apt_key:
-    keyserver: "keyserver.ubuntu.com"
-    id: "8507EFA5"
+- name: APT | Install Percona repository
+  apt:
+    deb: https://repo.percona.com/apt/percona-release_latest.generic_all.deb
 
-- name: TEMPLATE | Deploy APT pinning (prevent upgrades from Debian)
-  template:
-    src: etc/apt/preferences.d/95-percona.j2
-    dest: /etc/apt/preferences.d/95-percona
+- name: COMMAND | Enable percona tools repository
+  command: percona-release enable tools release
+  args:
+    creates: /etc/apt/sources.list.d/percona-tools-release.list
+  register: p
 
-- name: APT_REPOSITORY | Add Percona repository
-  apt_repository:
-    repo: 'deb {{ mariadb_percona_repository }} {{ ansible_distribution_release }} main'
-
-- name: APT_RESPOSITORY | Add Percona (src) repository
-  apt_repository:
-    repo: 'deb-src {{ mariadb_percona_repository }} {{ ansible_distribution_release }} main'
-  when: mariadb_upstream_apt_src
+- name: APT | Update cache
+  apt:
+    update_cache: yes
+  when: p.changed

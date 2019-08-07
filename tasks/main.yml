@@ -1,5 +1,13 @@
 ---
 
+- block:
+
+    - name: SET_FACT | Bypass https://github.com/ansible/ansible/issues/19874
+      set_fact:
+        ansible_distribution_release: 'buster'
+
+  when: ansible_facts.distribution_major_version == "buster/sid"
+
 - name: INCLUDE_VARS | Related to OS version
   include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml"
 

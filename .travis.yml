@@ -1,13 +1,20 @@
 env:
-  - PLATFORM='docker-stretch-default-master'    ANSIBLE_VERSION='ansible>=2.5,<2.6'
-  - PLATFORM='docker-stretch-upstream-master'   ANSIBLE_VERSION='ansible>=2.5,<2.6'
-  - PLATFORM='docker-stretch-upstream-galera-1' ANSIBLE_VERSION='ansible>=2.5,<2.6'
   - PLATFORM='docker-stretch-default-master'    ANSIBLE_VERSION='ansible>=2.6,<2.7'
   - PLATFORM='docker-stretch-upstream-master'   ANSIBLE_VERSION='ansible>=2.6,<2.7'
+  - PLATFORM='docker-stretch-default-galera-1'  ANSIBLE_VERSION='ansible>=2.6,<2.7'
   - PLATFORM='docker-stretch-upstream-galera-1' ANSIBLE_VERSION='ansible>=2.6,<2.7'
+  - PLATFORM='docker-buster-default-master'     ANSIBLE_VERSION='ansible>=2.6,<2.7'
+  - PLATFORM='docker-buster-upstream-master'    ANSIBLE_VERSION='ansible>=2.6,<2.7'
+  - PLATFORM='docker-buster-default-galera-1'   ANSIBLE_VERSION='ansible>=2.6,<2.7'
+  - PLATFORM='docker-buster-upstream-galera-1'  ANSIBLE_VERSION='ansible>=2.6,<2.7'
   - PLATFORM='docker-stretch-default-master'    ANSIBLE_VERSION='ansible>=2.7,<2.8'
   - PLATFORM='docker-stretch-upstream-master'   ANSIBLE_VERSION='ansible>=2.7,<2.8'
+  - PLATFORM='docker-stretch-default-galera-1'  ANSIBLE_VERSION='ansible>=2.7,<2.8'
   - PLATFORM='docker-stretch-upstream-galera-1' ANSIBLE_VERSION='ansible>=2.7,<2.8'
+  - PLATFORM='docker-buster-default-master'     ANSIBLE_VERSION='ansible>=2.7,<2.8'
+  - PLATFORM='docker-buster-upstream-master'    ANSIBLE_VERSION='ansible>=2.7,<2.8'
+  - PLATFORM='docker-buster-default-galera-1'   ANSIBLE_VERSION='ansible>=2.7,<2.8'
+  - PLATFORM='docker-buster-upstream-galera-1'  ANSIBLE_VERSION='ansible>=2.7,<2.8'
 
 sudo: required
 
@@ -22,7 +29,7 @@ services:
 before_install:
   - wget https://releases.hashicorp.com/vagrant/2.0.1/vagrant_2.0.1_x86_64.deb
   - sudo dpkg -i vagrant_2.0.1_x86_64.deb
-  - vagrant plugin install vagrant-hostmanager 
+  - vagrant plugin install vagrant-hostmanager
 
 install:
   - pip install "$ANSIBLE_VERSION"

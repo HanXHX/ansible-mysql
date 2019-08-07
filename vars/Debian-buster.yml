@@ -1,0 +1,6 @@
+mariadb_tools:
+  - percona-toolkit
+  - python-mysqldb
+  - mysqltuner
+
+mariadb_default_xtrabackup_package: 'percona-xtrabackup-24'

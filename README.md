@@ -9,6 +9,8 @@ Install and configure MariaDB (Galera Cluster). Manage replication (master/slave
 | --------------- | --------- | ------------------------- |
 | Debian Stretch  | Debian    | 10.1                      |
 | Debian Stretch  | Upstream  | 10.1 / 10.2 / 10.3 / 10.4 |
+| Debian Buster   | Debian    | 10.3                      |
+| Debian Buster   | Upstream  | 10.3 / 10.4               |
 
 Notes
 -----
@@ -16,6 +18,7 @@ Notes
 * Galera Cluster is experimental
 * Due to Vagrant + Docker limitation (private network), replication/galera can't be checked with Travis
 * If you need to test this role with Vagrant, you must install hostmanager plugin: `vagrant plugin install vagrant-hostmanager`
+* Percona Xtrabackup is not available in upstream repository. This feature is disabled in the role.
 
 Requirements
 ------------
@@ -59,7 +62,7 @@ Check "priv" syntax in [mysql\_user module documentation](http://docs.ansible.co
 
 ### Packaging
 
-- `mariadb_version`: 10.0 / 10.1 / 10.2 / 10.3
+- `mariadb_version`: depends Debian version
 - `mariadb_repository`: MariaDB upstream APT repository (see: [MariaDB repositories tool](https://downloads.mariadb.org/mariadb/repositories))
 - `mariadb_percona_repository`: Percona upstream APT repository (see: [Percona APT doc](http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html))
 - `mariadb_use_percona_apt`: Force using Percona APT repository (useful when you want to use latest version of percona toolkits, xtrabackup... etc)
