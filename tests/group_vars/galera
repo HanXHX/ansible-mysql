@@ -1,5 +1,5 @@
 mariadb_use_galera: true
 mariadb_galera_members:
-  - '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-galera-1'
-  - '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-galera-2'
-  - '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-upstream-galera-3'
+  - '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-{{ mariadb_origin }}-galera-1'
+  - '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-{{ mariadb_origin }}-galera-2'
+  - '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-{{ mariadb_origin }}-galera-3'
