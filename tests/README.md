@@ -18,6 +18,6 @@ Wait master fully installed before run slave.
 Example:
 
 ```
-vagrant up stretch-upstream-mariadb-master
-vagrant up stretch-upstream-mariadb-slave
+vagrant up buster-upstream-mariadb-master
+vagrant up buster-upstream-mariadb-slave
 ```

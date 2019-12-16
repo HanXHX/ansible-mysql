@@ -8,7 +8,6 @@ galaxy_info:
   platforms:
   - name: Debian
     versions:
-    - stretch
     - buster
   galaxy_tags:
   - database
@@ -19,6 +18,5 @@ galaxy_info:
   - debian
   - galera
   - cluster
-  - stretch
 dependencies: []
 

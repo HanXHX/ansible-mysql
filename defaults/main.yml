@@ -5,7 +5,7 @@
 # -------------------------------------
 mariadb_origin: 'default'
 mariadb_use_galera: false
-mariadb_root_password: 'change_me_NOW'
+mariadb_root_password: null 
 mariadb_notify_restart: true
 mariadb_upstream_apt_src: false
 mariadb_manage_logrotate: true
@@ -139,11 +139,3 @@ mariadb_wsrep_node_address: false # Set primary node IP
 mariadb_galera_members: []
 mariadb_galera_primary_node: 'change_me' # See: https://github.com/ansible/ansible/issues/17453
 mariadb_wsrep_stt_method: 'rsync'
-
-# -------------------------------------
-# Percona
-# -------------------------------------
-mariadb_percona_repository: 'http://repo.percona.com/apt'
-mariadb_use_percona_apt: false
-mariadb_install_xtrabackup_package: false
-mariadb_xtrabackup_package: "{{ mariadb_default_xtrabackup_package }}"

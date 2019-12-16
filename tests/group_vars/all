@@ -1,6 +1,5 @@
 mariadb_bind_address: '0.0.0.0'
 mariadb_extra_configuration:
   innodb_commit_concurrency: 0
-mariadb_use_percona_apt: true
 mariadb_install_xtrabackup_package: true
 mariadb_slow_query_log_enabled: true

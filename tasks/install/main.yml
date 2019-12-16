@@ -1,9 +1,5 @@
 ---
 
-- name: INCLUDE | Setup Percona repository
-  import_tasks: 'percona/apt.yml'
-  when: mariadb_use_percona_apt | bool
-
 - name: INCLUDE | Setup MariaDB repository
   import_tasks: 'mariadb/upstream.yml'
   when: mariadb_origin == 'upstream'
@@ -15,8 +11,3 @@
   apt:
     pkg: "{{ mariadb_tools }}"
     install_recommends: no
-
-- name: APT | Install percona-xtrabackup if needed
-  apt:
-    pkg: "{{ mariadb_xtrabackup_package }}"
-  when: mariadb_install_xtrabackup_package | bool
