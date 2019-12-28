@@ -8,8 +8,8 @@
 
 - name: TEMPLATE | Deploy slave configuration
   template:
-    src: etc/mysql/conf.d/51-slave.cnf.j2
-    dest: /etc/mysql/conf.d/51-slave.cnf
+    src: etc/mysql/mariadb.conf.d/40-slave.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/40-slave.cnf
   notify: restart mariadb
 
 - name: MYSQL_REPLICATION | Get slave status

@@ -2,8 +2,8 @@
 
 - name: TEMPLATE | Deploy Galera configuration
   template:
-    src: etc/mysql/conf.d/09-galera.cnf.j2
-    dest: /etc/mysql/conf.d/09-galera.cnf
+    src: etc/mysql/mariadb.conf.d/20-galera.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/20-galera.cnf
   register: galeraconfig
 
 - name: INCLUDE | Bootstrap first node
