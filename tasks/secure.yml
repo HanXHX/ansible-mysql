@@ -1,16 +1,5 @@
 ---
 
-- name: MYSQL_USER | Update mysql root password for all root accounts
-  mysql_user:
-    name: root
-    host: "{{ item }}"
-    password: "{{ mariadb_root_password }}"
-  loop:
-    - "{{ ansible_hostname }}"
-    - 127.0.0.1
-    - ::1
-    - localhost
-
 - name: MYSQL_USER | Remove all anonymous users
   mysql_user:
     name: ''

@@ -5,7 +5,6 @@
 # -------------------------------------
 mariadb_origin: 'default'
 mariadb_use_galera: false
-mariadb_root_password: null 
 mariadb_notify_restart: true
 mariadb_upstream_apt_src: false
 mariadb_manage_logrotate: true
