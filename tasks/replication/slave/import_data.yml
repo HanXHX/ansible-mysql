@@ -1,11 +1,23 @@
 ---
 
-- name: WAIT_FOR | source data (prevent rsync bug) - TODO find another hack
-  wait_for:
-    host: "{{ mariadb_slave_import_from }}"
-    port: 22
+- name: FILE | Create SSH client dir
+  file:
+    path: "{{ ansible_env.HOME }}/.ssh"
+    state: directory
+    mode: 0700
+
+- name: OPENSSH_KEYPAIR | Create SSH key
+  openssh_keypair:
+    path: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+  register: gen_ssh
 
 - block:
+
+  - name: AUTHORIZED_KEY | Auth slave to backup host
+    authorized_key:
+      user: "{{ mariadb_backup_user }}"
+      state: present
+      key: "{{ gen_ssh.public_key }}"
 
   - name: FILE | Create backup directory
     file:
@@ -37,10 +49,9 @@
     variable: datadir
   register: datadir
 
-- name: SET_FACT | related to mysql datadir
+- name: SET_FACT | Get MariaDB datadir
   set_fact:
     mariadb_datadir: "{{ datadir.msg }}"
-    mariadb_binlog_info: "{{ datadir.msg }}/xtrabackup_binlog_info"
 
 - name: SERVICE | Stop MariaDB before importing data
   service:
@@ -64,29 +75,12 @@
   shell: "rm -f {{ mariadb_datadir }}/ib_logfile*"
   args:
     removes: "{{ mariadb_datadir }}/ib_logfile0"
+    warn: false
 
 - name: SERVICE | Start MariaDB
   service:
     name: mysql
     state: started
-
-- name: SHELL | Get master_log_file
-  command: "awk '{ print $1 }' {{ mariadb_binlog_info }}"
-  register: master_log_file
-
-- name: SHELL | Get master_log_pos
-  command: "awk '{ print $2 }' {{ mariadb_binlog_info }}"
-  register: master_log_pos
-
-- name: SHELL | Get master GTID
-  command: "awk '{ print $3 }' {{ mariadb_binlog_info }}"
-  register: master_gtid
-
-- name: SET_FACT | master_log_file
-  set_fact:
-    mariadb_master_log_file: "{{ master_log_file.stdout }}"
-    mariadb_master_log_pos: "{{ master_log_pos.stdout }}"
-    mariadb_master_gtid: "{{ master_gtid.stdout }}"
 
 - name: FILE | Delete dump
   file:
