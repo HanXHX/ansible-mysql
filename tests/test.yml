@@ -3,13 +3,16 @@
 - hosts: all
   gather_facts: false
   pre_tasks:
+
     - name: SETUP | Get facts
       setup:
       register: s
+
     - name: DEBUG | Show facts
       debug:
         var: s
   tasks:
+
     - name: APT | Install some packages
       apt:
         name: "{{ p }}"
@@ -22,11 +25,13 @@
   roles:
     - ../../
   tasks:
+
     - name: COPY | Deploy first dump
       copy:
         src: import1.sql
         dest: /tmp/import1.sql
       register: c
+
     - name: MYSQL_DB | Import first dump
       mysql_db:
         name: "{{ item }}"
@@ -37,37 +42,47 @@
 
 - hosts: slave
   pre_tasks:
+
     - name: SHELL | Get master IP
       shell: getent hosts {{ ansible_hostname | replace ('slave', 'master') }} | cut -d ' ' -f 1
       register: ip
       changed_when: false
+
     - name: SET_FACT | Apply some configuration
       set_fact:
         # MariaDB don't read /etc/hosts (from vagrant host plugin)
         mariadb_replication_host: "{{ ip.stdout }}"
         # Need this to use vagrant 'delegate_to'
         mariadb_slave_import_from: "{{ ansible_hostname | replace ('slave', 'master') }}"
+
   roles:
     - ../../
   tasks:
-    - name: COPY | Deploy dump
-      copy:
-        src: import2.sql
-        dest: /tmp/import2.sql
+
+    - block:
+
+      - name: COPY | Deploy dump
+        copy:
+          src: import2.sql
+          dest: /tmp/import2.sql
+        delegate_to: "{{ mariadb_slave_import_from }}"
+        register: c
+
+      - name: MYSQL_DB | Import another dump
+        mysql_db:
+          name: "{{ item }}"
+          state: import
+          target: /tmp/import2.sql
+        loop: ['testrepl', 'norepl']
+        when: c.changed
+
       delegate_to: "{{ mariadb_slave_import_from }}"
-      register: c
-    - name: MYSQL_DB | Import another dump
-      mysql_db:
-        name: "{{ item }}"
-        state: import
-        target: /tmp/import2.sql
-      loop: ['testrepl', 'norepl']
-      delegate_to: "{{ mariadb_slave_import_from }}"
-      when: c.changed
+
     - name: MYSQL_REPLICATION | Get slave infos
       mysql_replication:
         mode: getslave
       register: slave
+
     - name: FAIL | if slave threads are not running
       fail:
         msg: "Slave issue"
@@ -75,14 +90,12 @@
 
 - hosts: galera
   pre_tasks:
-    - name: SET_FACT | Bypass https://github.com/ansible/ansible/issues/19874
-      set_fact:
-        ansible_distribution_release: 'buster'
-      when: ansible_facts.distribution_major_version == "buster/sid"
+
     - name: SET_FACT | Apply some configuration
       set_fact:
         mariadb_galera_primary_node: '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-{{ mariadb_origin }}-galera-1'
         mariadb_wsrep_node_address: "{{ '127.0.0.1' if is_docker else ansible_eth1.ipv4.address }}"
         mariadb_version: '10.3'
+
   roles:
     - ../../
