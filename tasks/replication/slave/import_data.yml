@@ -5,24 +5,32 @@
     host: "{{ mariadb_slave_import_from }}"
     port: 22
 
-- name: COMMAND | Prepare backup another server
-  command: mariabackup --backup {{ mariadb_backup_dir }}
-  args:
-    creates: "{{ mariadb_backup_dir }}"
-  delegate_to: "{{ mariadb_slave_import_from }}"
-  register: backup
+- block:
 
-- name: SHELL | Dump
-  shell: "mariabackup --prepare {{ mariadb_backup_dir }}"
-  delegate_to: "{{ mariadb_slave_import_from }}"
-  when: backup.changed
+  - name: FILE | Create backup directory
+    file:
+      path: "{{ mariadb_backup_dir }}"
+      state: directory
 
-- name: FILE | Remove mysql db from backup
-  file:
-    path: "{{ mariadb_backup_dir }}/mysql"
-    state: absent
+  - name: COMMAND | Prepare backup another server
+    command: "mariabackup --backup -u root --target-dir={{ mariadb_backup_dir }}"
+    args:
+      creates: "{{ mariadb_backup_dir }}/xtrabackup_info"
+    register: backup
+
+  - name: SHELL | Dump
+    shell: "mariabackup --prepare --target-dir={{ mariadb_backup_dir }}"
+    when: backup.changed
+    register: prep
+    changed_when: "'This target seems to be not prepared yet' in prep.stderr"
+
+  - name: FILE | Remove mysql db from backup
+    file:
+      path: "{{ mariadb_backup_dir }}/mysql"
+      state: absent
+    when: backup.changed and not mariadb_slave_replicate_mysqldb
+
   delegate_to: "{{ mariadb_slave_import_from }}"
-  when: backup.changed and not mariadb_slave_replicate_mysqldb
 
 - name: MYSQL_VARIABLES | Get datadir
   mysql_variables:
@@ -51,6 +59,11 @@
     owner: mysql
     group: mysql
     recurse: yes
+
+- name: SHELL | Remove InnoDB redo logs
+  shell: "rm -f {{ mariadb_datadir }}/ib_logfile*"
+  args:
+    removes: "{{ mariadb_datadir }}/ib_logfile0"
 
 - name: SERVICE | Start MariaDB
   service:

@@ -29,8 +29,6 @@ Role Variables
 
 ### Configuration
 
-- `mariadb_root_password`: root password (should be protected with [vault](http://docs.ansible.com/playbooks_vault.html))
-
 If you need a feature you can't configure, you can use this list. These config will go to `/etc/mysql/conf.d/01-extra`.
 
 - `mariadb_extra_config`: key/value hash see [default vars file](defaults/main.yml)

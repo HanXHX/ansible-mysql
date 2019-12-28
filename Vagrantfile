@@ -21,11 +21,11 @@ Vagrant.configure("2") do |config|
 
     # Default replication
     { os_name: 'buster', vbox: vbox_deb_buster, docker: dk_deb_buster, vars: {mariadb_origin: 'default'  }, groups: ['master'] },
-#   { os_name: 'buster', vbox: vbox_deb_buster, docker: nil,           vars: {mariadb_origin: 'default'  }, groups: ['slave'] },
+    { os_name: 'buster', vbox: vbox_deb_buster, docker: nil,           vars: {mariadb_origin: 'default'  }, groups: ['slave'] },
 
     # Upstream replication
     { os_name: 'buster', vbox: vbox_deb_buster, docker: dk_deb_buster, vars: {mariadb_origin: 'upstream' }, groups: ['master'] },
-#   { os_name: 'buster', vbox: vbox_deb_buster, docker: nil,           vars: {mariadb_origin: 'upstream' }, groups: ['slave'] },
+    { os_name: 'buster', vbox: vbox_deb_buster, docker: nil,           vars: {mariadb_origin: 'upstream' }, groups: ['slave'] },
 
     # Galera Debian
     { os_name: 'buster', vbox: vbox_deb_buster, docker: dk_deb_buster, vars: {mariadb_origin: 'default'  }, groups: ['galera', '1'] },
