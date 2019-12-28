@@ -12,9 +12,6 @@ read-only
 {% endif %}
 
 # --> Ignore DB/tables
-{% if not mariadb_slave_replicate_mysqldb %}
-replicate-ignore-db=mysql
-{% endif %}
 {% for db in mariadb_slave_ignore_db %}
 replicate-ignore-db={{ db }}
 {% endfor %}

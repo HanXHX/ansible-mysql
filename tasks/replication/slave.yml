@@ -8,8 +8,8 @@
 
 - name: TEMPLATE | Deploy slave configuration
   template:
-    src: etc/mysql/conf.d/51-slave.cnf.j2
-    dest: /etc/mysql/conf.d/51-slave.cnf
+    src: etc/mysql/mariadb.conf.d/40-slave.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/40-slave.cnf
   notify: restart mariadb
 
 - name: MYSQL_REPLICATION | Get slave status
@@ -18,27 +18,16 @@
   ignore_errors: yes
   register: slave_status
 
-- name: INCLUDE | Transfert /etc/mysql/debian.cnf from master
-  import_tasks: slave/ssh.yml
-  when: mariadb_slave_replicate_mysqldb or ((slave_status.failed is defined or not slave_status.Is_Slave) and mariadb_slave_import_data)
-
 - name: INCLUDE | Import data
   import_tasks: slave/import_data.yml
-  when: (slave_status.failed is defined or not slave_status.Is_Slave) and mariadb_slave_import_data
+  when: (slave_status.failed or not slave_status.Is_Slave) and mariadb_slave_import_data
 
-- name: INCLUDE | Configure replication
-  import_tasks: slave/replication.yml
-  when: (slave_status.failed is defined or not slave_status.Is_Slave) or mariadb_slave_force_setup
-
-- name: INCLUDE | Transfert /etc/mysql/debian.cnf from master
-  import_tasks: slave/debiancnf.yml
-  when: mariadb_slave_replicate_mysqldb
+- name: Configure GTID Recplication
+  import_tasks: slave/gtid.yml
+  when: slave_status.failed or not slave_status.Is_Slave or mariadb_slave_force_setup
 
 - name: MYSQL_REPLICATION | Get slave status
   mysql_replication:
     mode: getslave
   ignore_errors: yes
   register: slave_status
-
-- name: Configure GTID
-  import_tasks: slave/gtid.yml

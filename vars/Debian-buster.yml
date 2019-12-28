@@ -1,6 +1,5 @@
 mariadb_tools:
-  - percona-toolkit
-  - python-mysqldb
+  - mariadb-backup
   - mysqltuner
-
-mariadb_default_xtrabackup_package: 'percona-xtrabackup-24'
+  - percona-toolkit
+  - python{% if ansible_python_version is version('3', '>=') %}3{% endif %}-mysqldb

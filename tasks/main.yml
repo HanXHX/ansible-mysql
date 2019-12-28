@@ -1,13 +1,5 @@
 ---
 
-- block:
-
-    - name: SET_FACT | Bypass https://github.com/ansible/ansible/issues/19874
-      set_fact:
-        ansible_distribution_release: 'buster'
-
-  when: ansible_facts.distribution_major_version == "buster/sid"
-
 - name: INCLUDE_VARS | Related to OS version
   include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml"
 
@@ -20,34 +12,26 @@
 - name: INCLUDE | Install
   import_tasks: install/main.yml
 
-- name: TEMPLATE | Deploy configuration
+- name: TEMPLATE | Deploy config files
   template:
-    src: "{{ mariadb_config_template }}"
-    dest: /etc/mysql/my.cnf
+    src: "{{ item }}"
+    dest: "/{{ item | replace('.j2', '') }}"
+  loop:
+    - etc/mysql/my.cnf
+    - etc/mysql/conf.d/mysqldump.cnf.j2
+    - etc/mysql/mariadb.conf.d/10-extra.cnf.j2
+    - etc/mysql/mariadb.conf.d/50-client.cnf.j2
+    - etc/mysql/mariadb.conf.d/50-mysqld_safe.cnf.j2
+    - etc/mysql/mariadb.conf.d/50-server.cnf.j2
   register: config
-
-- name: TEMPLATE | Deploy extra configuration
-  template:
-    src: etc/mysql/conf.d/10-extra.cnf.j2
-    dest: /etc/mysql/conf.d/10-extra.cnf
-  register: extraconfig
 
 - name: SERVICE | Restart now (prevent bugs)
   service:
     name: mysql
     state: restarted
   when:
-    (config.changed or extraconfig.changed) and
+    config.changed and
     not mariadb_galera_resetup
-
-- name: TEMPLATE Create .my.cnf for root
-  template:
-    src: root/my.cnf
-    dest: /root/.my.cnf
-    owner: root
-    group: root
-    mode: 0600
-    backup: yes
 
 - name: INCLUDE | Galera
   import_tasks: galera/main.yml
@@ -80,9 +64,3 @@
     host_all: "{{ item.host_all | default(omit) }}"
     state: present
   loop: "{{ mariadb_users }}"
-
-- name: TEMPLATE | Deploy logrotate configuration
-  template:
-    src: "etc/logrotate.d/mysql-server.j2"
-    dest: "/etc/logrotate.d/mysql-server"
-  when: mariadb_manage_logrotate | bool

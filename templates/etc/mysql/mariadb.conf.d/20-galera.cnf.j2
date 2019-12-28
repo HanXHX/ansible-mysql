@@ -29,6 +29,3 @@ binlog_format=ROW
 default_storage_engine=InnoDB
 innodb_autoinc_lock_mode=2
 innodb_doublewrite=1
-{% if mariadb_version == '10.0'%}
-query_cache_size=0
-{% endif %}

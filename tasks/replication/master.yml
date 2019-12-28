@@ -2,6 +2,6 @@
 
 - name: TEMPLATE | Deploy master configuration
   template:
-    src: etc/mysql/conf.d/50-master.cnf.j2
-    dest: /etc/mysql/conf.d/50-master.cnf
+    src: etc/mysql/mariadb.conf.d/40-master.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/40-master.cnf
   notify: restart mariadb
