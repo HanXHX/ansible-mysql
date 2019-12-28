@@ -36,12 +36,6 @@
     register: prep
     changed_when: "'This target seems to be not prepared yet' in prep.stderr"
 
-  - name: FILE | Remove mysql db from backup
-    file:
-      path: "{{ mariadb_backup_dir }}/mysql"
-      state: absent
-    when: backup.changed and not mariadb_slave_replicate_mysqldb
-
   delegate_to: "{{ mariadb_slave_import_from }}"
 
 - name: MYSQL_VARIABLES | Get datadir

@@ -97,8 +97,6 @@ mariadb_slave_import_data: true
 mariadb_slave_import_from: "{{ mariadb_replication_host }}"
 # Delete dump after slave configuration (set false if you have many slaves to install, it avoids to create many dumps)
 mariadb_slave_import_flush_dump: true
-# Slave uses mysql database from master?
-mariadb_slave_replicate_mysqldb: true
 # Don't replicate these DBs/tables
 mariadb_slave_ignore_db: []
 mariadb_slave_ignore_table: []
