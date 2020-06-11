@@ -21,6 +21,7 @@ services:
 before_install:
   - wget https://releases.hashicorp.com/vagrant/2.0.1/vagrant_2.0.1_x86_64.deb
   - sudo dpkg -i vagrant_2.0.1_x86_64.deb
+  - vagrant plugin install vagrant-share --plugin-version 1.1.9 
   - vagrant plugin install vagrant-hostmanager
 
 install:
