@@ -1,8 +1,4 @@
 env:
-  - PLATFORM='docker-buster-default-master'     ANSIBLE_VERSION='ansible>=2.8,<2.9'
-  - PLATFORM='docker-buster-upstream-master'    ANSIBLE_VERSION='ansible>=2.8,<2.9'
-  - PLATFORM='docker-buster-default-galera-1'   ANSIBLE_VERSION='ansible>=2.8,<2.9'
-  - PLATFORM='docker-buster-upstream-galera-1'  ANSIBLE_VERSION='ansible>=2.8,<2.9'
   - PLATFORM='docker-buster-default-master'     ANSIBLE_VERSION='ansible>=2.9,<2.10'
   - PLATFORM='docker-buster-upstream-master'    ANSIBLE_VERSION='ansible>=2.9,<2.10'
   - PLATFORM='docker-buster-default-galera-1'   ANSIBLE_VERSION='ansible>=2.9,<2.10'

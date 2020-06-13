@@ -25,7 +25,8 @@
     - etc/mysql/mariadb.conf.d/50-server.cnf.j2
   register: config
 
-- name: SERVICE | Restart now (prevent bugs)
+- name: SERVICE | Restart Mariadb now one at a time (prevent bugs)
+  throttle: 1
   service:
     name: mysql
     state: restarted
