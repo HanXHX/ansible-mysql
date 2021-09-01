@@ -4,6 +4,9 @@
   template:
     src: etc/mysql/mariadb.conf.d/20-galera.cnf.j2
     dest: /etc/mysql/mariadb.conf.d/20-galera.cnf
+    mode: 0644
+    owner: root
+    group: root
   register: galeraconfig
 
 - name: INCLUDE | Bootstrap first node

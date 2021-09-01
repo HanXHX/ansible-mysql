@@ -23,6 +23,9 @@
       file:
         path: "{{ mariadb_backup_dir }}"
         state: directory
+        mode: 0755
+        owner: root
+        group: root
 
     - name: COMMAND | Prepare backup another server
       command: "mariabackup --backup -u root --target-dir={{ mariadb_backup_dir }}"
@@ -30,8 +33,8 @@
         creates: "{{ mariadb_backup_dir }}/xtrabackup_info"
       register: backup
 
-    - name: SHELL | Dump
-      shell: "mariabackup --prepare --target-dir={{ mariadb_backup_dir }}"
+    - name: COMMAND | Dump
+      command: "mariabackup --prepare --target-dir={{ mariadb_backup_dir }}"
       when: backup.changed
       register: prep
       changed_when: "'This target seems to be not prepared yet' in prep.stderr"
@@ -52,15 +55,17 @@
     name: mariadb
     state: stopped
 
-# TODO: add an "ignore warning"
 - name: COMMAND | Sync backup to slave - TODO remove vagrant as static user (see why mariadb_backup_user is not working)
-  shell: "sudo -E rsync --rsync-path='sudo rsync' -a -e 'ssh -o StrictHostKeyChecking=no' {{ mariadb_backup_user }}@{{ mariadb_slave_import_from }}:{{ mariadb_backup_dir }}/ {{ mariadb_datadir }}/"
+  command: "sudo -E rsync --rsync-path='sudo rsync' -a -e 'ssh -o StrictHostKeyChecking=no' {{ mariadb_backup_user }}@{{ mariadb_slave_import_from }}:{{ mariadb_backup_dir }}/ {{ mariadb_datadir }}/"
   become: false
+  tags:
+    - skip_ansible_lint
 
 - name: FILE | Re-apply owner
   file:
     path: "{{ mariadb_datadir }}"
     state: directory
+    mode: 0755
     owner: mysql
     group: mysql
     recurse: true

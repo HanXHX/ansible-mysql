@@ -16,6 +16,10 @@
   template:
     src: "{{ item }}"
     dest: "/{{ item | replace('.j2', '') }}"
+    mode: 0644
+    owner: root
+    group: root
+  register: config
   loop:
     - etc/mysql/my.cnf
     - etc/mysql/conf.d/mysqldump.cnf.j2
@@ -23,7 +27,6 @@
     - etc/mysql/mariadb.conf.d/50-client.cnf.j2
     - etc/mysql/mariadb.conf.d/50-mysqld_safe.cnf.j2
     - etc/mysql/mariadb.conf.d/50-server.cnf.j2
-  register: config
 
 - name: SERVICE | Restart Mariadb now one at a time (prevent bugs)
   throttle: 1

@@ -30,6 +30,9 @@
       copy:
         src: import1.sql
         dest: /tmp/import1.sql
+        mode: 0644
+        owner: root
+        group: root
       register: c
 
     - name: MYSQL_DB | Import first dump
@@ -40,12 +43,16 @@
         login_unix_socket: "{{ mariadb_socket }}"
       loop: ['testrepl', 'norepl']
       when: c.changed
+      tags:
+        - skip_ansible_lint
 
 - hosts: slave
   pre_tasks:
 
     - name: SHELL | Get master IP
-      shell: getent hosts {{ ansible_hostname | replace ('slave', 'master') }} | cut -d ' ' -f 1
+      shell: set -o pipefail && getent hosts {{ ansible_hostname | replace ('slave', 'master') }} | cut -d ' ' -f 1
+      args:
+        executable: /bin/bash
       register: ip
       changed_when: false
 
@@ -66,6 +73,9 @@
           copy:
             src: import2.sql
             dest: /tmp/import2.sql
+            mode: 0644
+            owner: root
+            group: root
           delegate_to: "{{ mariadb_slave_import_from }}"
           register: c
 
