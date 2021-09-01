@@ -10,4 +10,4 @@
 - name: APT | Install few MariaDB related tools
   apt:
     pkg: "{{ mariadb_tools }}"
-    install_recommends: no
+    install_recommends: false

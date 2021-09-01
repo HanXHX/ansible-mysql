@@ -1,3 +1,5 @@
+---
+
 mariadb_tools:
   - mariadb-backup
   - mysqltuner

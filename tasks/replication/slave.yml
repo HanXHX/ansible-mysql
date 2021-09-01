@@ -15,7 +15,7 @@
 - name: MYSQL_REPLICATION | Get slave status
   mysql_replication:
     mode: getslave
-  ignore_errors: yes
+  ignore_errors: true
   register: slave_status
 
 - name: INCLUDE | Import data
@@ -29,5 +29,5 @@
 - name: MYSQL_REPLICATION | Get slave status
   mysql_replication:
     mode: getslave
-  ignore_errors: yes
+  ignore_errors: true
   register: slave_status

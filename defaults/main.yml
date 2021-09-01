@@ -43,7 +43,7 @@ mariadb_wait_timeout: 28800
 
 # InnoDB settings.
 mariadb_innodb_buffer_pool_size: "{{ (ansible_memtotal_mb * 0.2) | round | int }}M"
-mariadb_innodb_log_file_size: "64M" # If this setting changes on a running system, you will break it! http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html
+mariadb_innodb_log_file_size: "64M"    # If this setting changes on a running system, you will break it! http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html
 mariadb_innodb_log_buffer_size: '8M'
 mariadb_innodb_flush_log_at_trx_commit: '1'
 mariadb_innodb_lock_wait_timeout: 50
@@ -62,9 +62,8 @@ mariadb_mysqldump_max_allowed_packet: '64M'
 mariadb_extra_configuration: {}
 
 # Example:
-#mariadb_extra_configuration:
-#  'innodb_awsome_feature': 1
-
+# mariadb_extra_configuration:
+#   'innodb_awsome_feature': 1
 
 # -------------------------------------
 # Replication
@@ -99,7 +98,7 @@ mariadb_slave_import_flush_dump: true
 mariadb_slave_ignore_db: []
 mariadb_slave_ignore_table: []
 # SSH user used to copy data
-mariadb_backup_user: "{{ ansible_user_id }}" # TODO: change var name
+mariadb_backup_user: "{{ ansible_user_id }}"     # TODO: change var name
 ## If data is already imported, you can specify position
 mariadb_master_log_file: null
 mariadb_master_log_pos: null
@@ -127,9 +126,9 @@ mariadb_key_ids: ['0xcbcb082a1bb943db', '0xf1656f24c74cd1d8']
 # Galera
 # -------------------------------------
 mariadb_galera_resetup: false
-mariadb_wsrep_node_address: false # Set primary node IP 
+mariadb_wsrep_node_address: false    # Set primary node IP
 mariadb_galera_members: []
-mariadb_galera_primary_node: 'change_me' # See: https://github.com/ansible/ansible/issues/17453
+mariadb_galera_primary_node: 'change_me'    # See: https://github.com/ansible/ansible/issues/17453
 mariadb_wsrep_stt_method: 'rsync'
 
 # -------------------------------------

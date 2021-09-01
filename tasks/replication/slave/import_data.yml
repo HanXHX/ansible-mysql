@@ -13,28 +13,28 @@
 
 - block:
 
-  - name: AUTHORIZED_KEY | Auth slave to backup host
-    authorized_key:
-      user: "{{ mariadb_backup_user }}"
-      state: present
-      key: "{{ gen_ssh.public_key }}"
+    - name: AUTHORIZED_KEY | Auth slave to backup host
+      authorized_key:
+        user: "{{ mariadb_backup_user }}"
+        state: present
+        key: "{{ gen_ssh.public_key }}"
 
-  - name: FILE | Create backup directory
-    file:
-      path: "{{ mariadb_backup_dir }}"
-      state: directory
+    - name: FILE | Create backup directory
+      file:
+        path: "{{ mariadb_backup_dir }}"
+        state: directory
 
-  - name: COMMAND | Prepare backup another server
-    command: "mariabackup --backup -u root --target-dir={{ mariadb_backup_dir }}"
-    args:
-      creates: "{{ mariadb_backup_dir }}/xtrabackup_info"
-    register: backup
+    - name: COMMAND | Prepare backup another server
+      command: "mariabackup --backup -u root --target-dir={{ mariadb_backup_dir }}"
+      args:
+        creates: "{{ mariadb_backup_dir }}/xtrabackup_info"
+      register: backup
 
-  - name: SHELL | Dump
-    shell: "mariabackup --prepare --target-dir={{ mariadb_backup_dir }}"
-    when: backup.changed
-    register: prep
-    changed_when: "'This target seems to be not prepared yet' in prep.stderr"
+    - name: SHELL | Dump
+      shell: "mariabackup --prepare --target-dir={{ mariadb_backup_dir }}"
+      when: backup.changed
+      register: prep
+      changed_when: "'This target seems to be not prepared yet' in prep.stderr"
 
   delegate_to: "{{ mariadb_slave_import_from }}"
 
@@ -55,7 +55,7 @@
 # TODO: add an "ignore warning"
 - name: COMMAND | Sync backup to slave - TODO remove vagrant as static user (see why mariadb_backup_user is not working)
   shell: "sudo -E rsync --rsync-path='sudo rsync' -a -e 'ssh -o StrictHostKeyChecking=no' {{ mariadb_backup_user }}@{{ mariadb_slave_import_from }}:{{ mariadb_backup_dir }}/ {{ mariadb_datadir }}/"
-  become: no
+  become: false
 
 - name: FILE | Re-apply owner
   file:
@@ -63,7 +63,7 @@
     state: directory
     owner: mysql
     group: mysql
-    recurse: yes
+    recurse: true
 
 - name: SHELL | Remove InnoDB redo logs
   shell: "rm -f {{ mariadb_datadir }}/ib_logfile*"

@@ -16,7 +16,7 @@
     - name: APT | Install some packages
       apt:
         name: "{{ p }}"
-        update_cache: yes
+        update_cache: true
         cache_valid_time: 3600
       vars:
         p: ['ca-certificates', 'curl', 'strace', 'vim']
@@ -62,21 +62,21 @@
 
     - block:
 
-      - name: COPY | Deploy dump
-        copy:
-          src: import2.sql
-          dest: /tmp/import2.sql
-        delegate_to: "{{ mariadb_slave_import_from }}"
-        register: c
+        - name: COPY | Deploy dump
+          copy:
+            src: import2.sql
+            dest: /tmp/import2.sql
+          delegate_to: "{{ mariadb_slave_import_from }}"
+          register: c
 
-      - name: MYSQL_DB | Import another dump
-        mysql_db:
-          name: "{{ item }}"
-          state: import
-          target: /tmp/import2.sql
-          login_unix_socket: "{{ mariadb_socket }}"
-        loop: ['testrepl', 'norepl']
-        when: c.changed
+        - name: MYSQL_DB | Import another dump
+          mysql_db:
+            name: "{{ item }}"
+            state: import
+            target: /tmp/import2.sql
+            login_unix_socket: "{{ mariadb_socket }}"
+          loop: ['testrepl', 'norepl']
+          when: c.changed
 
       delegate_to: "{{ mariadb_slave_import_from }}"
 
