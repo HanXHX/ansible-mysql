@@ -56,7 +56,7 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "tests/test.yml"
         ansible.verbose = 'vv'
         ansible.become = true
-        ansible.extra_vars = opts[:vars].merge({ is_docker: true })
+        ansible.extra_vars = opts[:vars].merge({ mariadb_debug_role: true, is_docker: true })
         ansible.groups = { opts[:groups][0] => name }
       end
     end
@@ -78,7 +78,7 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "tests/test.yml"
         ansible.verbose = 'vv'
         ansible.become = true
-        ansible.extra_vars = opts[:vars].merge({ is_docker: false })
+        ansible.extra_vars = opts[:vars].merge({ mariadb_debug_role: true, is_docker: false })
         ansible.groups = { opts[:groups][0] => name }
       end
     end

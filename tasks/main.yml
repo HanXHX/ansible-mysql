@@ -65,3 +65,4 @@
     host_all: "{{ item.host_all | default(omit) }}"
     state: present
   loop: "{{ mariadb_users }}"
+  no_log: "{{ not mariadb_debug_role }}"

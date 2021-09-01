@@ -11,6 +11,7 @@
     master_port: "{{ mariadb_replication_port }}"
     master_user: "{{ mariadb_replication_user }}"
     master_password: "{{ mariadb_replication_password }}"
+  no_log: "{{ not mariadb_debug_role }}"
 
 - name: MYSQL_REPLICATION | Change master
   mysql_replication:

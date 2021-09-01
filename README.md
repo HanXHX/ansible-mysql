@@ -60,6 +60,10 @@ Check "priv" syntax in [mysql\_user module documentation](http://docs.ansible.co
 - `mariadb_version`: depends Debian version
 - `mariadb_repository`: MariaDB upstream APT repository (see: [MariaDB repositories tool](https://downloads.mariadb.org/mariadb/repositories))
 
+### Other
+
+- `mariadb_debug_role`: boolean, set true to disable no_log hidding
+
 Dependencies
 ------------
 

@@ -131,3 +131,8 @@ mariadb_wsrep_node_address: false # Set primary node IP
 mariadb_galera_members: []
 mariadb_galera_primary_node: 'change_me' # See: https://github.com/ansible/ansible/issues/17453
 mariadb_wsrep_stt_method: 'rsync'
+
+# -------------------------------------
+# Debug
+# -------------------------------------
+mariadb_debug_role: false
