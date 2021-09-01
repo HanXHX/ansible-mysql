@@ -8,7 +8,10 @@ Install and configure MariaDB (Galera Cluster). Manage replication (master/slave
 | OS              | Origin    | MariaDB versions          |
 | --------------- | --------- | ------------------------- |
 | Debian Buster   | Debian    | 10.3                      |
-| Debian Buster   | Upstream  | 10.3 / 10.4               |
+| Debian Buster   | Upstream  | 10.3 to 10.6              |
+| Debian Bullseye | Debian    | 10.5                      |
+| Debian Bullseye | Upstream  | 10.5 to 10.6              |
+
 
 Notes
 -----

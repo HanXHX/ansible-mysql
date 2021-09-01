@@ -49,7 +49,7 @@
 
 - name: SERVICE | Stop MariaDB before importing data
   service:
-    name: mysql
+    name: mariadb
     state: stopped
 
 # TODO: add an "ignore warning"
@@ -73,7 +73,7 @@
 
 - name: SERVICE | Start MariaDB
   service:
-    name: mysql
+    name: mariadb
     state: started
 
 - name: FILE | Delete dump

@@ -1,7 +1,7 @@
 ---
 
 - name: INCLUDE_VARS | Related to OS version
-  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml"
+  include_vars: "{{ ansible_distribution }}.yml"
 
 - name: STAT | Check if mysql exists
   stat:
@@ -28,11 +28,16 @@
 - name: SERVICE | Restart Mariadb now one at a time (prevent bugs)
   throttle: 1
   service:
-    name: mysql
+    name: mariadb
     state: restarted
   when:
     config.changed and
     not mariadb_galera_resetup
+
+- name: SERVICE | Ensure service is started
+  service:
+    name: mariadb
+    state: started
 
 - name: INCLUDE | Galera
   import_tasks: galera/main.yml
@@ -44,11 +49,6 @@
 
 - name: INCLUDE | Secure install
   import_tasks: 'secure.yml'
-
-- name: SERVICE | Ensure service is started
-  service:
-    name: mysql
-    state: started
 
 - name: MYSQL_DB | Create databases
   mysql_db:

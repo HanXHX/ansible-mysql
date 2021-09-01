@@ -116,7 +116,7 @@ mariadb_users: []
 # -------------------------------------
 # MariaDB
 # -------------------------------------
-mariadb_version: '10.3'
+mariadb_version: '10.6'
 mariadb_mirror_domain: "ftp.igh.cnrs.fr"
 # See: https://downloads.mariadb.org/mariadb/repositories
 mariadb_repository: "http://{{ mariadb_mirror_domain }}/pub/mariadb/repo/{{ mariadb_version }}/debian"

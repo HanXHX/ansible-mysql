@@ -37,6 +37,7 @@
         name: "{{ item }}"
         state: import
         target: /tmp/import1.sql
+        login_unix_socket: "{{ mariadb_socket }}"
       loop: ['testrepl', 'norepl']
       when: c.changed
 
@@ -73,6 +74,7 @@
           name: "{{ item }}"
           state: import
           target: /tmp/import2.sql
+          login_unix_socket: "{{ mariadb_socket }}"
         loop: ['testrepl', 'norepl']
         when: c.changed
 

@@ -15,7 +15,7 @@
 
     - name: SERVICE | Stop MariaDB
       service:
-        name: mysql
+        name: mariadb
         state: stopped
 
     - name: COMMAND | Bootstrap first node (systemd)
@@ -24,7 +24,7 @@
 
     - name: SERVICE | Bootstrap first node (clean init)
       service:
-        name: mysql
+        name: mariadb
         state: started
         arguments: --wsrep-new-cluster
       register: bootstrap_run

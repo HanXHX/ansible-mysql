@@ -9,6 +9,7 @@ galaxy_info:
   - name: Debian
     versions:
     - buster
+    - bullseye
   galaxy_tags:
   - database
   - packaging
