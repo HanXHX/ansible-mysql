@@ -4,10 +4,14 @@ env:
   global:
     - VAGRANT_VERSION='2.2.18'
   jobs:
-    - PLATFORM='docker-buster-default-master'     ANSIBLE_VERSION='ansible>=2.11,<2.12'
-    - PLATFORM='docker-buster-upstream-master'    ANSIBLE_VERSION='ansible>=2.11,<2.12'
-    - PLATFORM='docker-buster-default-galera-1'   ANSIBLE_VERSION='ansible>=2.11,<2.12'
-    - PLATFORM='docker-buster-upstream-galera-1'  ANSIBLE_VERSION='ansible>=2.11,<2.12'
+    - PLATFORM='docker-buster-default-master'      ANSIBLE_VERSION='>=2.11,<2.12'
+    - PLATFORM='docker-buster-upstream-master'     ANSIBLE_VERSION='>=2.11,<2.12'
+    - PLATFORM='docker-buster-default-galera-1'    ANSIBLE_VERSION='>=2.11,<2.12'
+    - PLATFORM='docker-buster-upstream-galera-1'   ANSIBLE_VERSION='>=2.11,<2.12'
+    - PLATFORM='docker-bullseye-default-master'    ANSIBLE_VERSION='>=2.11,<2.12'
+    - PLATFORM='docker-bullseye-upstream-master'   ANSIBLE_VERSION='>=2.11,<2.12'
+    - PLATFORM='docker-bullseye-default-galera-1'  ANSIBLE_VERSION='>=2.11,<2.12'
+    - PLATFORM='docker-bullseye-upstream-galera-1' ANSIBLE_VERSION='>=2.11,<2.12'
 
 os:
   - linux
@@ -25,12 +29,12 @@ before_install:
   - sudo apt-get install -y yamllint
   - sudo wget -nv https://releases.hashicorp.com/vagrant/${VAGRANT_VERSION}/vagrant_${VAGRANT_VERSION}_x86_64.deb
   - sudo dpkg -i vagrant_${VAGRANT_VERSION}_x86_64.deb
+  - vagrant plugin install vagrant-hostmanager
 
 install:
   - sudo pip install "ansible-core$ANSIBLE_VERSION"
   - sudo pip install ansible-lint
-  - ansible-galaxy collection install community.general
-  - ansible-galaxy install -p ./tests HanXHX.php
+  - ansible-galaxy collection install community.general community.mysql community.crypto
 
 script:
   - VAGRANT_DEFAULT_PROVIDER=docker vagrant up $PLATFORM

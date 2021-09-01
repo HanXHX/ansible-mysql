@@ -23,7 +23,8 @@ Notes
 Requirements
 ------------
 
-Ansible 2.9+
+- Ansible >=2.11
+- Collections: community.general / community.mysql / community.crypto
 
 Role Variables
 --------------
