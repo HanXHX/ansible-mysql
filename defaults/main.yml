@@ -80,6 +80,8 @@ mariadb_replication_port: '3306'
 
 mariadb_backup_dir: '/var/backups/tmp-mysql'
 
+mariadb_service_name: '{{ mariadb_default_service_name if mariadb_origin == "default" else "mariadb" }}'
+
 # Master
 mariadb_max_binlog_size: "100M"
 mariadb_expire_logs_days: "10"
