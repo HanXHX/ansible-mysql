@@ -112,7 +112,6 @@
       set_fact:
         mariadb_galera_primary_node: '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-{{ mariadb_origin }}-galera-1'
         mariadb_wsrep_node_address: "{{ '127.0.0.1' if is_docker else ansible_eth1.ipv4.address }}"
-        mariadb_version: '10.3'
 
   roles:
     - ../../
