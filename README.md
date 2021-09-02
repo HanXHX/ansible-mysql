@@ -24,7 +24,7 @@ Requirements
 ------------
 
 - Ansible >=2.11
-- Collections: community.general / community.mysql / community.crypto
+- Collections: community.general / community.mysql / community.crypto / ansible.posix
 
 Role Variables
 --------------
