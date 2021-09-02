@@ -1,7 +1,7 @@
 ---
 
 - name: INCLUDE_VARS | Extra variables
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -11,16 +11,16 @@
         - 'vars'
 
 - name: STAT | Check if mysql exists
-  stat:
+  ansible.builtin.stat:
     path: /usr/sbin/mysqld
   register: mariadb_exists
   changed_when: false
 
 - name: INCLUDE | Install
-  import_tasks: install/main.yml
+  ansible.builtin.import_tasks: install/main.yml
 
 - name: TEMPLATE | Deploy config files
-  template:
+  ansible.builtin.template:
     src: "{{ item }}"
     dest: "/{{ item | replace('.j2', '') }}"
     mode: 0644
@@ -37,7 +37,7 @@
 
 - name: SERVICE | Restart Mariadb now one at a time (prevent bugs)
   throttle: 1
-  service:
+  ansible.builtin.service:
     name: "{{ mariadb_service_name }}"
     state: restarted
   when:
@@ -45,29 +45,29 @@
     not mariadb_galera_resetup
 
 - name: SERVICE | Ensure service is started
-  service:
+  ansible.builtin.service:
     name: "{{ mariadb_service_name }}"
     state: started
 
 - name: INCLUDE | Galera
-  import_tasks: galera/main.yml
+  ansible.builtin.import_tasks: galera/main.yml
   when: mariadb_use_galera
 
 - name: INCLUDE | Replication
-  import_tasks: replication/main.yml
+  ansible.builtin.import_tasks: replication/main.yml
   when: mariadb_replication_master or mariadb_replication_slave
 
 - name: INCLUDE | Secure install
-  import_tasks: 'secure.yml'
+  ansible.builtin.import_tasks: 'secure.yml'
 
 - name: MYSQL_DB | Create databases
-  mysql_db:
+  community.mysql.mysql_db:
     name: "{{ item }}"
     state: present
   loop: "{{ mariadb_databases }}"
 
 - name: MYSQL_USER | Manages users...
-  mysql_user:
+  community.mysql.mysql_user:
     name: "{{ item.name }}"
     password: "{{ item.password }}"
     priv: "{{ item.priv }}"
