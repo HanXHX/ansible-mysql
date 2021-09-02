@@ -1,7 +1,14 @@
 ---
 
-- name: INCLUDE_VARS | Related to OS version
-  include_vars: "{{ ansible_distribution }}.yml"
+- name: INCLUDE_VARS | Extra variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - '{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml'
+        - default.yml
+      paths:
+        - 'vars'
 
 - name: STAT | Check if mysql exists
   stat:
@@ -31,7 +38,7 @@
 - name: SERVICE | Restart Mariadb now one at a time (prevent bugs)
   throttle: 1
   service:
-    name: mariadb
+    name: "{{ mariadb_service_name }}"
     state: restarted
   when:
     config.changed and
@@ -39,7 +46,7 @@
 
 - name: SERVICE | Ensure service is started
   service:
-    name: mariadb
+    name: "{{ mariadb_service_name }}"
     state: started
 
 - name: INCLUDE | Galera

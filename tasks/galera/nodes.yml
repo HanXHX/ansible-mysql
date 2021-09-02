@@ -15,7 +15,7 @@
 
   - name: SERVICE | Stop MariaDB
     service:
-      name: mariadb
+      name: "{{ mariadb_service_name }}"
       state: stopped
 
   - name: COPY | Paste primary node's debian.cnf
@@ -29,7 +29,7 @@
 
   - name: SERVICE | Start MariaDB
     service:
-      name: mariadb
+      name: "{{ mariadb_service_name }}"
       state: started
 
   when: debiancnf.stdout != ondc.stdout

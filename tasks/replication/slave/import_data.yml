@@ -52,7 +52,7 @@
 
 - name: SERVICE | Stop MariaDB before importing data
   service:
-    name: mariadb
+    name: "{{ mariadb_service_name }}"
     state: stopped
 
 - name: COMMAND | Sync backup to slave - TODO remove vagrant as static user (see why mariadb_backup_user is not working)
@@ -78,7 +78,7 @@
 
 - name: SERVICE | Start MariaDB
   service:
-    name: mariadb
+    name: "{{ mariadb_service_name }}"
     state: started
 
 - name: FILE | Delete dump
