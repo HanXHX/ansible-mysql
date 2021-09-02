@@ -13,14 +13,9 @@
     master_password: "{{ mariadb_replication_password }}"
   no_log: "{{ not mariadb_debug_role }}"
 
-# -- Wait this PR in Ansible released version (https://github.com/ansible/ansible/pull/62648)
-# name: MYSQL_REPLICATION | Setup replication with GTID
-# mysql_replication:
-#   master_use_gtid: current_pos
-
-- name: COMMAND | Configure GTID
-  command: mariadb -e "CHANGE MASTER TO master_use_gtid=current_pos";
-  changed_when: true
+- name: MYSQL_REPLICATION | Setup replication with GTID
+  mysql_replication:
+    primary_use_gtid: current_pos
 
 - name: MYSQL_REPLICATION | Start slave
   mysql_replication:
