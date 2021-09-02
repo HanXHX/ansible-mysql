@@ -19,7 +19,12 @@
         update_cache: true
         cache_valid_time: 3600
       vars:
-        p: ['ca-certificates', 'curl', 'strace', 'vim']
+        p: ['ca-certificates', 'curl', 'strace', 'rsyslog', 'vim']
+
+    - name: SERVICE | Ensure rsyslog is started
+      service:
+        name: rsyslog
+        state: started
 
 - hosts: master
   roles:
