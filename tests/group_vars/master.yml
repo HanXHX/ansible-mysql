@@ -1,3 +1,5 @@
+---
+
 # Master durability
 mariadb_sync_binlog: '1'
 mariadb_innodb_flush_log_at_trx_commit: '1'

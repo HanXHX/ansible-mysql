@@ -1,3 +1,5 @@
+---
+
 mariadb_use_galera: true
 mariadb_galera_members:
   - '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-{{ mariadb_origin }}-galera-1'
