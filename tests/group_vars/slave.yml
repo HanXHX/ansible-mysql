@@ -1,3 +1,5 @@
+---
+
 mariadb_replication_master: false
 mariadb_replication_slave: true
 mariadb_replication_user: 'replication'

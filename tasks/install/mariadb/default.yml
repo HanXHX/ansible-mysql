@@ -1,10 +1,5 @@
 ---
 
 - name: APT | Install MariaDB server
-  apt:
+  ansible.builtin.apt:
     pkg: mariadb-server
-
-- name: APT | Install Galera
-  apt:
-    pkg: galera-3
-  when: mariadb_use_galera

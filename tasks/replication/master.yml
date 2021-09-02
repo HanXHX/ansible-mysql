@@ -1,7 +1,10 @@
 ---
 
 - name: TEMPLATE | Deploy master configuration
-  template:
+  ansible.builtin.template:
     src: etc/mysql/mariadb.conf.d/40-master.cnf.j2
     dest: /etc/mysql/mariadb.conf.d/40-master.cnf
+    mode: 0644
+    owner: root
+    group: root
   notify: restart mariadb

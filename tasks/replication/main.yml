@@ -1,9 +1,9 @@
 ---
 
 - name: INCLUDE | Replication Master
-  import_tasks: master.yml
+  ansible.builtin.import_tasks: master.yml
   when: mariadb_replication_master
 
 - name: INCLUDE | Replication slave
-  import_tasks: slave.yml
+  ansible.builtin.import_tasks: slave.yml
   when: mariadb_replication_slave

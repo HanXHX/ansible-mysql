@@ -1,7 +1,7 @@
 ---
 
 - name: FILE | Create SSH client dir
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.ssh"
     state: directory
     mode: 0700
@@ -13,71 +13,76 @@
 
 - block:
 
-  - name: AUTHORIZED_KEY | Auth slave to backup host
-    authorized_key:
-      user: "{{ mariadb_backup_user }}"
-      state: present
-      key: "{{ gen_ssh.public_key }}"
+    - name: AUTHORIZED_KEY | Auth slave to backup host
+      ansible.posix.authorized_key:
+        user: "{{ mariadb_backup_user }}"
+        state: present
+        key: "{{ gen_ssh.public_key }}"
 
-  - name: FILE | Create backup directory
-    file:
-      path: "{{ mariadb_backup_dir }}"
-      state: directory
+    - name: FILE | Create backup directory
+      ansible.builtin.file:
+        path: "{{ mariadb_backup_dir }}"
+        state: directory
+        mode: 0755
+        owner: root
+        group: root
 
-  - name: COMMAND | Prepare backup another server
-    command: "mariabackup --backup -u root --target-dir={{ mariadb_backup_dir }}"
-    args:
-      creates: "{{ mariadb_backup_dir }}/xtrabackup_info"
-    register: backup
+    - name: COMMAND | Prepare backup another server
+      ansible.builtin.command: "mariabackup --backup -u root --target-dir={{ mariadb_backup_dir }}"
+      args:
+        creates: "{{ mariadb_backup_dir }}/xtrabackup_info"
+      register: backup
 
-  - name: SHELL | Dump
-    shell: "mariabackup --prepare --target-dir={{ mariadb_backup_dir }}"
-    when: backup.changed
-    register: prep
-    changed_when: "'This target seems to be not prepared yet' in prep.stderr"
+    - name: COMMAND | Dump
+      ansible.builtin.command: "mariabackup --prepare --target-dir={{ mariadb_backup_dir }}"
+      when: backup.changed
+      register: prep
+      changed_when: "'This target seems to be not prepared yet' in prep.stderr"
 
   delegate_to: "{{ mariadb_slave_import_from }}"
 
 - name: MYSQL_VARIABLES | Get datadir
-  mysql_variables:
+  community.mysql.mysql_variables:
     variable: datadir
   register: datadir
 
 - name: SET_FACT | Get MariaDB datadir
-  set_fact:
+  ansible.builtin.set_fact:
     mariadb_datadir: "{{ datadir.msg }}"
 
 - name: SERVICE | Stop MariaDB before importing data
-  service:
-    name: mysql
+  ansible.builtin.service:
+    name: "{{ mariadb_service_name }}"
     state: stopped
 
-# TODO: add an "ignore warning"
 - name: COMMAND | Sync backup to slave - TODO remove vagrant as static user (see why mariadb_backup_user is not working)
-  shell: "sudo -E rsync --rsync-path='sudo rsync' -a -e 'ssh -o StrictHostKeyChecking=no' {{ mariadb_backup_user }}@{{ mariadb_slave_import_from }}:{{ mariadb_backup_dir }}/ {{ mariadb_datadir }}/"
-  become: no
+  ansible.builtin.command: "sudo -E rsync --rsync-path='sudo rsync' -a -e 'ssh -o StrictHostKeyChecking=no' {{ mariadb_backup_user }}@{{ mariadb_slave_import_from }}:{{ mariadb_backup_dir }}/ {{ mariadb_datadir }}/"
+  become: false
+  tags:
+    - skip_ansible_lint
 
 - name: FILE | Re-apply owner
-  file:
+  ansible.builtin.file:
     path: "{{ mariadb_datadir }}"
     state: directory
+    mode: 0755
     owner: mysql
     group: mysql
-    recurse: yes
+    recurse: true
 
 - name: SHELL | Remove InnoDB redo logs
-  shell: "rm -f {{ mariadb_datadir }}/ib_logfile*"
+  ansible.builtin.shell: "rm -f {{ mariadb_datadir }}/ib_logfile*"
   args:
     removes: "{{ mariadb_datadir }}/ib_logfile0"
     warn: false
 
 - name: SERVICE | Start MariaDB
-  service:
-    name: mysql
+  ansible.builtin.service:
+    name: "{{ mariadb_service_name }}"
     state: started
 
 - name: FILE | Delete dump
-  file:
+  ansible.builtin.file:
     path: "{{ mariadb_backup_dir }}"
     state: absent
   delegate_to: "{{ mariadb_slave_import_from }}"

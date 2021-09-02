@@ -1,33 +1,36 @@
 ---
 
 - name: MYSQL_VARIABLES | Set read only
-  mysql_variables:
+  community.mysql.mysql_variables:
     variable: read_only
     value: 'ON'
   when: mariadb_slave_readonly
 
 - name: TEMPLATE | Deploy slave configuration
-  template:
+  ansible.builtin.template:
     src: etc/mysql/mariadb.conf.d/40-slave.cnf.j2
     dest: /etc/mysql/mariadb.conf.d/40-slave.cnf
+    mode: 0644
+    owner: root
+    group: root
   notify: restart mariadb
 
 - name: MYSQL_REPLICATION | Get slave status
-  mysql_replication:
+  community.mysql.mysql_replication:
     mode: getslave
-  ignore_errors: yes
+  ignore_errors: true
   register: slave_status
 
 - name: INCLUDE | Import data
-  import_tasks: slave/import_data.yml
+  ansible.builtin.import_tasks: slave/import_data.yml
   when: (slave_status.failed or not slave_status.Is_Slave) and mariadb_slave_import_data
 
 - name: Configure GTID Recplication
-  import_tasks: slave/gtid.yml
+  ansible.builtin.import_tasks: slave/gtid.yml
   when: slave_status.failed or not slave_status.Is_Slave or mariadb_slave_force_setup
 
 - name: MYSQL_REPLICATION | Get slave status
-  mysql_replication:
+  community.mysql.mysql_replication:
     mode: getslave
-  ignore_errors: yes
+  ignore_errors: true
   register: slave_status

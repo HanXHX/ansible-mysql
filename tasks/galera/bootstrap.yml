@@ -1,31 +1,31 @@
 ---
 - name: SET_FACT | Prepare mark var
-  set_fact:
+  ansible.builtin.set_fact:
     __mark: "{{ mariadb_datadir }}/.ansible_galera_boostrap"
 
 - name: STAT | Bootstrap mark
-  stat:
+  ansible.builtin.stat:
     path: "{{ __mark }}"
   register: s
 
 - block:
     - name: SET_FACT | We must NOT restart after bootstrap!
-      set_fact:
+      ansible.builtin.set_fact:
         mariadb_notify_restart: false
 
     - name: SERVICE | Stop MariaDB
-      service:
-        name: mysql
+      ansible.builtin.service:
+        name: "{{ mariadb_service_name }}"
         state: stopped
 
     - name: COMMAND | Bootstrap first node (systemd)
-      command: galera_new_cluster
+      ansible.builtin.command: galera_new_cluster
       when: ansible_service_mgr == 'systemd'
 
     - name: SERVICE | Bootstrap first node (clean init)
-      service:
-        name: mysql
-        state: started
+      ansible.builtin.service:
+        name: "{{ mariadb_service_name }}"
+        state: "started"
         arguments: --wsrep-new-cluster
       register: bootstrap_run
       when: ansible_service_mgr != 'systemd'
@@ -33,6 +33,6 @@
   when: not s.stat.exists or mariadb_galera_resetup
 
 - name: COMMAND | Create Bootstrap mark
-  command: "touch {{ __mark }}"
+  ansible.builtin.command: "touch {{ __mark }}"
   args:
     creates: "{{ __mark }}"

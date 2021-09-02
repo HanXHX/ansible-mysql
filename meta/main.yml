@@ -1,22 +1,26 @@
 ---
+
 galaxy_info:
+  namespace: hanxhx
+  role_name: mysql
   author: Emilien Mantel
   description: Install and configure MariaDB (and Galera Cluster) on Debian
   company:
   license: GPLv2
   min_ansible_version: 2.9
   platforms:
-  - name: Debian
-    versions:
-    - buster
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
   galaxy_tags:
-  - database
-  - packaging
-  - mysql
-  - mariadb
-  - replication
-  - debian
-  - galera
-  - cluster
-dependencies: []
+    - database
+    - packaging
+    - mysql
+    - mariadb
+    - replication
+    - debian
+    - galera
+    - cluster
 
+dependencies: []

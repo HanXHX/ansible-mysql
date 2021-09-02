@@ -5,21 +5,26 @@
   pre_tasks:
 
     - name: SETUP | Get facts
-      setup:
+      ansible.builtin.setup:
       register: s
 
     - name: DEBUG | Show facts
-      debug:
+      ansible.builtin.debug:
         var: s
   tasks:
 
     - name: APT | Install some packages
-      apt:
+      ansible.builtin.apt:
         name: "{{ p }}"
-        update_cache: yes
+        update_cache: true
         cache_valid_time: 3600
       vars:
-        p: ['ca-certificates', 'curl', 'strace', 'vim']
+        p: ['ca-certificates', 'curl', 'strace', 'rsyslog', 'vim']
+
+    - name: SERVICE | Ensure rsyslog is started
+      ansible.builtin.service:
+        name: rsyslog
+        state: started
 
 - hosts: master
   roles:
@@ -27,29 +32,37 @@
   tasks:
 
     - name: COPY | Deploy first dump
-      copy:
+      ansible.builtin.copy:
         src: import1.sql
         dest: /tmp/import1.sql
+        mode: 0644
+        owner: root
+        group: root
       register: c
 
     - name: MYSQL_DB | Import first dump
-      mysql_db:
+      community.mysql.mysql_db:
         name: "{{ item }}"
         state: import
         target: /tmp/import1.sql
+        login_unix_socket: "{{ mariadb_socket }}"
       loop: ['testrepl', 'norepl']
       when: c.changed
+      tags:
+        - skip_ansible_lint
 
 - hosts: slave
   pre_tasks:
 
     - name: SHELL | Get master IP
-      shell: getent hosts {{ ansible_hostname | replace ('slave', 'master') }} | cut -d ' ' -f 1
+      ansible.builtin.shell: set -o pipefail && getent hosts {{ ansible_hostname | replace ('slave', 'master') }} | cut -d ' ' -f 1
+      args:
+        executable: /bin/bash
       register: ip
       changed_when: false
 
     - name: SET_FACT | Apply some configuration
-      set_fact:
+      ansible.builtin.set_fact:
         # MariaDB don't read /etc/hosts (from vagrant host plugin)
         mariadb_replication_host: "{{ ip.stdout }}"
         # Need this to use vagrant 'delegate_to'
@@ -61,41 +74,49 @@
 
     - block:
 
-      - name: COPY | Deploy dump
-        copy:
-          src: import2.sql
-          dest: /tmp/import2.sql
-        delegate_to: "{{ mariadb_slave_import_from }}"
-        register: c
+        - name: COPY | Deploy dump
+          ansible.builtin.copy:
+            src: import2.sql
+            dest: /tmp/import2.sql
+            mode: 0644
+            owner: root
+            group: root
+          delegate_to: "{{ mariadb_slave_import_from }}"
+          register: c
 
-      - name: MYSQL_DB | Import another dump
-        mysql_db:
-          name: "{{ item }}"
-          state: import
-          target: /tmp/import2.sql
-        loop: ['testrepl', 'norepl']
-        when: c.changed
+        - name: MYSQL_DB | Import another dump
+          community.mysql.mysql_db:
+            name: "{{ item }}"
+            state: import
+            target: /tmp/import2.sql
+            login_unix_socket: "{{ mariadb_socket }}"
+          loop: ['testrepl', 'norepl']
+          when: c.changed
 
       delegate_to: "{{ mariadb_slave_import_from }}"
 
     - name: MYSQL_REPLICATION | Get slave infos
-      mysql_replication:
+      community.mysql.mysql_replication:
         mode: getslave
       register: slave
 
     - name: FAIL | if slave threads are not running
-      fail:
+      ansible.builtin.fail:
         msg: "Slave issue"
       when: slave.Slave_IO_Running != 'Yes' or slave.Slave_SQL_Running != 'Yes'
 
 - hosts: galera
   pre_tasks:
 
+    - name: APT_REPOSITORY | Force galera-3 on Buster + MariaDB from Debian repository (prevent crashes)
+      ansible.builtin.set_fact:
+        mariadb_galera_package_name: 'galera-3'
+      when: ansible_distribution_release == 'buster' and mariadb_origin == 'default'
+
     - name: SET_FACT | Apply some configuration
-      set_fact:
+      ansible.builtin.set_fact:
         mariadb_galera_primary_node: '{% if is_docker %}docker-{% else %}vbox-{% endif %}{{ ansible_distribution_release }}-{{ mariadb_origin }}-galera-1'
         mariadb_wsrep_node_address: "{{ '127.0.0.1' if is_docker else ansible_eth1.ipv4.address }}"
-        mariadb_version: '10.3'
 
   roles:
     - ../../

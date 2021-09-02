@@ -1,0 +1,7 @@
+---
+
+mariadb_tools:
+  - mariadb-backup
+  - mysqltuner
+  - percona-toolkit
+  - python{% if ansible_python_version is version('3', '>=') %}3{% endif %}-mysqldb

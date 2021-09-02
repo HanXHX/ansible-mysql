@@ -1,3 +1,5 @@
+---
+
 mariadb_bind_address: '0.0.0.0'
 mariadb_extra_configuration:
   innodb_commit_concurrency: 0

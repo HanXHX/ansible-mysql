@@ -1,21 +1,28 @@
 ---
 
+- name: APT | Install GPG
+  ansible.builtin.apt:
+    name: gpg
+
 - name: APT_KEY | Install MariaDB key
-  apt_key:
+  ansible.builtin.apt_key:
     keyserver: "{{ mariadb_key_server }}"
     id: "{{ item }}"
   loop: "{{ mariadb_key_ids }}"
 
 - name: TEMPLATE | Deploy APT pinning (prevent upgrades from Debian)
-  template:
+  ansible.builtin.template:
     src: etc/apt/preferences.d/95-mariadb.j2
     dest: /etc/apt/preferences.d/95-mariadb
+    mode: 0644
+    owner: root
+    group: root
 
 - name: APT_REPOSITORY | Add MariaDB repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: 'deb {{ mariadb_repository }} {{ ansible_distribution_release }} main'
 
 - name: APT_REPOSITORY | Add MariaDB (src) repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: 'deb-src {{ mariadb_repository }} {{ ansible_distribution_release }} main'
   when: mariadb_upstream_apt_src

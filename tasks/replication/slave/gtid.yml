@@ -1,11 +1,11 @@
 ---
 
 - name: MYSQL_REPLICATION | Stop slave
-  mysql_replication:
+  community.mysql.mysql_replication:
     mode: stopslave
 
 - name: MYSQL_REPLICATION | Configure master host
-  mysql_replication:
+  community.mysql.mysql_replication:
     mode: changemaster
     master_host: "{{ mariadb_replication_host }}"
     master_port: "{{ mariadb_replication_port }}"
@@ -13,15 +13,10 @@
     master_password: "{{ mariadb_replication_password }}"
   no_log: "{{ not mariadb_debug_role }}"
 
-# -- Wait this PR in Ansible released version (https://github.com/ansible/ansible/pull/62648)
-# name: MYSQL_REPLICATION | Setup replication with GTID
-# mysql_replication:
-#   master_use_gtid: current_pos
-
-- name: COMMAND | Configure GTID
-  command: mariadb -e "CHANGE MASTER TO master_use_gtid=current_pos";
-  changed_when: true
+- name: MYSQL_REPLICATION | Setup replication with GTID
+  community.mysql.mysql_replication:
+    primary_use_gtid: current_pos
 
 - name: MYSQL_REPLICATION | Start slave
-  mysql_replication:
+  community.mysql.mysql_replication:
     mode: startslave

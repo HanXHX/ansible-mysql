@@ -1,13 +1,13 @@
 ---
 
 - name: INCLUDE | Setup MariaDB repository
-  import_tasks: 'mariadb/upstream.yml'
+  ansible.builtin.import_tasks: 'mariadb/upstream.yml'
   when: mariadb_origin == 'upstream'
 
 - name: INCLUDE | Install MariaDB
-  import_tasks: 'mariadb/default.yml'
+  ansible.builtin.import_tasks: 'mariadb/default.yml'
 
 - name: APT | Install few MariaDB related tools
-  apt:
+  ansible.builtin.apt:
     pkg: "{{ mariadb_tools }}"
-    install_recommends: no
+    install_recommends: false
