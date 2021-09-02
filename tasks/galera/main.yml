@@ -1,5 +1,9 @@
 ---
 
+- name: APT | Install Galera
+  apt:
+    pkg: "{{ mariadb_galera_package_name }}"
+
 - name: TEMPLATE | Deploy Galera configuration
   template:
     src: etc/mysql/mariadb.conf.d/20-galera.cnf.j2
