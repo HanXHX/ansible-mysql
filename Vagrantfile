@@ -79,10 +79,6 @@ Vagrant.configure("2") do |config|
         d.has_ssh = true
       end
 
-      if opts[:os_name].include? "bullseye"
-        m.vm.provision "shell", inline: "[ -f '/root/first_provision' ] || (apt-get update -qq && apt-get -y dist-upgrade && touch /root/first_provision)"
-      end
-
       m.vm.provision "ansible" do |ansible|
         ansible.playbook = "tests/test.yml"
         ansible.verbose = 'vv'
@@ -104,10 +100,6 @@ Vagrant.configure("2") do |config|
       m.vm.provider "virtualbox" do |v|
         v.cpus = 1
         v.memory = 512
-      end
-
-      if opts[:os_name].include? "bullseye"
-        m.vm.provision "shell", inline: "[ -f '/root/first_provision' ] || (apt-get update -qq && apt-get -y dist-upgrade && touch /root/first_provision)"
       end
 
       m.vm.provision "ansible" do |ansible|
