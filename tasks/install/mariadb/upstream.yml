@@ -5,7 +5,7 @@
     name: gpg
 
 - name: COMMAND | Check indempotent
-  ansible.builtin.apt.command: 'grep -q {{ mariadb_upstream_version }} /etc/apt/sources.list.d/mariadb.list'
+  ansible.builtin.command: 'grep -q "{{ mariadb_upstream_version }}" /etc/apt/sources.list.d/mariadb.list'
   register: check_idempotent
   failed_when: false
   changed_when: false
