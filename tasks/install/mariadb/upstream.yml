@@ -4,25 +4,30 @@
   ansible.builtin.apt:
     name: gpg
 
-- name: APT_KEY | Install MariaDB key
-  ansible.builtin.apt_key:
-    keyserver: "{{ mariadb_key_server }}"
-    id: "{{ item }}"
-  loop: "{{ mariadb_key_ids }}"
+- name: COMMAND | Check indempotent
+  ansible.builtin.apt.command: 'grep -q {{ mariadb_upstream_version }} /etc/apt/sources.list.d/mariadb.list'
+  register: check_idempotent
+  failed_when: false
+  changed_when: false
 
-- name: TEMPLATE | Deploy APT pinning (prevent upgrades from Debian)
-  ansible.builtin.template:
-    src: etc/apt/preferences.d/95-mariadb.j2
-    dest: /etc/apt/preferences.d/95-mariadb
-    mode: 0644
-    owner: root
-    group: root
+- block:
 
-- name: APT_REPOSITORY | Add MariaDB repository
-  ansible.builtin.apt_repository:
-    repo: 'deb {{ mariadb_repository }} {{ ansible_distribution_release }} main'
+    - name: GET_URL | Download MariaDB setup script
+      ansible.builtin.get_url:
+        url: '{{ mariadb_upstream_setup_script }}'
+        dest: '/tmp/mariadb_repo_setup'
+        mode: 0755
+        owner: root
+        group: root
 
-- name: APT_REPOSITORY | Add MariaDB (src) repository
-  ansible.builtin.apt_repository:
-    repo: 'deb-src {{ mariadb_repository }} {{ ansible_distribution_release }} main'
-  when: mariadb_upstream_apt_src
+    - name: COMMAND | Launch MariaDB upstream setup script
+      ansible.builtin.command: '/tmp/mariadb_repo_setup --mariadb-server-version={{ mariadb_upstream_version }}'
+
+  when: check_idempotent.rc > 0
+
+- name: SHELL | Remove useless old files
+  ansible.builtin.shell: 'rm -f /etc/apt/sources.list.d/mariadb.list.old_*'
+  args:
+    removes: /etc/apt/sources.list.d/mariadb.list.old_1
+  tags:
+    - skip_ansible_lint

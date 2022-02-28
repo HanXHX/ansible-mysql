@@ -5,12 +5,12 @@ MariaDB (MySQL) Ansible role for Debian
 
 Install and configure MariaDB (Galera Cluster). Manage replication (master/slave). Create users and databases.
 
-| OS              | Origin    | MariaDB versions          |
-| --------------- | --------- | ------------------------- |
-| Debian Buster   | Debian    | 10.3                      |
-| Debian Buster   | Upstream  | 10.3 to 10.6              |
-| Debian Bullseye | Debian    | 10.5                      |
-| Debian Bullseye | Upstream  | 10.5 to 10.6              |
+| OS              | Origin    | MariaDB versions  |
+| --------------- | --------- | ----------------- |
+| Debian Buster   | Debian    | 10.3              |
+| Debian Buster   | Upstream  | Up from 10.3      |
+| Debian Bullseye | Debian    | 10.5              |
+| Debian Bullseye | Upstream  | Up from 10.5      |
 
 
 Notes
@@ -61,12 +61,11 @@ Check "priv" syntax in [mysql\_user module documentation](http://docs.ansible.co
 
 ### Packaging
 
-- `mariadb_version`: depends Debian version
-- `mariadb_repository`: MariaDB upstream APT repository (see: [MariaDB repositories tool](https://downloads.mariadb.org/mariadb/repositories))
+- `mariadb_upstream_version`: depends Debian version
 
 ### Other
 
-- `mariadb_debug_role`: boolean, set true to disable no_log hidding
+- `mariadb_debug_role`: boolean, set true to disable `no_log` hidding
 
 Dependencies
 ------------

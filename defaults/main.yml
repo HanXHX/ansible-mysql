@@ -6,7 +6,6 @@
 mariadb_origin: 'default'
 mariadb_use_galera: false
 mariadb_notify_restart: true
-mariadb_upstream_apt_src: false
 
 # -------------------------------------
 # Configuration
@@ -115,14 +114,10 @@ mariadb_databases: []
 mariadb_users: []
 
 # -------------------------------------
-# MariaDB
+# MariaDB Upstream
 # -------------------------------------
-mariadb_version: '10.6'
-mariadb_mirror_domain: "ftp.igh.cnrs.fr"
-# See: https://downloads.mariadb.org/mariadb/repositories
-mariadb_repository: "http://{{ mariadb_mirror_domain }}/pub/mariadb/repo/{{ mariadb_version }}/debian"
-mariadb_key_server: "keyserver.ubuntu.com"
-mariadb_key_ids: ['0xcbcb082a1bb943db', '0xf1656f24c74cd1d8']
+mariadb_upstream_setup_script: 'https://r.mariadb.com/downloads/mariadb_repo_setup'
+mariadb_upstream_version: '10.6'
 
 # -------------------------------------
 # Galera
