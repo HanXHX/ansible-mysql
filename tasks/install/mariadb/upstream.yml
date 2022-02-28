@@ -22,6 +22,12 @@
 
     - name: COMMAND | Launch MariaDB upstream setup script
       ansible.builtin.command: '/tmp/mariadb_repo_setup --mariadb-server-version={{ mariadb_upstream_version }}'
+      changed_when: true
+
+    - name: FILE | Remove setup script
+      ansible.builtin.file:
+        path: '/tmp/mariadb_repo_setup'
+        state: absent
 
   when: check_idempotent.rc > 0
 
