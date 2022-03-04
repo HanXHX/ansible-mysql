@@ -3,6 +3,7 @@
 - name: MYSQL_REPLICATION | Stop slave
   mysql_replication:
     mode: stopslave
+    login_unix_socket: "{{ mariadb_socket }}"
 
 - name: MYSQL_REPLICATION | Configure master host
   mysql_replication:
@@ -11,6 +12,7 @@
     master_port: "{{ mariadb_replication_port }}"
     master_user: "{{ mariadb_replication_user }}"
     master_password: "{{ mariadb_replication_password }}"
+    login_unix_socket: "{{ mariadb_socket }}"
   no_log: "{{ not mariadb_debug_role }}"
 
 - name: MYSQL_REPLICATION | Change master
@@ -18,8 +20,10 @@
     mode: changemaster
     master_log_file: "{{ mariadb_master_log_file }}"
     master_log_pos: "{{ mariadb_master_log_pos }}"
+    login_unix_socket: "{{ mariadb_socket }}"
   when: mariadb_master_log_file is defined and mariadb_master_log_pos is defined
 
 - name: MYSQL_REPLICATION | Start slave
   mysql_replication:
     mode: startslave
+    login_unix_socket: "{{ mariadb_socket }}"

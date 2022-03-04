@@ -3,6 +3,7 @@
 - name: MYSQL_REPLICATION | Stop slave
   community.mysql.mysql_replication:
     mode: stopslave
+    login_unix_socket: "{{ mariadb_socket }}"
 
 - name: MYSQL_REPLICATION | Configure master host
   community.mysql.mysql_replication:
@@ -11,12 +12,15 @@
     master_port: "{{ mariadb_replication_port }}"
     master_user: "{{ mariadb_replication_user }}"
     master_password: "{{ mariadb_replication_password }}"
+    login_unix_socket: "{{ mariadb_socket }}"
   no_log: "{{ not mariadb_debug_role }}"
 
 - name: MYSQL_REPLICATION | Setup replication with GTID
   community.mysql.mysql_replication:
     primary_use_gtid: current_pos
+    login_unix_socket: "{{ mariadb_socket }}"
 
 - name: MYSQL_REPLICATION | Start slave
   community.mysql.mysql_replication:
     mode: startslave
+    login_unix_socket: "{{ mariadb_socket }}"

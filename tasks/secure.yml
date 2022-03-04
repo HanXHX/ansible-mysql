@@ -5,6 +5,7 @@
     name: ''
     host: "{{ item }}"
     state: absent
+    login_unix_socket: "{{ mariadb_socket }}"
   loop:
     - "{{ ansible_hostname }}"
     - 127.0.0.1
@@ -15,3 +16,4 @@
   mysql_db:
     name: test
     state: absent
+    login_unix_socket: "{{ mariadb_socket }}"

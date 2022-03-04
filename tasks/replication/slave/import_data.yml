@@ -44,6 +44,7 @@
 - name: MYSQL_VARIABLES | Get datadir
   community.mysql.mysql_variables:
     variable: datadir
+    login_unix_socket: "{{ mariadb_socket }}"
   register: datadir
 
 - name: SET_FACT | Get MariaDB datadir

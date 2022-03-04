@@ -4,6 +4,7 @@
   community.mysql.mysql_variables:
     variable: read_only
     value: 'ON'
+    login_unix_socket: "{{ mariadb_socket }}"
   when: mariadb_slave_readonly
 
 - name: TEMPLATE | Deploy slave configuration
@@ -18,6 +19,7 @@
 - name: MYSQL_REPLICATION | Get slave status
   community.mysql.mysql_replication:
     mode: getslave
+    login_unix_socket: "{{ mariadb_socket }}"
   ignore_errors: true
   register: slave_status
 
@@ -32,5 +34,6 @@
 - name: MYSQL_REPLICATION | Get slave status
   community.mysql.mysql_replication:
     mode: getslave
+    login_unix_socket: "{{ mariadb_socket }}"
   ignore_errors: true
   register: slave_status

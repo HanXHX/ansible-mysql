@@ -64,6 +64,7 @@
   community.mysql.mysql_db:
     name: "{{ item }}"
     state: present
+    login_unix_socket: "{{ mariadb_socket }}"
   loop: "{{ mariadb_databases }}"
 
 - name: MYSQL_USER | Manages users...
@@ -74,5 +75,6 @@
     host: "{{ item.host | default(omit) }}"
     host_all: "{{ item.host_all | default(omit) }}"
     state: present
+    login_unix_socket: "{{ mariadb_socket }}"
   loop: "{{ mariadb_users }}"
   no_log: "{{ not mariadb_debug_role }}"
