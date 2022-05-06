@@ -33,3 +33,10 @@
       state: started
 
   when: debiancnf.stdout != ondc.stdout
+
+- name: SERVICE | Restart MariaDB if needed
+  ansible.builtin.service:
+    name: "{{ mariadb_service_name }}"
+    state: restarted
+  when:
+    galeraconfig and bootstrap_run is defined and bootstrap_run['changed']
