@@ -66,6 +66,7 @@
     state: present
     login_unix_socket: "{{ mariadb_socket }}"
   loop: "{{ mariadb_databases }}"
+  when: not mariadb_use_galera or inventory_hostname == mariadb_galera_primary_node
 
 - name: MYSQL_USER | Manages users...
   community.mysql.mysql_user:
@@ -78,3 +79,4 @@
     login_unix_socket: "{{ mariadb_socket }}"
   loop: "{{ mariadb_users }}"
   no_log: "{{ not mariadb_debug_role }}"
+  when: not mariadb_use_galera or inventory_hostname == mariadb_galera_primary_node
