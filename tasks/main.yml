@@ -65,7 +65,11 @@
     name: "{{ item }}"
     state: present
     login_unix_socket: "{{ mariadb_socket }}"
+    check_implicit_admin: yes
+    login_user: root
+    login_password: "{{ mariadb_root_password | default(omit) }}"
   loop: "{{ mariadb_databases }}"
+  when: not mariadb_use_galera or inventory_hostname == mariadb_galera_primary_node
 
 - name: MYSQL_USER | Manages users...
   community.mysql.mysql_user:
@@ -76,5 +80,9 @@
     host_all: "{{ item.host_all | default(omit) }}"
     state: present
     login_unix_socket: "{{ mariadb_socket }}"
+    check_implicit_admin: yes
+    login_user: root
+    login_password: "{{ mariadb_root_password | default(omit) }}"
   loop: "{{ mariadb_users }}"
   no_log: "{{ not mariadb_debug_role }}"
+  when: not mariadb_use_galera or inventory_hostname == mariadb_galera_primary_node

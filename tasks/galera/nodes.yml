@@ -1,4 +1,12 @@
 ---
+- name: SET_FACT | Prepare mark var
+  ansible.builtin.set_fact:
+    __mark: "{{ mariadb_datadir }}/.ansible_galera_boostrap"
+
+- name: STAT | Bootstrap mark
+  ansible.builtin.stat:
+    path: "{{ __mark }}"
+  register: s
 
 - name: COMMAND | GET debian.cnf from primary node
   ansible.builtin.command: cat /etc/mysql/debian.cnf
@@ -33,3 +41,15 @@
       state: started
 
   when: debiancnf.stdout != ondc.stdout
+
+- name: SERVICE | Restart MariaDB if needed
+  ansible.builtin.service:
+    name: "{{ mariadb_service_name }}"
+    state: restarted
+  throttle: 1
+  when: not s.stat.exists or mariadb_galera_resetup
+
+- name: COMMAND | Create Bootstrap mark
+  ansible.builtin.command: "touch {{ __mark }}"
+  args:
+    creates: "{{ __mark }}"

@@ -30,6 +30,19 @@
       register: bootstrap_run
       when: ansible_service_mgr != 'systemd'
 
+    - name: MYSQL_USER | Manage SST user...
+      community.mysql.mysql_user:
+        name: "{{ mariadb_galera_sst_user }}"
+        password: "{{ mariadb_galera_sst_password }}"
+        priv: "*.*:RELOAD,LOCK TABLES,REPLICATION CLIENT,PROCESS"
+        host: localhost
+        state: present
+        check_implicit_admin: yes
+        login_user: root
+        login_password: "{{ mariadb_root_password | default(omit) }}"
+      no_log: "{{ not mariadb_debug_role }}"
+      when: mariadb_galera_sst_user != ''
+
   when: not s.stat.exists or mariadb_galera_resetup
 
 - name: COMMAND | Create Bootstrap mark

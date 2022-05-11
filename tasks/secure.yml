@@ -6,6 +6,9 @@
     host: "{{ item }}"
     state: absent
     login_unix_socket: "{{ mariadb_socket }}"
+    check_implicit_admin: yes
+    login_user: root
+    login_password: "{{ mariadb_root_password | default(omit) }}"
   loop:
     - "{{ ansible_hostname }}"
     - 127.0.0.1
@@ -17,3 +20,6 @@
     name: test
     state: absent
     login_unix_socket: "{{ mariadb_socket }}"
+    check_implicit_admin: yes
+    login_user: root
+    login_password: "{{ mariadb_root_password | default(omit) }}"

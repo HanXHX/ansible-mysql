@@ -122,6 +122,8 @@ mariadb_upstream_version: '10.6'
 # -------------------------------------
 # Galera
 # -------------------------------------
+mariadb_galera_sst_user: galera
+mariadb_galera_sst_password: galera
 mariadb_galera_resetup: false
 mariadb_wsrep_node_address: false    # Set primary node IP
 mariadb_galera_members: []
