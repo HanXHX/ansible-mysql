@@ -37,6 +37,9 @@
         priv: "*.*:RELOAD,LOCK TABLES,REPLICATION CLIENT,PROCESS"
         host: localhost
         state: present
+        check_implicit_admin: yes
+        login_user: root
+        login_password: "{{ mariadb_root_password | default(omit) }}"
       no_log: "{{ not mariadb_debug_role }}"
       when: mariadb_galera_sst_user != ''
 
