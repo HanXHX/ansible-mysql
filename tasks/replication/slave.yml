@@ -25,11 +25,11 @@
 
 - name: INCLUDE | Import data
   ansible.builtin.import_tasks: slave/import_data.yml
-  when: (slave_status.failed or not slave_status.Is_Slave) and mariadb_slave_import_data
+  when: (slave_status.failed or not slave_status.Is_Replica) and mariadb_slave_import_data
 
-- name: Configure GTID Recplication
+- name: Configure GTID Replication
   ansible.builtin.import_tasks: slave/gtid.yml
-  when: slave_status.failed or not slave_status.Is_Slave or mariadb_slave_force_setup
+  when: slave_status.failed or not slave_status.Is_Replica or mariadb_slave_force_setup
 
 - name: MYSQL_REPLICATION | Get slave status
   community.mysql.mysql_replication:

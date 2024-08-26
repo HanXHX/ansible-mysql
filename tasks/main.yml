@@ -35,6 +35,14 @@
     - etc/mysql/mariadb.conf.d/50-mysqld_safe.cnf.j2
     - etc/mysql/mariadb.conf.d/50-server.cnf.j2
 
+- name: FILE | Ensure log dir exists
+  ansible.builtin.file:
+    path: "{{ mariadb_slow_query_log_file | dirname }}"
+    state: directory
+    mode: 0755
+    owner: mysql
+    group: mysql
+
 - name: SERVICE | Restart Mariadb now one at a time (prevent bugs)
   throttle: 1
   ansible.builtin.service:

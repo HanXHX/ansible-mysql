@@ -2,12 +2,12 @@
 
 - name: MYSQL_REPLICATION | Stop slave
   community.mysql.mysql_replication:
-    mode: stopslave
+    mode: stopreplica
     login_unix_socket: "{{ mariadb_socket }}"
 
 - name: MYSQL_REPLICATION | Configure master host
   community.mysql.mysql_replication:
-    mode: changemaster
+    mode: changeprimary
     master_host: "{{ mariadb_replication_host }}"
     master_port: "{{ mariadb_replication_port }}"
     master_user: "{{ mariadb_replication_user }}"
@@ -22,5 +22,5 @@
 
 - name: MYSQL_REPLICATION | Start slave
   community.mysql.mysql_replication:
-    mode: startslave
+    mode: startreplica
     login_unix_socket: "{{ mariadb_socket }}"

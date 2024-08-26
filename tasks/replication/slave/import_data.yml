@@ -56,8 +56,8 @@
     name: "{{ mariadb_service_name }}"
     state: stopped
 
-- name: COMMAND | Sync backup to slave - TODO remove vagrant as static user (see why mariadb_backup_user is not working)
-  ansible.builtin.command: "sudo -E rsync --rsync-path='sudo rsync' -a -e 'ssh -o StrictHostKeyChecking=no' {{ mariadb_backup_user }}@{{ mariadb_slave_import_from }}:{{ mariadb_backup_dir }}/ {{ mariadb_datadir }}/"
+- name: COMMAND | Sync backup to slave
+  ansible.builtin.command: "sudo -E rsync --rsync-path='sudo rsync' --delete -a -e 'ssh -o StrictHostKeyChecking=no' {{ mariadb_backup_user }}@{{ mariadb_slave_import_from }}:{{ mariadb_backup_dir }}/ {{ mariadb_datadir }}/"
   become: false
   tags:
     - skip_ansible_lint
@@ -70,12 +70,6 @@
     owner: mysql
     group: mysql
     recurse: true
-
-- name: SHELL | Remove InnoDB redo logs
-  ansible.builtin.shell: "rm -f {{ mariadb_datadir }}/ib_logfile*"
-  args:
-    removes: "{{ mariadb_datadir }}/ib_logfile0"
-    warn: false
 
 - name: SERVICE | Start MariaDB
   ansible.builtin.service:
