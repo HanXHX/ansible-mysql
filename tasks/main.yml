@@ -19,7 +19,7 @@
 - name: INCLUDE | Install
   ansible.builtin.import_tasks: install/main.yml
 
-- name: SHELL | Get current mariadb version
+- name: SHELL | Get current mariadb version  # noqa: risky-shell-pipe
   ansible.builtin.shell: dpkg -l mariadb-common | awk '/^ii/ { print $3 }' | sed -r 's/^1://g; s/^([[:digit:]]+\.[[:digit:]]+).+$/\1/g'
   register: __mariadb_version
   changed_when: false

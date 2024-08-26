@@ -4,7 +4,7 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: COMMAND | Check if mariadb is running
+    - name: COMMAND | Check if mariadb is running  # noqa: command-instead-of-module
       ansible.builtin.command: "systemctl is-active mariadb"
       register: mariadb_is_running
       changed_when: false
