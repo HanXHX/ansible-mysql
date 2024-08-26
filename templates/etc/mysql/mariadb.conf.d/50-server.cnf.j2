@@ -1,18 +1,16 @@
-#
+# -------------------------------------------
 # {{ ansible_managed }}
-#
+# -------------------------------------------
 
 #
 # These groups are read by MariaDB server.
 # Use it for options that only the server (but not clients) should see
-#
-# See the examples of server my.cnf files in /usr/share/mysql
 
 # this is read by the standalone daemon and embedded servers
 [server]
 
-# this is only for the mysqld standalone daemon
-[mysqld]
+# this is only for the mariadbd daemon
+[mariadbd]
 
 #
 # * Basic Settings
@@ -25,7 +23,10 @@ basedir                 = /usr
 datadir                 = {{ mariadb_datadir }}
 tmpdir                  = /tmp
 lc-messages-dir         = /usr/share/mysql
-#skip-external-locking
+
+# Broken reverse DNS slows down connections considerably and name resolve is
+# safe to skip if there are no "host by domain name" access grants
+#skip-name-resolve
 
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
@@ -34,6 +35,7 @@ bind-address            = {{ mariadb_bind_address }}
 #
 # * Fine Tuning
 #
+
 key_buffer_size         = {{ mariadb_key_buffer_size }}
 max_allowed_packet      = {{ mariadb_max_allowed_packet }}
 #thread_stack           = 192K
@@ -51,19 +53,22 @@ read_buffer_size        = {{ mariadb_read_buffer_size }}
 read_rnd_buffer_size    = {{ mariadb_read_rnd_buffer_size }}
 myisam_sort_buffer_size = {{ mariadb_myisam_sort_buffer_size }}
 
-#
-# * Query Cache Configuration
-#
-query_cache_size        = {{ mariadb_query_cache_size }}
 
 #
 # * Logging and Replication
 #
+
+# Note: The configured log file or its directory need to be created
+# and be writable by the mysql user, e.g.:
+# $ sudo mkdir -m 2750 /var/log/mysql
+# $ sudo chown mysql /var/log/mysql
+
 # Both location gets rotated by the cronjob.
 # Be aware that this log type is a performance killer.
-# As of 5.1 you can enable the log at runtime!
+# Recommend only changing this at runtime for short testing periods if needed!
 #general_log_file       = /var/log/mysql/mysql.log
 #general_log            = 1
+
 #
 # Error log - should be very few entries.
 #
@@ -71,81 +76,56 @@ query_cache_size        = {{ mariadb_query_cache_size }}
 syslog
 syslog-tag = {{ mariadb_syslog_tag }}
 {% else %}
-log-error = {{ mariadb_log_error }}
+log_error = {{ mariadb_log_error }}
 {% endif %}
 
 #
 # Enable the slow query log to see queries with especially long duration
-#slow_query_log_file    = /var/log/mysql/mariadb-slow.log
-#long_query_time        = 10
-#log_slow_rate_limit    = 1000
-#log_slow_verbosity     = query_plan
 #log-queries-not-using-indexes
 {% if mariadb_slow_query_log_enabled %}
 slow_query_log_file = {{ mariadb_slow_query_log_file }}
 long_query_time = {{ mariadb_slow_query_time }}
 slow_query_log = 1
+{% else %}
+#slow_query_log_file    = /var/log/mysql/mariadb-slow.log
+#long_query_time        = 10
+#log_slow_rate_limit    = 1000
+#log_slow_verbosity     = query_plan
 {% endif %}
 
 #
-# The following can be used as easy to replay backup logs or for replication.
-# note: if you are setting up a replication slave, see README.Debian about
-#       other settings you may need to change.
-#server-id              = 1
-#log_bin                = /var/log/mysql/mysql-bin.log
-#expire_logs_days       = 10
-#max_binlog_size        = 100M
-#binlog_do_db           = include_database_name
-#binlog_ignore_db       = exclude_database_name
+# * SSL/TLS
+#
 
-#
-# * Security Features
-#
-# Read the manual, too, if you want chroot!
-#chroot = /var/lib/mysql/
-#
-# For generating SSL certificates you can use for example the GUI tool "tinyca".
-#
+# For documentation, please read
+# https://mariadb.com/kb/en/securing-connections-for-client-and-server/
 #ssl-ca = /etc/mysql/cacert.pem
 #ssl-cert = /etc/mysql/server-cert.pem
 #ssl-key = /etc/mysql/server-key.pem
-#
-# Accept only connections using the latest and most secure TLS protocol version.
-# ..when MariaDB is compiled with OpenSSL:
-#ssl-cipher = TLSv1.2
-# ..when MariaDB is compiled with YaSSL (default in Debian):
-#ssl = on
+#require-secure-transport = on
 
 #
 # * Character sets
 #
-# MySQL/MariaDB default is Latin1, but in Debian we rather default to the full
+
+# MariaDB default is Latin1, but in Debian we rather default to the full
 # utf8 4-byte character set. See also client.cnf
-#
-character-set-server  = utf8mb4
-collation-server      = utf8mb4_general_ci
+character-set-server     = utf8mb4
+character-set-collations = utf8mb4=uca1400_ai_ci
 
 #
 # * InnoDB
 #
+
 # InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.
 # Read the manual for more InnoDB related options. There are many!
-innodb_file_per_table = 1
-innodb_buffer_pool_size = {{ mariadb_innodb_buffer_pool_size }}
-innodb_log_buffer_size = {{ mariadb_innodb_log_buffer_size }}
+# Most important is to give InnoDB 80 % of the system RAM for buffer use:
+# https://mariadb.com/kb/en/innodb-system-variables/#innodb_buffer_pool_size
+innodb_buffer_pool_size        = {{ mariadb_innodb_buffer_pool_size }}
+innodb_log_buffer_size         = {{ mariadb_innodb_log_buffer_size }}
 innodb_flush_log_at_trx_commit = {{ mariadb_innodb_flush_log_at_trx_commit }}
-innodb_lock_wait_timeout = {{ mariadb_innodb_lock_wait_timeout }}
-innodb_log_file_size = {{ mariadb_innodb_log_file_size }}
-
-
-#
-# * Unix socket authentication plugin is built-in since 10.0.22-6
-#
-# Needed so the root database user can authenticate without a password but
-# only when running as the unix root user.
-#
-# Also available for other users if required.
-# See https://mariadb.com/kb/en/unix_socket-authentication-plugin/
+innodb_lock_wait_timeout       = {{ mariadb_innodb_lock_wait_timeout }}
+innodb_log_file_size           = {{ mariadb_innodb_log_file_size }}
 
 # this is only for embedded server
 [embedded]
@@ -153,10 +133,9 @@ innodb_log_file_size = {{ mariadb_innodb_log_file_size }}
 # This group is only read by MariaDB servers, not by MySQL.
 # If you use the same .cnf file for MySQL and MariaDB,
 # you can put MariaDB-only options here
-[mariadb]
+[mariadbd]
 
-# This group is only read by MariaDB-10.3 servers.
+# This group is only read by MariaDB-{{ __mariadb_version.stdout }} servers.
 # If you use the same .cnf file for MariaDB of different versions,
 # use this group for options that older servers don't understand
-[mariadb-10.3]
-
+[mariadb-{{ __mariadb_version.stdout }}]
