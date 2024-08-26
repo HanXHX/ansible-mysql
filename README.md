@@ -1,16 +1,16 @@
 MariaDB (MySQL) Ansible role for Debian
 =======================================
 
-[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-HanXHX.mysql-blue.svg)](https://galaxy.ansible.com/HanXHX/mysql) [![Build Status](https://app.travis-ci.com/HanXHX/ansible-mysql.svg?branch=master)](https://app.travis-ci.com/HanXHX/ansible-mysql)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-HanXHX.mysql-blue.svg)](https://galaxy.ansible.com/HanXHX/mysql) ![GitHub Workflow Status (master)](https://img.shields.io/github/actions/workflow/status/hanxhx/ansible-mysql/molecule.yml?branch=master)
 
 Install and configure MariaDB (Galera Cluster). Manage replication (master/slave). Create users and databases.
 
-| OS              | Origin    | MariaDB versions  |
-| --------------- | --------- | ----------------- |
-| Debian Buster   | Debian    | 10.3              |
-| Debian Buster   | Upstream  | Up from 10.3      |
-| Debian Bullseye | Debian    | 10.5              |
-| Debian Bullseye | Upstream  | Up from 10.5      |
+|          OS          | Origin    | MariaDB versions |
+|:--------------------:|:----------|:-----------------|
+| Debian Bookworm (12) | Debian    | 10.11            |
+| Debian Bookworm (12) | Upstream  | From 10.11       |
+
+If you need to manage previous Debian versions, please use the [latest managed version](https://github.com/HanXHX/ansible-mysql/releases/tag/2.2.1).
 
 
 Notes
@@ -23,8 +23,8 @@ Notes
 Requirements
 ------------
 
-- Ansible >=2.11
-- Collections: community.general / community.mysql / community.crypto / ansible.posix
+- Ansible - see [meta/main.yml](meta/main.yml)
+- Collections: see [requirements.yml](requirements.yml)
 
 Role Variables
 --------------
@@ -57,7 +57,7 @@ mariadb_users:
     host_all: yes
 ```
 
-Check "priv" syntax in [mysql\_user module documentation](http://docs.ansible.com/mysql_user_module.html)
+Check "priv" syntax in [mysql\_user module documentation](https://docs.ansible.com/ansible/latest/collections/community/mysql/mysql_user_module.html)
 
 ### Packaging
 
@@ -72,12 +72,23 @@ Dependencies
 
 None.
 
+If you need to dev this role locally with molecule
+--------------------------------------------------
+
+Check available scenarios in [molecule](molecule) directory.
+
+With `debian12_master_slave` scenario:
+
+```commandline
+molecule -v -c molecule/_shared/base.yml verify -s debian12_master_slave
+```
+
 Example Playbook
 ----------------
 
     - hosts: servers
       roles:
-         - { role: HanXHX.mysql, mariadb_origin: 'upstream' }
+         - { role: hanxhx.mysql, mariadb_origin: 'upstream' }
 
 License
 -------
