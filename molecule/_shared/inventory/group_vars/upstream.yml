@@ -1,4 +1,3 @@
 ---
 
-mariadb_version: '11.2'
 mariadb_origin: 'upstream'
