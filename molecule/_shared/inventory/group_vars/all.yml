@@ -6,3 +6,4 @@ mariadb_extra_configuration:
 mariadb_install_xtrabackup_package: true
 mariadb_slow_query_log_enabled: true
 mariadb_debug_role: true
+mariadb_innodb_buffer_pool_size: 128M

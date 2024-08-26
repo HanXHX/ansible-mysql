@@ -1,0 +1,11 @@
+---
+
+- name: Verify slave
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: COMMAND | Check if mariadb is running
+      ansible.builtin.command: "systemctl is-active mariadb"
+      register: mariadb_is_running
+      changed_when: false
+      failed_when: mariadb_is_running.rc != 0

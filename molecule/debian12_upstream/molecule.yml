@@ -1,0 +1,15 @@
+---
+
+platforms:
+  - name: debian12-upstream1
+    image: dokken/debian-12
+    command: /lib/systemd/systemd
+    dockerfile: ../_shared/Dockerfile.j2
+    capabilities:
+      - SYS_ADMIN
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    privileged: true
+    groups:
+      - upstream

@@ -69,7 +69,6 @@ mariadb_extra_configuration: {}
 # -------------------------------------
 mariadb_replication_master: false
 mariadb_replication_slave: false
-# This formula don't work with vagrant! All boxes have same default ip!
 mariadb_server_id: "{{ ansible_default_ipv4.address | ipaddr('int') }}"
 
 mariadb_replication_user: 'repl'
@@ -117,7 +116,7 @@ mariadb_users: []
 # MariaDB Upstream
 # -------------------------------------
 mariadb_upstream_setup_script: 'https://r.mariadb.com/downloads/mariadb_repo_setup'
-mariadb_upstream_version: '10.6'
+mariadb_upstream_version: '11.4'
 
 # -------------------------------------
 # Galera
