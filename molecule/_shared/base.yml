@@ -25,9 +25,7 @@ provisioner:
     connection:
       pipelining: true
   playbooks:
-    converge: ../_shared/converge.yml
     prepare: ../_shared/prepare.yml
-    verify: ../_shared/verify.yml
   inventory:
     group_vars:
       all:
