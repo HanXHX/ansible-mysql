@@ -11,7 +11,7 @@
 
     - name: COPY | Deploy first dump
       ansible.builtin.copy:
-        src: files/import1.sql
+        src: ../_shared/files/import1.sql
         dest: /tmp/import1.sql
         mode: 0644
         owner: root
