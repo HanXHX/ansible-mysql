@@ -35,7 +35,6 @@ mariadb_read_buffer_size: '1M'
 mariadb_read_rnd_buffer_size: '2M'
 mariadb_myisam_sort_buffer_size: '128M'
 mariadb_thread_cache_size: '256'
-mariadb_query_cache_size: '16M'
 
 # Other settings.
 mariadb_wait_timeout: 28800
@@ -125,7 +124,7 @@ mariadb_galera_resetup: false
 mariadb_wsrep_node_address: false    # Set primary node IP
 mariadb_galera_members: []
 mariadb_galera_primary_node: 'change_me'    # See: https://github.com/ansible/ansible/issues/17453
-mariadb_wsrep_stt_method: 'rsync'
+mariadb_wsrep_sst_method: 'rsync'
 
 mariadb_galera_package_name: 'galera-4'
 
