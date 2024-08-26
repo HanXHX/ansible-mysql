@@ -1,0 +1,29 @@
+# -------------------------------------------
+# {{ ansible_managed }}
+# -------------------------------------------
+
+#
+# * Galera-related settings
+#
+# See the examples of server wsrep.cnf files in /usr/share/mariadb
+# and read more at https://mariadb.com/kb/en/galera-cluster/
+
+[galera]
+
+# Global
+wsrep_on              = ON
+wsrep_cluster_address = gcomm://{{ mariadb_galera_members | join(",") }}
+wsrep_sst_method      = "{{ mariadb_wsrep_sst_method }}"
+{% if mariadb_wsrep_cluster_name is defined %}
+wsrep_cluster_name    = "{{ mariadb_wsrep_cluster_name }}"
+{% endif %}
+
+# Node Configuration
+wsrep_node_address    = "{{ mariadb_wsrep_node_address | default(ansible_default_ipv4.address if ansible_default_ipv4 is defined else '127.0.0.1') }}"
+wsrep_node_name       = "{{ mariadb_wsrep_node_name | default(ansible_fqdn) }}"
+
+# Deps
+binlog_format            = ROW
+default_storage_engine   = InnoDB
+innodb_autoinc_lock_mode = 2
+innodb_doublewrite       = 1

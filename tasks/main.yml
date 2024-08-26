@@ -19,6 +19,11 @@
 - name: INCLUDE | Install
   ansible.builtin.import_tasks: install/main.yml
 
+- name: SHELL | Get current mariadb version
+  ansible.builtin.shell: dpkg -l mariadb-common | awk '/^ii/ { print $3 }' | sed -r 's/^1://g; s/^([[:digit:]]+\.[[:digit:]]+).+$/\1/g'
+  register: __mariadb_version
+  changed_when: false
+
 - name: TEMPLATE | Deploy config files
   ansible.builtin.template:
     src: "{{ item }}"
@@ -28,11 +33,8 @@
     group: root
   register: config
   loop:
-    - etc/mysql/my.cnf
     - etc/mysql/conf.d/mysqldump.cnf.j2
     - etc/mysql/mariadb.conf.d/10-extra.cnf.j2
-    - etc/mysql/mariadb.conf.d/50-client.cnf.j2
-    - etc/mysql/mariadb.conf.d/50-mysqld_safe.cnf.j2
     - etc/mysql/mariadb.conf.d/50-server.cnf.j2
 
 - name: FILE | Ensure log dir exists
