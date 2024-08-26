@@ -7,11 +7,13 @@
     mode: 0700
 
 - name: OPENSSH_KEYPAIR | Create SSH key
-  openssh_keypair:
+  community.crypto.openssh_keypair:
     path: "{{ ansible_env.HOME }}/.ssh/id_rsa"
   register: gen_ssh
 
-- block:
+- name: BLOCK | Prepare backup
+  delegate_to: "{{ mariadb_slave_import_from }}"
+  block:
 
     - name: AUTHORIZED_KEY | Auth slave to backup host
       ansible.posix.authorized_key:
@@ -33,13 +35,11 @@
         creates: "{{ mariadb_backup_dir }}/xtrabackup_info"
       register: backup
 
-    - name: COMMAND | Dump
+    - name: COMMAND | Dump  # noqa: no-handler
       ansible.builtin.command: "mariabackup --prepare --target-dir={{ mariadb_backup_dir }}"
       when: backup.changed
       register: prep
       changed_when: "'This target seems to be not prepared yet' in prep.stderr"
-
-  delegate_to: "{{ mariadb_slave_import_from }}"
 
 - name: MYSQL_VARIABLES | Get datadir
   community.mysql.mysql_variables:

@@ -1,6 +1,6 @@
 ---
 
-- name: restart mariadb
+- name: Restart mariadb
   ansible.builtin.service:
     name: "{{ mariadb_service_name }}"
     state: restarted

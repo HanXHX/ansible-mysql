@@ -11,25 +11,25 @@
   register: ondc
   changed_when: false
 
-- block:
-
-  - name: SERVICE | Stop MariaDB
-    ansible.builtin.service:
-      name: "{{ mariadb_service_name }}"
-      state: stopped
-
-  - name: COPY | Paste primary node's debian.cnf
-    ansible.builtin.copy:
-      content: "{{ debiancnf.stdout }}"
-      dest: /etc/mysql/debian.cnf
-      mode: 0600
-      owner: root
-      group: root
-    register: paste
-
-  - name: SERVICE | Start MariaDB
-    ansible.builtin.service:
-      name: "{{ mariadb_service_name }}"
-      state: started
-
+- name: BLOCK | Compare debian.cnf
   when: debiancnf.stdout != ondc.stdout
+  block:
+
+    - name: SERVICE | Stop MariaDB
+      ansible.builtin.service:
+        name: "{{ mariadb_service_name }}"
+        state: stopped
+
+    - name: COPY | Paste primary node's debian.cnf
+      ansible.builtin.copy:
+        content: "{{ debiancnf.stdout }}"
+        dest: /etc/mysql/debian.cnf
+        mode: 0600
+        owner: root
+        group: root
+      register: paste
+
+    - name: SERVICE | Start MariaDB
+      ansible.builtin.service:
+        name: "{{ mariadb_service_name }}"
+        state: started

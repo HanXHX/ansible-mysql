@@ -4,13 +4,15 @@
   ansible.builtin.apt:
     name: gpg
 
-- name: COMMAND | Check indempotent
+- name: COMMAND | Check expected mariadb version
   ansible.builtin.command: 'grep -q "{{ mariadb_upstream_version }}" /etc/apt/sources.list.d/mariadb.list'
-  register: check_idempotent
+  register: check_version
   failed_when: false
   changed_when: false
 
-- block:
+- name: APT | Add MariaDB upstream repository
+  when: check_version.rc > 0
+  block:
 
     - name: GET_URL | Download MariaDB setup script
       ansible.builtin.get_url:
@@ -28,12 +30,3 @@
       ansible.builtin.file:
         path: '/tmp/mariadb_repo_setup'
         state: absent
-
-  when: check_idempotent.rc > 0
-
-- name: SHELL | Remove useless old files
-  ansible.builtin.shell: 'rm -f /etc/apt/sources.list.d/mariadb.list.old_*'
-  args:
-    removes: /etc/apt/sources.list.d/mariadb.list.old_1
-  tags:
-    - skip_ansible_lint
