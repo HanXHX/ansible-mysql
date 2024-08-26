@@ -10,6 +10,9 @@ scenario:
     - idempotence
     - verify
     - destroy
+dependency:
+  name: shell
+  command: "${MOLECULE_SCENARIO_DIRECTORY}/../_shared/tools/install-dependencies.sh"
 driver:
   name: docker
 role_name_check: 1
