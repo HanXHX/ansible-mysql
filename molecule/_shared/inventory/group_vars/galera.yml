@@ -1,0 +1,4 @@
+---
+
+mariadb_use_galera: true
+mariadb_galera_members: "{{ groups['galera'] }}"

@@ -1,0 +1,32 @@
+---
+
+- name: Verify slave
+  hosts: slave
+  gather_facts: false
+  tasks:
+    - name: MYSQL_REPLICATION | Get slave infos
+      community.mysql.mysql_replication:
+        mode: getreplica
+      register: slave
+
+    - name: ASSERT | If slave threads are not running
+      ansible.builtin.assert:
+        that:
+          - slave.Slave_IO_Running == 'Yes'
+          - slave.Slave_SQL_Running == 'Yes'
+        fail_msg: "Slave issue, please check"
+        success_msg: "Slave is running"
+
+    - name: Check replication data
+      community.mysql.mysql_query:
+        login_db: testrepl
+        query: 'SELECT COUNT(*) AS c FROM user'
+        login_unix_socket: /run/mysqld/mysqld.sock
+      register: result
+
+    - name: ASSERT | Check replication data
+      ansible.builtin.assert:
+        that:
+          - result.query_result.0.0.c == 50
+        fail_msg: "Replication data is not correct"
+        success_msg: "Replication data is correct"

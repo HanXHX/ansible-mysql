@@ -1,0 +1,46 @@
+---
+
+platforms:
+  - name: debian12-master1
+    image: dokken/debian-12
+    command: /lib/systemd/systemd
+    dockerfile: ../_shared/Dockerfile.j2
+    capabilities:
+      - SYS_ADMIN
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    privileged: true
+    networks:
+      - name: "00-molecule-d12-ms"
+        ipv4_address: '172.16.50.1'
+    docker_networks:
+      - name: "00-molecule-d12-ms"
+        ipam_config:
+          - subnet: "172.16.50.0/24"
+            gateway: "172.16.50.254"
+    groups:
+      - master
+
+  - name: debian12-slave1
+    image: dokken/debian-12
+    command: /lib/systemd/systemd
+    dockerfile: ../_shared/Dockerfile.j2
+    capabilities:
+      - SYS_ADMIN
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    privileged: true
+    networks:
+      - name: "00-molecule-d12-ms"
+        ipv4_address: '172.16.50.2'
+    groups:
+      - slave
+
+provisioner:
+  inventory:
+    host_vars: ~
+    group_vars:
+      master: ~
+      slave: ~

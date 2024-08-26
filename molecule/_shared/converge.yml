@@ -1,0 +1,34 @@
+---
+
+# Note: master must be converged first
+- name: Converge master
+  hosts: master
+  gather_facts: true
+  tasks:
+    - name: Include role
+      ansible.builtin.include_role:
+        name: "hanxhx.mysql"
+
+    - name: COPY | Deploy first dump
+      ansible.builtin.copy:
+        src: files/import1.sql
+        dest: /tmp/import1.sql
+        mode: 0644
+        owner: root
+        group: root
+
+    - name: MYSQL_DB | Import first dump
+      community.mysql.mysql_db:
+        name: "{{ item }}"
+        state: import
+        target: /tmp/import1.sql
+        login_unix_socket: "/run/mysqld/mysqld.sock"
+      loop: "{{ mariadb_databases }}"
+
+- name: Converge slave
+  hosts: slave
+  gather_facts: true
+  tasks:
+    - name: Include role
+      ansible.builtin.include_role:
+        name: "hanxhx.mysql"

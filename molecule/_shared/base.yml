@@ -1,0 +1,38 @@
+---
+
+scenario:
+  test_sequence:
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - verify
+    - destroy
+driver:
+  name: docker
+role_name_check: 1
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      deprecation_warnings: false
+      callback_whitelist: timer,profile_tasks
+      fact_caching: jsonfile
+      fact_caching_connection: ./cache
+      forks: 100
+    connection:
+      pipelining: true
+  playbooks:
+    converge: ../_shared/converge.yml
+    prepare: ../_shared/prepare.yml
+    verify: ../_shared/verify.yml
+  inventory:
+    group_vars:
+      all:
+        is_dev: true
+    links:
+      group_vars: ../_shared/inventory/group_vars/
+verifier:
+  name: ansible

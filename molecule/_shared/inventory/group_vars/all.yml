@@ -5,3 +5,4 @@ mariadb_extra_configuration:
   innodb_commit_concurrency: 0
 mariadb_install_xtrabackup_package: true
 mariadb_slow_query_log_enabled: true
+mariadb_debug_role: true
