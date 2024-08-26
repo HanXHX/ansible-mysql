@@ -8,7 +8,9 @@
     path: "{{ __mark }}"
   register: s
 
-- block:
+- name: COMMAND | Setup galera cluster
+  when: not s.stat.exists or mariadb_galera_resetup
+  block:
     - name: SET_FACT | We must NOT restart after bootstrap!
       ansible.builtin.set_fact:
         mariadb_notify_restart: false
@@ -21,6 +23,7 @@
     - name: COMMAND | Bootstrap first node (systemd)
       ansible.builtin.command: galera_new_cluster
       when: ansible_service_mgr == 'systemd'
+      changed_when: true
 
     - name: SERVICE | Bootstrap first node (clean init)
       ansible.builtin.service:
@@ -29,8 +32,6 @@
         arguments: --wsrep-new-cluster
       register: bootstrap_run
       when: ansible_service_mgr != 'systemd'
-
-  when: not s.stat.exists or mariadb_galera_resetup
 
 - name: COMMAND | Create Bootstrap mark
   ansible.builtin.command: "touch {{ __mark }}"
