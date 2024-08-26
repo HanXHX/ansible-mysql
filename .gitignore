@@ -1,3 +1,5 @@
 .vagrant*
 *.swp
 *.retry
+/.idea
+/venv
