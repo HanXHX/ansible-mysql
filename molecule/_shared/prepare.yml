@@ -1,0 +1,21 @@
+---
+
+- name: Prepare hosts
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: APT | Install some packages
+      ansible.builtin.apt:
+        name: "{{ p }}"
+        update_cache: true
+        cache_valid_time: 3600
+      vars:
+        p: ['ca-certificates', 'curl', 'rsync', 'rsyslog', 'ssh', 'strace', 'vim']
+
+    - name: SERVICE | Ensure daemon are started
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: started
+      loop:
+        - rsyslog
+        - ssh

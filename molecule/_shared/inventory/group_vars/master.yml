@@ -15,6 +15,5 @@ mariadb_users:
     host: '%'
 mariadb_replication_master: true
 mariadb_replication_slave: false
-mariadb_server_id: 1
 
 # vim: set ft=yaml :
