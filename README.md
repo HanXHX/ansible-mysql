@@ -16,9 +16,7 @@ If you need to manage previous Debian versions, please use the [latest managed v
 Notes
 -----
 
-* Galera Cluster is experimental
-* Due to Vagrant + Docker limitation (private network), replication/galera can't be checked with Travis
-* If you need to test this role with Vagrant, you must install hostmanager plugin: `vagrant plugin install vagrant-hostmanager`
+* Galera Cluster is experimental. Feel free to test it and report issues.
 
 Requirements
 ------------

@@ -6,7 +6,6 @@ skip_list: []
 
 exclude_paths:
   - venv/
-  - tests/  # TODO: Remove this line when tests are migrated to molecule
   - .github/
 
 offline: false
