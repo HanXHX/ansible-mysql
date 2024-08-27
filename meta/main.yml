@@ -1,7 +1,5 @@
 ---
-
 galaxy_info:
-  namespace: hanxhx
   role_name: mysql
   author: Emilien Mantel
   description: Install and configure MariaDB (and Galera Cluster) on Debian
