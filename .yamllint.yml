@@ -7,4 +7,3 @@ rules:
 
 ignore:
   - /venv
-  - /tests  # TODO: Remove this line when tests are migrated to molecule
