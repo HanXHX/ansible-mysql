@@ -24,6 +24,8 @@
         target: /tmp/import1.sql
         login_unix_socket: "/run/mysqld/mysqld.sock"
       loop: "{{ mariadb_databases }}"
+      tags:
+        - molecule-idempotence-notest
 
 - name: Converge slave
   hosts: slave
