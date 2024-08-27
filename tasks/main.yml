@@ -36,6 +36,7 @@
     - etc/mysql/conf.d/mysqldump.cnf.j2
     - etc/mysql/mariadb.conf.d/10-extra.cnf.j2
     - etc/mysql/mariadb.conf.d/50-server.cnf.j2
+  notify: Restart mariadb
 
 - name: FILE | Ensure log dir exists
   ansible.builtin.file:
@@ -45,14 +46,8 @@
     owner: mysql
     group: mysql
 
-- name: SERVICE | Restart Mariadb now one at a time (prevent bugs)
-  throttle: 1
-  ansible.builtin.service:
-    name: "{{ mariadb_service_name }}"
-    state: restarted
-  when:
-    config.changed and
-    not mariadb_galera_resetup
+- name: META | Flush handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: SERVICE | Ensure service is started
   ansible.builtin.service:

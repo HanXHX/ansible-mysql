@@ -1,0 +1,31 @@
+---
+
+- name: Verify Galera
+  hosts: galera
+  gather_facts: false
+  tasks:
+    - name: MYSQL_QUERY | Check if Galera is running
+      community.mysql.mysql_query:
+        query: "SHOW GLOBAL STATUS LIKE 'wsrep_ready'"
+        login_unix_socket: /run/mysqld/mysqld.sock
+      register: wsrep_ready
+
+    - name: ASSERT | Fail if Galera is not running
+      ansible.builtin.assert:
+        that:
+          - wsrep_ready.query_result.0.0.Value == "ON"
+        fail_msg: "Galera is not running"
+        success_msg: "Galera is running"
+
+    - name: MYSQL_QUERY | Check Galera status
+      community.mysql.mysql_query:
+        query: "SHOW GLOBAL STATUS LIKE 'wsrep_local_state_comment'"
+        login_unix_socket: /run/mysqld/mysqld.sock
+      register: wsrep_local_state_comment
+
+    - name: ASSERT | Fail if Galera is not on the right state
+      ansible.builtin.assert:
+        that:
+          - wsrep_local_state_comment.query_result.0.0.Value == "Synced"
+        fail_msg: "Galera is not expected state ({{ wsrep_local_state_comment.query_result.0.0.Value }})"
+        success_msg: "Galera is in expected state"

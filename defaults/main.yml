@@ -121,7 +121,7 @@ mariadb_upstream_version: '11.4'
 # Galera
 # -------------------------------------
 mariadb_galera_resetup: false
-mariadb_wsrep_node_address: false    # Set primary node IP
+mariadb_wsrep_node_address: '{{ ansible_default_ipv4.address if ansible_default_ipv4 is defined else "127.0.0.1" }}'
 mariadb_galera_members: []
 mariadb_galera_primary_node: 'change_me'    # See: https://github.com/ansible/ansible/issues/17453
 mariadb_wsrep_sst_method: 'rsync'
