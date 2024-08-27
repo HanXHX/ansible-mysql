@@ -2,31 +2,20 @@
 
 - name: APT | Install Galera
   ansible.builtin.apt:
-    pkg: "{{ mariadb_galera_package_name }}"
+    name: "{{ mariadb_galera_package_name }}"
 
 - name: TEMPLATE | Deploy Galera configuration
   ansible.builtin.template:
-    src: etc/mysql/mariadb.conf.d/20-galera.cnf.j2
-    dest: /etc/mysql/mariadb.conf.d/20-galera.cnf
+    src: etc/mysql/mariadb.conf.d/60-galera.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/60-galera.cnf
     mode: 0644
     owner: root
     group: root
-  register: galeraconfig
+  notify: Restart mariadb
 
 - name: INCLUDE | Bootstrap first node
   ansible.builtin.import_tasks: 'bootstrap.yml'
   when: inventory_hostname == mariadb_galera_primary_node
 
-- name: INCLUDE | Configure other nodes
-  ansible.builtin.import_tasks: 'nodes.yml'
-  when: inventory_hostname != mariadb_galera_primary_node
-
-- name: SERVICE | Restart MariaDB if needed
-  ansible.builtin.service:
-    name: "{{ mariadb_service_name }}"
-    state: restarted
-  when:
-    ((galeraconfig or (p is defined and p.changed)) and
-    (bootstrap_run is not defined)) or
-    ((inventory_hostname != mariadb_galera_primary_node) and
-    (mariadb_galera_resetup))
+- name: META | Flush handlers
+  ansible.builtin.meta: flush_handlers

@@ -1,0 +1,55 @@
+---
+
+platforms:
+  - name: debian12-galera1
+    image: dokken/debian-12
+    command: /lib/systemd/systemd
+    dockerfile: ../_shared/Dockerfile.j2
+    capabilities:
+      - SYS_ADMIN
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    privileged: true
+    groups:
+      - galera
+    networks:
+      - name: "00-molecule-d12-galera"
+        ipv4_address: '172.16.51.1'
+    docker_networks:
+      - name: "00-molecule-d12-galera"
+        ipam_config:
+          - subnet: "172.16.51.0/24"
+            gateway: "172.16.51.254"
+
+  - name: debian12-galera2
+    image: dokken/debian-12
+    command: /lib/systemd/systemd
+    dockerfile: ../_shared/Dockerfile.j2
+    capabilities:
+      - SYS_ADMIN
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    privileged: true
+    groups:
+      - galera
+    networks:
+      - name: "00-molecule-d12-galera"
+        ipv4_address: '172.16.51.2'
+
+  - name: debian12-galera3
+    image: dokken/debian-12
+    command: /lib/systemd/systemd
+    dockerfile: ../_shared/Dockerfile.j2
+    capabilities:
+      - SYS_ADMIN
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    privileged: true
+    groups:
+      - galera
+    networks:
+      - name: "00-molecule-d12-galera"
+        ipv4_address: '172.16.51.3'

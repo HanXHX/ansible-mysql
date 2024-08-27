@@ -1,4 +1,5 @@
 ---
+
 - name: SET_FACT | Prepare mark var
   ansible.builtin.set_fact:
     __mark: "{{ mariadb_datadir }}/.ansible_galera_boostrap"
