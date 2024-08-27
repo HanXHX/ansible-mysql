@@ -7,12 +7,11 @@ galaxy_info:
   description: Install and configure MariaDB (and Galera Cluster) on Debian
   company: TripleStack
   license: GPLv2
-  min_ansible_version: '2.11'
+  min_ansible_version: '2.17'
   platforms:
     - name: Debian
       versions:
-        - buster
-        - bullseye
+        - bookworm
   galaxy_tags:
     - database
     - packaging
