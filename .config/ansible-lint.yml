@@ -1,9 +1,10 @@
 ---
 
-warn_list: []
-
-skip_list:
+warn_list:
   - role-name
+  - schema[meta]
+
+skip_list: []
 
 exclude_paths:
   - venv/

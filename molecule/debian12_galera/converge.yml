@@ -6,4 +6,4 @@
   tasks:
     - name: Include role
       ansible.builtin.include_role:
-        name: "hanxhx.mysql"
+        name: "HanXHX.mysql"
