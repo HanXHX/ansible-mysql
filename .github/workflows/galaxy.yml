@@ -11,7 +11,8 @@ jobs:
     steps:
       - name: Fetch code
         uses: actions/checkout@v4
+
       - name: galaxy
         uses: robertdebock/galaxy-action@1.2.0
         with:
-          galaxy_api_key: ${{ secrets.galaxy_api_key }}
+          galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
