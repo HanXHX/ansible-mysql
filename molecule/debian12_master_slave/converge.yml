@@ -7,7 +7,7 @@
   tasks:
     - name: Include role
       ansible.builtin.include_role:
-        name: "HanXHX.mysql"
+        name: "hanxhx.mysql"
 
     - name: COPY | Deploy first dump
       ansible.builtin.copy:
@@ -33,4 +33,4 @@
   tasks:
     - name: Include role
       ansible.builtin.include_role:
-        name: "HanXHX.mysql"
+        name: "hanxhx.mysql"
